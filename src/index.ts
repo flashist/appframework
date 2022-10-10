@@ -10,7 +10,7 @@ export * from './base/mediators/BaseAppMediator'
 export * from './app/models/AppConfigModel'
 export * from './app/models/AppModel'
 
-export * from './renderer/RendererModule'
+export * from './renderer/managers/RendererManager'
 
 export * from './time/models/TimeModelEvent'
 export * from './time/models/TimeModel'
