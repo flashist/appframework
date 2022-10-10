@@ -1,5 +1,9 @@
 export * from './facade/Facade'
+
 export * from './base/views/BaseAppView'
+
+export * from './base/data/BaseAppObjectWithStaticVO'
+
 export * from './base/models/BaseAppModel'
 export * from './base/models/BaseAppGenericObjectsModel'
 export * from './base/modules/AppModulesManager'
