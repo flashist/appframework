@@ -1,0 +1,36 @@
+{
+  "name": "@flashist/flibs",
+  "version": "0.0.117",
+  "scripts": {
+    "build": "gulp",
+    "publish:patch": "npm version patch && npm run build && cd ./dist && npm publish",
+    "publish:minor": "npm version minor && npm run build && cd ./dist && npm publish",
+    "publish:major": "npm version major && npm run build && cd ./dist && npm publish"
+  },
+  "license": "MIT",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/flashist/flibs"
+  },
+  "main": "index.js",
+  "typings": "index.d.ts",
+  "dependencies": {
+    "@flashist/fcore": "0.x",
+    "@types/gsap": "^1.20.2",
+    "@types/howler": "^2.1.0",
+    "webfontloader": "^1.6.28"
+  },
+  "devDependencies": {
+    "@types/webfontloader": "^1.6.29",
+    "gulp": "^4.0.2",
+    "gulp-shell": "^0.8.0",
+    "pixi.js": "^6.5.5",
+    "require-dir": "^1.2.0",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.0.2"
+  },
+  "peerDependencies": {
+    "pixi.js": "^6.5.5"
+  }
+}
