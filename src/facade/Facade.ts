@@ -1,4 +1,4 @@
-import { BaseObject, Command } from "@flashist/fcore";
+import { BaseObject, Command, IEventListenerCallback } from "@flashist/fcore";
 
 import { FApp, getInstance, HtmlTools, Point, ServiceLocator } from "@flashist/flibs";
 
@@ -26,11 +26,13 @@ import { RendererManagerEvent } from "../renderer/events/RendererManagerEvent";
 import { ServerModule } from "../server/ServerModule";
 import { AppMainContainer } from "../app/views/AppMainContainer";
 import { BaseAppModule } from "../base/modules/BaseAppModule";
+import { InitApplicationEvent } from "../init/events/InitApplicationEvents";
 
 export class Facade extends BaseObject {
 
     protected options: IFacadeOptions;
     protected modulesManager: AppAppModulesManager;
+    protected rendererManager: RendererManager;
 
     public app: FApp;
     public mainContainer: AppMainContainer;
@@ -56,8 +58,12 @@ export class Facade extends BaseObject {
         this.addModules();
         this.activateModules();
 
-        this.initView();
+        //
+        this.rendererManager = getInstance(RendererManager);
 
+        // this.initView();
+
+        // Start the init process
         const initCmd: Command = getInstance(InitApplicationCommand);
         initCmd.execute();
     }
@@ -102,6 +108,10 @@ export class Facade extends BaseObject {
         this.modulesManager.addModule(module);
     }
 
+    protected onReadyToInitView(): void {
+        this.initView();
+    }
+
     protected initView(): void {
         this.mainContainer = getInstance(AppMainContainer);
         FApp.instance.stage.addChild(this.mainContainer);
@@ -139,6 +149,12 @@ export class Facade extends BaseObject {
             RendererManagerEvent.RESIZE,
             this.onRendererResize
         )
+
+        this.eventListenerHelper.addEventListener(
+            globalEventDispatcher,
+            InitApplicationEvent.READY_TO_INIT_VIEW,
+            this.onReadyToInitView
+        );
     }
 
     protected removeListeners(): void {
@@ -151,20 +167,22 @@ export class Facade extends BaseObject {
     }
 
     protected onWindowResize(): void {
-        const rendererManager: RendererManager = getInstance(RendererManager);
         const documentSize: Point = HtmlTools.getDocumentSize();
-        rendererManager.resize(documentSize.x, documentSize.y);
+        this.rendererManager.resize(documentSize.x, documentSize.y);
     }
 
     protected onRendererResize(): void {
         this.arrange();
     }
 
+    protected readyToInitView(): void {
+        this.initView();
+    }
+
     protected arrange(): void {
-        const rendererManager: RendererManager = getInstance(RendererManager);
         this.mainContainer.resize(
-            rendererManager.rendererWidth,
-            rendererManager.rendererHeight
+            this.rendererManager.rendererWidth,
+            this.rendererManager.rendererHeight
         );
     }
 

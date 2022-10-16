@@ -10,6 +10,8 @@ import { InitApplicationDataCommand } from "./InitApplicationDataCommand";
 import { ParseStaticItemsConfigCommand } from "../../app/commands/ParseStaticItemsConfigCommand";
 import { ParseLocaleConfigCommand } from "../../locales/commands/ParseLocaleConfigCommand";
 import { ParseAssetsConfigCommand } from "../../assets/commands/ParseAssetsConfigCommand";
+import { DispatchGlobalEventCommand } from "../../events/commands/DispatchGlobalEventCommand";
+import { InitApplicationEvent } from "../events/InitApplicationEvents";
 
 export class InitApplicationCommand extends QueueCommand {
 
@@ -24,11 +26,12 @@ export class InitApplicationCommand extends QueueCommand {
                 getInstance(ParseStaticItemsConfigCommand),
 
                 getInstance(WaitGroupLoadingCompleteCommand, LoadGroupName.PRELOAD),
+                getInstance(DispatchGlobalEventCommand, InitApplicationEvent.READY_TO_INIT_VIEW),
 
                 getInstance(InitApplicationDataCommand),
 
                 getInstance(ChangePageCommand, PageId.PRELOADER_PAGE)
-            ] as any
+            ]
         );
     }
 }

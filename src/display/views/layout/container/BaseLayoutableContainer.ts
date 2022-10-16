@@ -1,7 +1,7 @@
-import {FContainer} from "@flashist/flibs";
+import { FContainer } from "@flashist/flibs";
 
-import {ILayoutableContainer} from "./ILayoutableContainer";
-import {ILayoutableChild} from "./ILayoutableChild";
+import { ILayoutableContainer } from "./ILayoutableContainer";
+import { ILayoutableChild } from "./ILayoutableChild";
 
 export class BaseLayoutableContainer<ChildType extends ILayoutableChild = ILayoutableChild>
     extends FContainer
@@ -18,4 +18,3 @@ export class BaseLayoutableContainer<ChildType extends ILayoutableChild = ILayou
     }
 
 }
-	
