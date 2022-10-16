@@ -32,11 +32,11 @@ export class BasePageView extends BaseAppView {
         this._sizeArea = new Rectangle();
         if (this.appConfigModel.appConfig.sizeArea) {
             this._sizeArea = new Rectangle(
-                this.appConfigModel.appConfig.sizeArea.x,
-                this.appConfigModel.appConfig.sizeArea.y,
-                this.appConfigModel.appConfig.sizeArea.width,
-                this.appConfigModel.appConfig.sizeArea.height
-            )
+                this.appConfigModel.appConfig.sizeArea.x || 0,
+                this.appConfigModel.appConfig.sizeArea.y || 0,
+                this.appConfigModel.appConfig.sizeArea.width || 0,
+                this.appConfigModel.appConfig.sizeArea.height || 0
+            );
         }
         //
         this.updateSizeAreaView();
