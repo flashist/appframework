@@ -1,4 +1,4 @@
-import {BaseDataVO, ILoadItemConfig, Rectangle} from "@flashist/flibs";
+import { BaseDataVO, ILoadItemConfig, Rectangle } from "@flashist/flibs";
 
 export class AppConfigVO extends BaseDataVO {
 
@@ -7,7 +7,7 @@ export class AppConfigVO extends BaseDataVO {
     locale?: string;
 
     targetFps?: number;
-    sizeArea?: Partial<Rectangle>;
+    sizeArea?: Rectangle;
 
     // Param for app-specific settings (type can be specified in app-level classes)
     appSettings?: any;
