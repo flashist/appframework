@@ -7,7 +7,7 @@ export class BasePageView extends BaseAppView {
 
     protected appConfigModel: AppConfigModel;
 
-    protected _sizeArea: Rectangle;
+    private _sizeArea: Rectangle;
     protected sizeAreaView: Graphics;
 
     protected contentCont: FContainer;
@@ -42,15 +42,19 @@ export class BasePageView extends BaseAppView {
         this.updateSizeAreaView();
     }
 
+    public get sizeArea(): Rectangle {
+        return this._sizeArea;
+    }
+
     public set sizeArea(value: Rectangle) {
-        if (value.x === this._sizeArea.x &&
-            value.y === this._sizeArea.y &&
-            value.width === this._sizeArea.width &&
+        if (value.x === this.sizeArea.x &&
+            value.y === this.sizeArea.y &&
+            value.width === this.sizeArea.width &&
             value.height === this.sizeArea.height) {
             return;
         }
 
-        this._sizeArea.copyFrom(value);
+        this.sizeArea.copyFrom(value);
 
         this.updateSizeAreaView();
     }
@@ -60,10 +64,10 @@ export class BasePageView extends BaseAppView {
         //
         this.sizeAreaView.beginFill(0x0000FF, 0.5);
         this.sizeAreaView.drawRect(
-            this._sizeArea.x,
-            this._sizeArea.y,
-            this._sizeArea.width,
-            this._sizeArea.height
+            this.sizeArea.x,
+            this.sizeArea.y,
+            this.sizeArea.width,
+            this.sizeArea.height
         );
         this.sizeAreaView.endFill();
     }
@@ -76,18 +80,18 @@ export class BasePageView extends BaseAppView {
 
         // Scale according to the current size
         let tempScale: number = DisplayResizeTools.getScale(
-            this._sizeArea.width,
-            this._sizeArea.height,
+            this.sizeArea.width,
+            this.sizeArea.height,
             this.resizeSize.x,
             this.resizeSize.y
         );
         this.contentCont.scale.set(tempScale);
         /*this.contentCont.x = this.sizeArea.x + Math.floor((this.resizeSize.x - this.contentCont.width) / 2);
         this.contentCont.y = this.sizeArea.y + Math.floor((this.resizeSize.y - this.contentCont.height) / 2);*/
-        this.contentCont.x = Math.floor((this.resizeSize.x - (this._sizeArea.width * tempScale)) / 2);
-        this.contentCont.x -= Math.floor(this._sizeArea.x * tempScale);
-        this.contentCont.y = Math.floor((this.resizeSize.y - (this._sizeArea.height * tempScale)) / 2);
-        this.contentCont.y -= Math.floor(this._sizeArea.y * tempScale);
+        this.contentCont.x = Math.floor((this.resizeSize.x - (this.sizeArea.width * tempScale)) / 2);
+        this.contentCont.x -= Math.floor(this.sizeArea.x * tempScale);
+        this.contentCont.y = Math.floor((this.resizeSize.y - (this.sizeArea.height * tempScale)) / 2);
+        this.contentCont.y -= Math.floor(this.sizeArea.y * tempScale);
 
         this.reversedScaleContentScreenSize.x = Math.floor(this.resizeSize.x / this.contentCont.scale.x);
         this.reversedScaleContentScreenSize.y = Math.floor(this.resizeSize.y / this.contentCont.scale.y);
