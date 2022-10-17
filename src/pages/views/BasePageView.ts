@@ -11,14 +11,19 @@ export class BasePageView extends BaseAppView {
     protected sizeAreaView: Graphics;
 
     protected contentCont: FContainer;
-    protected reversedScaleContentScreenSize: Point;
+    protected reversedScaleContentScreenRect: Rectangle;
+
+    protected reversedScaleContentLocalPosCached: Point;
+    protected reversedScaleContentGlobalPosCached: Point;
 
     protected construction(...args): void {
         super.construction(args);
 
         this.appConfigModel = getInstance(AppConfigModel);
 
-        this.reversedScaleContentScreenSize = new Point();
+        this.reversedScaleContentScreenRect = new Rectangle();
+        this.reversedScaleContentLocalPosCached = new Point();
+        this.reversedScaleContentGlobalPosCached = new Point();
 
         this.contentCont = new FContainer();
         this.addChild(this.contentCont);
@@ -93,7 +98,13 @@ export class BasePageView extends BaseAppView {
         this.contentCont.y = Math.floor((this.resizeSize.y - (this.sizeArea.height * tempScale)) / 2);
         this.contentCont.y -= Math.floor(this.sizeArea.y * tempScale);
 
-        this.reversedScaleContentScreenSize.x = Math.floor(this.resizeSize.x / this.contentCont.scale.x);
-        this.reversedScaleContentScreenSize.y = Math.floor(this.resizeSize.y / this.contentCont.scale.y);
+        this.reversedScaleContentLocalPosCached.x = this.contentCont.x;
+        this.reversedScaleContentLocalPosCached.y = this.contentCont.y;
+        this.contentCont.parent.toGlobal(this.reversedScaleContentLocalPosCached, this.reversedScaleContentGlobalPosCached);
+        //
+        this.reversedScaleContentScreenRect.x = this.reversedScaleContentGlobalPosCached.x;
+        this.reversedScaleContentScreenRect.y = this.reversedScaleContentGlobalPosCached.y;
+        this.reversedScaleContentScreenRect.width = Math.floor(this.resizeSize.x / this.contentCont.scale.x);
+        this.reversedScaleContentScreenRect.height = Math.floor(this.resizeSize.y / this.contentCont.scale.y);
     }
 }
