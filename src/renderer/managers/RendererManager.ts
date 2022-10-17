@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 
-import { FApp } from "@flashist/flibs";
+import { FApp, Point } from "@flashist/flibs";
 
 import { BaseAppManager } from "../../base/managers/BaseAppManager";
 import { Facade } from "../../facade/Facade";
@@ -38,8 +38,11 @@ export class RendererManager extends BaseAppManager {
     }
 
     public resize(width: number, height: number): void {
+        this.dispatchEvent(RendererManagerEvent.PRE_RESIZE_HOOK, new Point(width, height));
+        
         Facade.instance.app.renderer.resize(width, height);
         this.dispatchEvent(RendererManagerEvent.RESIZE);
+        
     }
 
     public get rendererWidth(): number {
