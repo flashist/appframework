@@ -15,6 +15,7 @@ export * from './base/mediators/BaseAppMediator'
 export * from './app/models/AppConfigModel'
 export * from './app/models/AppModel'
 
+export * from './renderer/events/RendererManagerEvent'
 export * from './renderer/managers/RendererManager'
 
 export * from './time/models/TimeModelEvent'
