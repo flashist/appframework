@@ -100,7 +100,7 @@ export class BasePageView extends BaseAppView {
 
         this.reversedScaleContentLocalPosCached.x = this.contentCont.x;
         this.reversedScaleContentLocalPosCached.y = this.contentCont.y;
-        this.contentCont.parent.toGlobal(this.reversedScaleContentLocalPosCached, this.reversedScaleContentGlobalPosCached);
+        this.contentCont.toGlobal(this.reversedScaleContentLocalPosCached, this.reversedScaleContentGlobalPosCached);
         //
         this.reversedScaleContentScreenRect.x = this.reversedScaleContentGlobalPosCached.x;
         this.reversedScaleContentScreenRect.y = this.reversedScaleContentGlobalPosCached.y;
