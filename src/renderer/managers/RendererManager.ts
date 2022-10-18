@@ -19,7 +19,7 @@ export class RendererManager extends BaseAppManager {
 
         Facade.instance.app = new FApp(
             {
-                targetFps: targetFps
+                antialias: true
             }
         );
 
@@ -39,10 +39,9 @@ export class RendererManager extends BaseAppManager {
 
     public resize(width: number, height: number): void {
         this.dispatchEvent(RendererManagerEvent.PRE_RESIZE_HOOK, new Point(width, height));
-        
+
         Facade.instance.app.renderer.resize(width, height);
         this.dispatchEvent(RendererManagerEvent.RESIZE);
-        
     }
 
     public get rendererWidth(): number {
