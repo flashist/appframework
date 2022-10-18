@@ -1,14 +1,16 @@
-import {serviceLocatorAdd} from "@flashist/flibs";
+import { serviceLocatorAdd } from "@flashist/flibs";
 
-import {BaseAppModule} from "../base/modules/BaseAppModule";
-import {RendererManager} from "./managers/RendererManager";
+import { BaseAppModule } from "../base/modules/BaseAppModule";
+import { RendererManagerConfigVO } from "./data/RendererManagerConfigVO";
+import { RendererManager } from "./managers/RendererManager";
 
 export class RendererModule extends BaseAppModule {
 
     init(): void {
         super.init();
 
-        serviceLocatorAdd(RendererManager, {isSingleton: true, forceCreation: true});
+        serviceLocatorAdd(RendererManagerConfigVO, { isSingleton: true });
+        serviceLocatorAdd(RendererManager, { isSingleton: true, forceCreation: true });
     }
 
 }

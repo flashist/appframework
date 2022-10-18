@@ -1,27 +1,27 @@
 import * as PIXI from "pixi.js";
 
-import { FApp, Point } from "@flashist/flibs";
+import { AppProperties, FApp, getInstance, Point } from "@flashist/flibs";
 
 import { BaseAppManager } from "../../base/managers/BaseAppManager";
 import { Facade } from "../../facade/Facade";
 import { RendererManagerEvent } from "../events/RendererManagerEvent";
+import { RendererManagerConfigVO } from "../data/RendererManagerConfigVO";
 
 export class RendererManager extends BaseAppManager {
 
-    protected targetFps: number;
+    protected config: RendererManagerConfigVO;
 
-    protected construction(targetFps?: number): void {
+    protected construction(): void {
         super.construction();
 
-        if (this.targetFps) {
-            PIXI.settings.TARGET_FPMS = this.targetFps / 1000;
+        this.config = getInstance(RendererManagerConfigVO);
+
+        if (this.config.targetFps) {
+            PIXI.settings.TARGET_FPMS = this.config.targetFps / 1000;
         }
 
-        Facade.instance.app = new FApp(
-            {
-                antialias: true
-            }
-        );
+        const appConfig: AppProperties = Object.assign({}, this.config);
+        Facade.instance.app = new FApp(appConfig);
 
         // Stage
         Facade.instance.app.stage.interactive = true;

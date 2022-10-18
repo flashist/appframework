@@ -10,7 +10,7 @@ export class AppConfigVO extends BaseDataVO {
     sizeArea?: Rectangle;
 
     // Param for app-specific settings (type can be specified in app-level classes)
-    appSettings?: any;
+    fAppSettings?: any;
 
     constructor() {
         super();
