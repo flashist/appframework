@@ -180,10 +180,12 @@ export class Facade extends BaseObject {
     }
 
     protected arrange(): void {
-        this.mainContainer.resize(
-            this.rendererManager.rendererWidth,
-            this.rendererManager.rendererHeight
-        );
+        if (this.mainContainer) {
+            this.mainContainer.resize(
+                this.rendererManager.rendererWidth,
+                this.rendererManager.rendererHeight
+            );
+        }
     }
 
     // - - - - -
