@@ -175,8 +175,7 @@ export class Facade extends BaseObject {
 
     protected onWindowResize(): void {
         const documentSize: Point = HtmlTools.getDocumentSize();
-        const devicePixelRatio: number = this.deviceInfoModel.deviceInfo.deviceType === DeviceType.DESKTOP ? 1 : window.devicePixelRatio;
-        this.rendererManager.resize(documentSize.x, documentSize.y, devicePixelRatio);
+        this.rendererManager.resize(documentSize.x, documentSize.y, this.deviceInfoModel.deviceInfo.pixelRatio);
     }
 
     protected onRendererResize(): void {
