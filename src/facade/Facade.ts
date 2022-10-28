@@ -1,6 +1,6 @@
 import { BaseObject, Command, IEventListenerCallback } from "@flashist/fcore";
 
-import { FApp, getInstance, HtmlTools, Point, ServiceLocator } from "@flashist/flibs";
+import { DeviceType, FApp, getInstance, HtmlTools, Point, ServiceLocator } from "@flashist/flibs";
 
 import { GlobalEventDispatcherModule } from "../globaleventdispatcher/GlobalEventDispatcherModule";
 import { AppAppModulesManager } from "../base/modules/AppModulesManager";
@@ -27,6 +27,8 @@ import { ServerModule } from "../server/ServerModule";
 import { AppMainContainer } from "../app/views/AppMainContainer";
 import { BaseAppModule } from "../base/modules/BaseAppModule";
 import { InitApplicationEvent } from "../init/events/InitApplicationEvents";
+import { DeviceModule } from "../device/DeviceModule";
+import { DeviceInfoModel } from "../device/models/DeviceInfoModel";
 
 export class Facade extends BaseObject {
 
@@ -36,6 +38,8 @@ export class Facade extends BaseObject {
 
     public app: FApp;
     public mainContainer: AppMainContainer;
+
+    protected deviceInfoModel: DeviceInfoModel;
 
     protected resizeListener: any;
 
@@ -74,6 +78,7 @@ export class Facade extends BaseObject {
         this.addSingleModule(new DependenciesModule());
         this.addSingleModule(new ObjectsPoolModule());
         this.addSingleModule(new GlobalEventDispatcherModule());
+        this.addSingleModule(new DeviceModule());
         this.addSingleModule(new RendererModule());
         this.addSingleModule(new StorageModule());
         this.addSingleModule(new LoadModule());
@@ -113,6 +118,8 @@ export class Facade extends BaseObject {
     }
 
     protected initView(): void {
+        this.deviceInfoModel = getInstance(DeviceInfoModel);
+
         this.mainContainer = getInstance(AppMainContainer);
         FApp.instance.stage.addChild(this.mainContainer);
 
@@ -168,7 +175,8 @@ export class Facade extends BaseObject {
 
     protected onWindowResize(): void {
         const documentSize: Point = HtmlTools.getDocumentSize();
-        this.rendererManager.resize(documentSize.x, documentSize.y, window.devicePixelRatio);
+        const devicePixelRatio: number = this.deviceInfoModel.deviceInfo.deviceType === DeviceType.DESKTOP ? 1 : window.devicePixelRatio;
+        this.rendererManager.resize(documentSize.x, documentSize.y, devicePixelRatio);
     }
 
     protected onRendererResize(): void {
