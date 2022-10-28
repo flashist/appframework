@@ -17,7 +17,7 @@
   "typings": "index.d.ts",
   "dependencies": {
     "@flashist/fconsole": "0.x",
-    "@flashist/flibs": "0.0.130"
+    "@flashist/flibs": "0.x"
   },
   "devDependencies": {
     "@types/webfontloader": "^1.6.29",
