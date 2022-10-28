@@ -37,10 +37,13 @@ export class RendererManager extends BaseAppManager {
         document.body.appendChild(Facade.instance.app.view);
     }
 
-    public resize(width: number, height: number): void {
+    public resize(width: number, height: number, pixelRatio: number): void {
         this.dispatchEvent(RendererManagerEvent.PRE_RESIZE_HOOK, new Point(width, height));
 
-        Facade.instance.app.renderer.resize(width, height);
+        Facade.instance.app.renderer.resize(width * pixelRatio, height * pixelRatio);
+        Facade.instance.app.renderer.view.style.width = width + "px";
+        Facade.instance.app.renderer.view.style.height = height + "px";
+
         this.dispatchEvent(RendererManagerEvent.RESIZE);
     }
 

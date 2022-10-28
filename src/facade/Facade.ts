@@ -168,7 +168,7 @@ export class Facade extends BaseObject {
 
     protected onWindowResize(): void {
         const documentSize: Point = HtmlTools.getDocumentSize();
-        this.rendererManager.resize(documentSize.x, documentSize.y);
+        this.rendererManager.resize(documentSize.x, documentSize.y, window.devicePixelRatio);
     }
 
     protected onRendererResize(): void {
