@@ -16,6 +16,6 @@ export class DeviceModule extends BaseAppModule {
         super.activateCompleteHook();
 
         const soundsStorageModule: DeviceInfoModel = getInstance(DeviceInfoModel);
-        soundsStorageModule.deviceInfo = DeviceTools.getDeviceInfo();
+        soundsStorageModule.deviceInfo = DeviceTools.getDeviceInfo(navigator.userAgent);
     }
 }
