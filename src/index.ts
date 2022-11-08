@@ -31,3 +31,6 @@ export * from './pages/commands/ChangePageCommand'
 export * from './display/views/resize/ResizableContainer'
 
 export * from './app/views/AppMainContainer'
+
+export * from './device/models/DeviceInfoModel'
+export * from './device/DeviceModule'

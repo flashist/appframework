@@ -2,6 +2,9 @@ import { BaseDataVO, ILoadItemConfig, Rectangle } from "@flashist/flibs";
 
 export class AppConfigVO extends BaseDataVO {
 
+    appName: string;
+    appVersion: number;
+
     files?: ILoadItemConfig[];
 
     locale?: string;
