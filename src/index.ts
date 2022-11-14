@@ -2,7 +2,6 @@ export * from './facade/Facade'
 
 export * from './base/views/BaseAppView'
 
-export * from './base/data/BaseAppObjectWithStaticVO'
 export * from './data/IAppGenericObjectVO'
 
 export * from './base/models/BaseAppModel'
