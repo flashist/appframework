@@ -3,7 +3,7 @@ import { BaseObject, Command, IEventListenerCallback } from "@flashist/fcore";
 import { DeviceType, FApp, getInstance, HtmlTools, Point, ServiceLocator } from "@flashist/flibs";
 
 import { GlobalEventDispatcherModule } from "../globaleventdispatcher/GlobalEventDispatcherModule";
-import { AppAppModulesManager } from "../base/modules/AppModulesManager";
+import { AppModulesManager } from "../base/modules/AppModulesManager";
 import { PagesModule } from "../pages/PagesModule";
 import { RendererModule } from "../renderer/RendererModule";
 import { IFacadeOptions } from "./IFacadeOptions";
@@ -33,7 +33,7 @@ import { DeviceInfoModel } from "../device/models/DeviceInfoModel";
 export class Facade extends BaseObject {
 
     protected options: IFacadeOptions;
-    protected modulesManager: AppAppModulesManager;
+    protected modulesManager: AppModulesManager;
     protected rendererManager: RendererManager;
 
     public app: FApp;
@@ -73,7 +73,7 @@ export class Facade extends BaseObject {
     }
 
     protected addModules(): void {
-        this.modulesManager = new AppAppModulesManager();
+        this.modulesManager = new AppModulesManager();
 
         this.addSingleModule(new DependenciesModule());
         this.addSingleModule(new ObjectsPoolModule());

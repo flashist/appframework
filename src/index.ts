@@ -4,10 +4,14 @@ export * from './base/views/BaseAppView'
 
 export * from './data/IAppGenericObjectVO'
 
+export * from './dependencies/DependenciesGenericObjectsShortucts'
+export * from './dependencies/DependenciesModule'
+
 export * from './base/models/BaseAppModel'
 export * from './base/models/BaseAppGenericObjectsModel'
 export * from './base/modules/AppModulesManager'
 export * from './base/modules/BaseAppModule'
+export * from './base/commands/BaseAppCommand'
 export * from './base/managers/BaseAppManager'
 export * from './base/mediators/BaseAppMediator'
 

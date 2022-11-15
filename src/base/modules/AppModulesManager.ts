@@ -1,7 +1,7 @@
-import {ArrayTools} from "@flashist/fcore";
-import {BaseAppModule} from "./BaseAppModule";
+import { ArrayTools } from "@flashist/fcore";
+import { BaseAppModule } from "./BaseAppModule";
 
-export class AppAppModulesManager {
+export class AppModulesManager {
     protected modules: BaseAppModule[] = [];
 
     destroy(): void {
