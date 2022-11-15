@@ -4,7 +4,6 @@ export * from './base/views/BaseAppView'
 
 export * from './data/IAppGenericObjectVO'
 
-export * from './dependencies/DependenciesGenericObjectsShortucts'
 export * from './dependencies/DependenciesModule'
 
 export * from './base/models/BaseAppModel'
