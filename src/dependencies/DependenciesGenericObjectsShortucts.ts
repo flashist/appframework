@@ -3,12 +3,12 @@ import { GenericObjectsByTypeModel, getInstance } from "@flashist/flibs";
 // Shortcuts
 export const getItem: typeof GenericObjectsByTypeModel.prototype.getItem = (() => {
     const genericObjectByTypeModel: GenericObjectsByTypeModel = getInstance(GenericObjectsByTypeModel);
-    return genericObjectByTypeModel.getItem;
+    return genericObjectByTypeModel.getItem.bind(genericObjectByTypeModel);
 })();
 
 export const getItemsForType: typeof GenericObjectsByTypeModel.prototype.getItemsForType = (() => {
     const genericObjectByTypeModel: GenericObjectsByTypeModel = getInstance(GenericObjectsByTypeModel);
-    return genericObjectByTypeModel.getItemsForType;
+    return genericObjectByTypeModel.getItemsForType.bind(genericObjectByTypeModel);
 })();
 
 // export const getInstance: typeof ServiceLocator.getInstance = ServiceLocator.getInstance;
