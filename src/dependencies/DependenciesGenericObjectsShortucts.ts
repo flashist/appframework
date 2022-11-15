@@ -14,5 +14,6 @@ export class DependenciesGenericObjectsShortucts {
     static getItem: typeof GenericObjectsByTypeModel.prototype.getItem;
     static getItemsForType: typeof GenericObjectsByTypeModel.prototype.getItemsForType;
 }
-export const getItem = DependenciesGenericObjectsShortucts.getItem;
-export const getItemsForType = DependenciesGenericObjectsShortucts.getItemsForType;
+
+export let getItem = DependenciesGenericObjectsShortucts.getItem;
+export let getItemsForType = DependenciesGenericObjectsShortucts.getItemsForType;
