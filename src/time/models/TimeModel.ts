@@ -1,5 +1,5 @@
-import {BaseAppGenericObjectsModel} from "../../base/models/BaseAppGenericObjectsModel";
-import {TimeModelEvent} from "./TimeModelEvent";
+import { BaseAppGenericObjectsModel } from "../../base/models/BaseAppGenericObjectsModel";
+import { TimeModelEvent } from "./TimeModelEvent";
 
 export class TimeModel extends BaseAppGenericObjectsModel {
 
@@ -25,5 +25,9 @@ export class TimeModel extends BaseAppGenericObjectsModel {
 
     public get timeDelta(): number {
         return this.currentTime - this.prevTime;
+    }
+
+    public get timeDeltaPerSec(): number {
+        return this.timeDelta / 1000;
     }
 }
