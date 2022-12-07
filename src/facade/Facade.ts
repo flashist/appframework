@@ -23,7 +23,6 @@ import { InitApplicationCommand } from "../init/commands/InitApplicationCommand"
 import { RendererManager } from "../renderer/managers/RendererManager";
 import { GlobalEventDispatcher } from "../globaleventdispatcher/dispatcher/GlobalEventDispatcher";
 import { RendererManagerEvent } from "../renderer/events/RendererManagerEvent";
-import { ServerModule } from "../server/ServerModule";
 import { AppMainContainer } from "../app/views/AppMainContainer";
 import { BaseAppModule } from "../base/modules/BaseAppModule";
 import { InitApplicationEvent } from "../init/events/InitApplicationEvents";
