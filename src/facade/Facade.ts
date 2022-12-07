@@ -92,7 +92,6 @@ export class Facade extends BaseObject {
         this.addSingleModule(new AppModule());
         this.addSingleModule(new TimeModule());
         this.addSingleModule(new ContainersModule());
-        this.addSingleModule(new ServerModule());
 
         if (this.options.debug) {
             this.addSingleModule(new DebugModule());
