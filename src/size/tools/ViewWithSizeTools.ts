@@ -2,7 +2,7 @@ import { Rectangle } from "pixi.js";
 import { IViewWithSizeArea } from "../views/IViewWithSizeArea";
 
 export class ViewWithSizeTools {
-    static getSize(view: IViewWithSizeArea, result?: Rectangle): Rectangle {
+    static getSizeRect(view: IViewWithSizeArea, result?: Rectangle): Rectangle {
 
         if (!result) {
             result = new Rectangle();
