@@ -1,7 +1,7 @@
-import {GenericObjectsModel} from "@flashist/flibs";
+import { GenericObjectsModel } from "@flashist/flibs";
 
-import {AppConfigVO} from "../data/AppConfigVO";
-import {AppConfigType} from "../data/AppConfigType";
+import { AppConfigVO } from "../data/AppConfigVO";
+import { AppConfigType } from "../data/AppConfigType";
 
 export class AppConfigModel<ConfigDataType extends AppConfigVO = AppConfigVO>
     extends GenericObjectsModel<ConfigDataType> {

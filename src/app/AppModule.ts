@@ -1,19 +1,19 @@
-import {GenericObjectsByTypeModel, getInstance, serviceLocatorAdd} from "@flashist/flibs";
+import { GenericObjectsByTypeModel, getInstance, serviceLocatorAdd } from "@flashist/flibs";
 
-import {BaseAppModule} from "../base/modules/BaseAppModule";
-import {AppModel} from "./models/AppModel";
-import {AppConfigModel} from "./models/AppConfigModel";
-import {AppManager} from "./managers/AppManager";
+import { BaseAppModule } from "../base/modules/BaseAppModule";
+import { AppModel } from "./models/AppModel";
+import { AppConfigModel } from "./models/AppConfigModel";
+import { AppManager } from "./managers/AppManager";
 
 export class AppModule extends BaseAppModule {
 
     init(): void {
         super.init();
 
-        serviceLocatorAdd(AppModel, {isSingleton: true});
-        serviceLocatorAdd(AppConfigModel, {isSingleton: true});
+        serviceLocatorAdd(AppModel, { isSingleton: true });
+        serviceLocatorAdd(AppConfigModel, { isSingleton: true });
 
-        serviceLocatorAdd(AppManager, {isSingleton: true, forceCreation: true});
+        serviceLocatorAdd(AppManager, { isSingleton: true, forceCreation: true });
     }
 
     activateCompleteHook(): void {
