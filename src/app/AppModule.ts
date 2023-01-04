@@ -4,6 +4,7 @@ import { BaseAppModule } from "../base/modules/BaseAppModule";
 import { AppManager } from "./managers/AppManager";
 import { AppModuleInitialState, AppModuleState } from './data/state/AppModuleState';
 import { appStorage } from "../state/AppStateModule";
+import { ObjectTools } from '../../../fcore/src/tools/ObjectTools';
 
 export class AppModule extends BaseAppModule {
 
@@ -15,14 +16,10 @@ export class AppModule extends BaseAppModule {
         super.init();
 
         // Init the app with initial state
-        appStorage().initializeWith({
-            ...AppModuleInitialState,
-            ...{
-                app: {
-                    debug: this.debug
-                }
-            }
-        } as AppModuleState);
+        const initState: AppModuleState = ObjectTools.clone(AppModuleInitialState);
+        ObjectTools.copyProps(initState, { app: { debug: this.debug } })
+        //
+        appStorage().initializeWith(initState);
 
         serviceLocatorAdd(AppManager, { isSingleton: true, forceCreation: true });
     }
