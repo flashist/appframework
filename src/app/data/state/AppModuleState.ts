@@ -2,6 +2,8 @@ import { Rectangle } from "pixi.js";
 
 export const AppModuleInitialState = {
     app: {
+        debug: false,
+
         appLaunchesCount: 0,
         totalUsageDuration: 0,
 

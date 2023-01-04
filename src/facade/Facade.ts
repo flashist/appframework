@@ -74,6 +74,7 @@ export class Facade extends BaseObject {
         // AppState should be inited THE FIRST!
         // because other modules might add there init data
         this.addSingleModule(new AppStateModule())
+        this.addSingleModule(new AppModule(this.options.debug));
         //
         this.addSingleModule(new ObjectsPoolModule());
         this.addSingleModule(new GlobalEventDispatcherModule());
@@ -88,8 +89,6 @@ export class Facade extends BaseObject {
         this.addSingleModule(new PagesModule());
 
         this.addSingleModule(new RendererModule());
-
-        this.addSingleModule(new AppModule());
         this.addSingleModule(new TimeModule());
         this.addSingleModule(new ContainersModule());
 
