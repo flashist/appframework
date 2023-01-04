@@ -46,11 +46,15 @@ export class ECSManager extends BaseAppManager {
     }
 
     public entities = {
-        create: (entity: EntityWithoutId) => {
-            this.entities.add({
-                id: UniqueTools.getUniqueIdForPool(this.entitiesUniquePoolId),
-                ...entity
-            });
+        create: (entity: EntityWithoutId): IEntity => {
+            const result: IEntity = {
+                ...entity,
+                id: UniqueTools.getUniqueIdForPool(this.entitiesUniquePoolId)
+            }
+
+            this.entities.add(result);
+
+            return result;
         },
         add: (entity: IEntity) => {
             if (this.entitiesList.indexOf(entity) !== -1) {
