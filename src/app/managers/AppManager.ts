@@ -5,7 +5,7 @@ import { LocalStorageManager } from "../../local-storage/managers/LocalStorageMa
 import { appStorage } from "../../state/AppStateModule";
 import { DeepReadonly } from "../../state/data/DeepReadableTypings";
 import { AppSettings } from "../AppSettings";
-import { IAppModelStorageVO } from "../data/local-storage/IAppModelStorageVO";
+import { IAppModelLocalStorageVO } from "../data/local-storage/IAppModelLocalStorageVO";
 import { AppModuleState } from "../data/state/AppModuleState";
 
 export class AppManager extends BaseAppManager {
@@ -21,7 +21,7 @@ export class AppManager extends BaseAppManager {
         this.storageManager = getInstance(LocalStorageManager);
 
         this.appState = appStorage().getState<AppModuleState>();
-        const appModelStorageData: IAppModelStorageVO = this.storageManager.getParam<IAppModelStorageVO>(AppSettings.storageParamId);
+        const appModelStorageData: IAppModelLocalStorageVO = this.storageManager.getParam<IAppModelLocalStorageVO>(AppSettings.storageParamId);
         this.applyStorageData(appModelStorageData);
 
         // this.appState.app.previousSessionTotalUsageTime = this.appState.app.totalUsageDuration;
@@ -61,7 +61,7 @@ export class AppManager extends BaseAppManager {
         this.updateStorageData();
     }
 
-    protected applyStorageData(data: IAppModelStorageVO): void {
+    protected applyStorageData(data: IAppModelLocalStorageVO): void {
         if (!data) {
             return;
         }
@@ -78,11 +78,11 @@ export class AppManager extends BaseAppManager {
     }
 
     protected updateStorageData(): void {
-        const storageData: IAppModelStorageVO = this.generateStorageData();
-        this.storageManager.setParam<IAppModelStorageVO>(AppSettings.storageParamId, storageData);
+        const storageData: IAppModelLocalStorageVO = this.generateStorageData();
+        this.storageManager.setParam<IAppModelLocalStorageVO>(AppSettings.storageParamId, storageData);
     }
 
-    protected generateStorageData(): IAppModelStorageVO {
+    protected generateStorageData(): IAppModelLocalStorageVO {
         return {
             appLaunchesCount: this.appState.app.appLaunchesCount,
             totalUsageTime: this.appState.app.totalUsageDuration

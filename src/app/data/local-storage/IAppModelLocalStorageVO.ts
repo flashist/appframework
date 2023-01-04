@@ -1,4 +1,4 @@
-export interface IAppModelStorageVO {
+export interface IAppModelLocalStorageVO {
     appLaunchesCount: number;
     totalUsageTime: number;
 }
