@@ -14,7 +14,12 @@ export const AppModuleInitialState = {
             files: null,
             locale: null,
             targetFps: null,
-            sizeArea: null as Rectangle
+            sizeArea: {
+                x: 0,
+                y: 0,
+                width: 1920,
+                height: 1080
+            } as Rectangle
         }
     }
 };
