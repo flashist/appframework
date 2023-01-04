@@ -1,10 +1,10 @@
 import { serviceLocatorAdd } from "@flashist/flibs";
+import { ObjectTools } from '@flashist/fcore';
 
 import { BaseAppModule } from "../base/modules/BaseAppModule";
 import { AppManager } from "./managers/AppManager";
 import { AppModuleInitialState, AppModuleState } from './data/state/AppModuleState';
 import { appStorage } from "../state/AppStateModule";
-import { ObjectTools } from '../../../fcore/src/tools/ObjectTools';
 
 export class AppModule extends BaseAppModule {
 
