@@ -2,7 +2,7 @@ import { DisplayObjectContainer, FContainer, getInstance } from "@flashist/flibs
 import { ContainersManager } from "../../../containers/managers/ContainersManager";
 import { IEntity } from "../../../ecs/ecs/entities/IEntity";
 import { System } from "../../../ecs/ecs/systems/System";
-import { RenderModuleRootContainerId } from "../../data/RenderModuleRootContinerId";
+import { RenderModuleRootContainerId } from "../../data/RenderModuleRootContainerId";
 import { RenderComponent, RenderComponentType } from "../components/RenderComponent";
 
 
