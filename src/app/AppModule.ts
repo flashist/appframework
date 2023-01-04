@@ -2,7 +2,7 @@ import { serviceLocatorAdd } from "@flashist/flibs";
 
 import { BaseAppModule } from "../base/modules/BaseAppModule";
 import { AppManager } from "./managers/AppManager";
-import { AppModuleInitialState } from "./data/state/AppModuleState";
+import { AppModuleInitialState, AppModuleState } from './data/state/AppModuleState';
 import { appStorage } from "../state/AppStateModule";
 
 export class AppModule extends BaseAppModule {
@@ -17,8 +17,12 @@ export class AppModule extends BaseAppModule {
         // Init the app with initial state
         appStorage().initializeWith({
             ...AppModuleInitialState,
-            debug: this.debug
-        });
+            ...{
+                app: {
+                    debug: this.debug
+                }
+            }
+        } as AppModuleState);
 
         serviceLocatorAdd(AppManager, { isSingleton: true, forceCreation: true });
     }
