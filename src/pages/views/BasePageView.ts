@@ -1,11 +1,12 @@
 import { DisplayResizeTools, FContainer, getInstance, Graphics, Point, Rectangle } from "@flashist/flibs";
+import { AppModuleState } from "../../app/data/state/AppModuleState";
 
 import { BaseAppView } from "../../base/views/BaseAppView";
-import { AppConfigModel } from "../../app/models/AppConfigModel";
+import { appStorage } from "../../state/AppStateModule";
 
 export class BasePageView extends BaseAppView {
 
-    protected appConfigModel: AppConfigModel;
+    // protected appConfigModel: AppConfigModel;
 
     private _sizeArea: Rectangle;
     protected sizeAreaView: Graphics;
@@ -19,7 +20,7 @@ export class BasePageView extends BaseAppView {
     protected construction(...args): void {
         super.construction(args);
 
-        this.appConfigModel = getInstance(AppConfigModel);
+        // appState.app.config = getInstance(AppConfigModel);
 
         this.reversedScaleContentScreenRect = new Rectangle();
         this.reversedScaleContentLocalPosCached = new Point();
@@ -35,12 +36,14 @@ export class BasePageView extends BaseAppView {
         this.sizeAreaView.alpha = 0;
 
         this._sizeArea = new Rectangle();
-        if (this.appConfigModel.appConfig.sizeArea) {
+
+        const appState = appStorage().getState<AppModuleState>();
+        if (appState.app.config.sizeArea) {
             this._sizeArea = new Rectangle(
-                this.appConfigModel.appConfig.sizeArea.x || 0,
-                this.appConfigModel.appConfig.sizeArea.y || 0,
-                this.appConfigModel.appConfig.sizeArea.width || 0,
-                this.appConfigModel.appConfig.sizeArea.height || 0
+                appState.app.config.sizeArea.x || 0,
+                appState.app.config.sizeArea.y || 0,
+                appState.app.config.sizeArea.width || 0,
+                appState.app.config.sizeArea.height || 0
             );
         }
         //

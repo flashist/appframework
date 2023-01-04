@@ -1,14 +1,14 @@
-import {Ticker} from "pixi.js";
+import { Ticker } from "pixi.js";
 
-import {getInstance} from "@flashist/flibs";
-
-import {BaseAppManager} from "../../base/managers/BaseAppManager";
-import {TimeModel} from "../models/TimeModel";
+import { BaseAppManager } from "../../base/managers/BaseAppManager";
+import { AppStateStorage } from "../../state/data/AppStateStorage";
+import { appStorage } from "../../state/AppStateModule";
+import { TimeModuleAppStateType } from "../data/state/TimeModuleAppStateType";
 
 
 export class TimeManager extends BaseAppManager {
 
-    protected timeModel: TimeModel = getInstance(TimeModel);
+    protected appStateStorage: AppStateStorage = appStorage();
 
     protected addListeners(): void {
         super.addListeners();
@@ -24,6 +24,14 @@ export class TimeManager extends BaseAppManager {
     }
 
     protected onTick(deltaTime: number): void {
-        this.timeModel.changeTimeData(Date.now(), deltaTime);
+        this.appStateStorage.change<TimeModuleAppStateType>()(
+            "timeModule.curTime",
+            Date.now()
+        );
+
+        this.appStateStorage.change<TimeModuleAppStateType>()(
+            "timeModule.lastDeltaTime",
+            deltaTime
+        );
     }
 }

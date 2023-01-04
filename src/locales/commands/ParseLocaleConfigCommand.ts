@@ -1,8 +1,9 @@
-import {AbstractLoadItem, getInstance, ILocaleConfig, LoadManager, LocaleManager} from "@flashist/flibs";
+import { AbstractLoadItem, getInstance, ILocaleConfig, LoadManager, LocaleManager } from "@flashist/flibs";
 
-import {AppConfigModel} from "../../app/models/AppConfigModel";
-import {BaseAppCommand} from "../../base/commands/BaseAppCommand";
-import {AppSettings} from "../../app/AppSettings";
+import { BaseAppCommand } from "../../base/commands/BaseAppCommand";
+import { AppSettings } from "../../app/AppSettings";
+import { appStorage } from "../../state/AppStateModule";
+import { AppModuleState } from "../../app/data/state/AppModuleState";
 
 export class ParseLocaleConfigCommand extends BaseAppCommand {
 
@@ -10,13 +11,15 @@ export class ParseLocaleConfigCommand extends BaseAppCommand {
         let loadManager: LoadManager = getInstance(LoadManager);
         let localeConfigFileItem: AbstractLoadItem = loadManager.getLoadItem(AppSettings.localeConfigFileId);
         if (localeConfigFileItem && localeConfigFileItem.data) {
-            let appConfigModel: AppConfigModel = getInstance(AppConfigModel);
+            // let appConfigModel: AppConfigModel = getInstance(AppConfigModel);
 
             let localizationJson: ILocaleConfig = localeConfigFileItem.data;
 
             let localeManager: LocaleManager = getInstance<LocaleManager>(LocaleManager);
-            localeManager.setCurrentLanguage(appConfigModel.appConfig.locale);
-            localeManager.addLocale(localizationJson, appConfigModel.appConfig.locale);
+
+            const appState = appStorage().getState<AppModuleState>();
+            localeManager.setCurrentLanguage(appState.app.config.locale);
+            localeManager.addLocale(localizationJson, appState.app.config.locale);
 
             this.notifyComplete();
 

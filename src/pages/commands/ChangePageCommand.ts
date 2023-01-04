@@ -1,18 +1,18 @@
-import {getInstance} from "@flashist/flibs";
-
-import {PagesModel} from "../models/PagesModel";
-import {BaseAppCommand} from "../../base/commands/BaseAppCommand";
+import { BaseAppCommand } from "../../base/commands/BaseAppCommand";
+import { appStorage } from "../../state/AppStateModule";
+import { PagesModuleStateType } from "../data/state/PagesModuleStateType";
 
 export class ChangePageCommand extends BaseAppCommand {
 
-    protected pagesModel: PagesModel = getInstance(PagesModel);
+    // protected pagesModel: PagesModel = getInstance(PagesModel);
 
     constructor(protected pageId: string) {
         super();
     }
 
     protected executeInternal(): void {
-        this.pagesModel.pageId = this.pageId;
+        appStorage().change<PagesModuleStateType>()("pagesModule.pageId", this.pageId);
+
         this.notifyComplete();
     }
 }

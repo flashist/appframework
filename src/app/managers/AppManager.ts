@@ -1,32 +1,41 @@
-import {getInstance} from "@flashist/flibs";
+import { getInstance } from "@flashist/flibs";
 
-import {BaseAppManager} from "../../base/managers/BaseAppManager";
-import {AppModel} from "../models/AppModel";
-import {StorageManager} from "../../storage/managers/StorageManager";
-import {AppSettings} from "../AppSettings";
-import {IAppModelStorageVO} from "../data/IAppModelStorageVO";
+import { BaseAppManager } from "../../base/managers/BaseAppManager";
+import { LocalStorageManager } from "../../local-storage/managers/LocalStorageManager";
+import { appStorage } from "../../state/AppStateModule";
+import { DeepReadonly } from "../../state/data/DeepReadableTypings";
+import { AppSettings } from "../AppSettings";
+import { IAppModelStorageVO } from "../data/local-storage/IAppModelStorageVO";
+import { AppModuleState } from "../data/state/AppModuleState";
 
 export class AppManager extends BaseAppManager {
 
-    protected appModel: AppModel;
-    protected storageManager: StorageManager;
+    protected appState: DeepReadonly<AppModuleState>;
+    protected storageManager: LocalStorageManager;
 
     protected updateTimeInterval: any;
 
     protected construction(...args): void {
         super.construction(args);
 
-        this.appModel = getInstance(AppModel);
-        this.storageManager = getInstance(StorageManager);
+        this.storageManager = getInstance(LocalStorageManager);
 
+        this.appState = appStorage().getState<AppModuleState>();
         const appModelStorageData: IAppModelStorageVO = this.storageManager.getParam<IAppModelStorageVO>(AppSettings.storageParamId);
         this.applyStorageData(appModelStorageData);
 
-        this.appModel.previousSessionTotalUsageTime = this.appModel.totalUsageDuration;
-        this.appModel.sessionStartTime = Date.now();
-
-        // Increase app launch counter
-        this.appModel.appLaunchesCount++;
+        // this.appState.app.previousSessionTotalUsageTime = this.appState.app.totalUsageDuration;
+        // this.appState.app.sessionStartTime = Date.now();
+        // // Increase app launch counter
+        // this.appState.app.appLaunchesCount++;
+        appStorage().change<AppModuleState>()(
+            "app",
+            {
+                previousSessionTotalUsageTime: this.appState.app.totalUsageDuration,
+                sessionStartTime: Date.now(),
+                appLaunchesCount: this.appState.app.appLaunchesCount + 1
+            }
+        );
 
         this.updateStorageData();
         this.updateTimeInterval = setInterval(
@@ -39,8 +48,15 @@ export class AppManager extends BaseAppManager {
     }
 
     protected updateUsageTime(): void {
-        let sessionTimeDelta: number = Date.now() - this.appModel.sessionStartTime;
-        this.appModel.totalUsageDuration = this.appModel.previousSessionTotalUsageTime + sessionTimeDelta;
+        let sessionTimeDelta: number = Date.now() - this.appState.app.sessionStartTime;
+
+        // this.appState.app.totalUsageDuration = this.appState.app.previousSessionTotalUsageTime + sessionTimeDelta;
+        appStorage().change<AppModuleState>()(
+            "app",
+            {
+                totalUsageDuration: this.appState.app.previousSessionTotalUsageTime + sessionTimeDelta
+            }
+        );
 
         this.updateStorageData();
     }
@@ -50,8 +66,15 @@ export class AppManager extends BaseAppManager {
             return;
         }
 
-        this.appModel.appLaunchesCount = data.appLaunchesCount;
-        this.appModel.totalUsageDuration = data.totalUsageTime;
+        // this.appState.app.appLaunchesCount = data.appLaunchesCount;
+        // this.appState.app.totalUsageDuration = data.totalUsageTime;
+        appStorage().change<AppModuleState>()(
+            "app",
+            {
+                appLaunchesCount: data.appLaunchesCount,
+                totalUsageDuration: data.totalUsageTime
+            }
+        );
     }
 
     protected updateStorageData(): void {
@@ -61,8 +84,8 @@ export class AppManager extends BaseAppManager {
 
     protected generateStorageData(): IAppModelStorageVO {
         return {
-            appLaunchesCount: this.appModel.appLaunchesCount,
-            totalUsageTime: this.appModel.totalUsageDuration
+            appLaunchesCount: this.appState.app.appLaunchesCount,
+            totalUsageTime: this.appState.app.totalUsageDuration
         };
     }
 }

@@ -5,13 +5,13 @@ import { getInstance, WaitGroupLoadingCompleteCommand } from "@flashist/flibs";
 import { LoadAppConfigCommand } from "../../app/commands/LoadAppConfigCommand";
 import { LoadGroupName } from "../../load/LoadGroupName";
 import { ChangePageCommand } from "../../pages/commands/ChangePageCommand";
-import { PageId } from "../../pages/PageId";
 import { InitApplicationDataCommand } from "./InitApplicationDataCommand";
 import { ParseStaticItemsConfigCommand } from "../../app/commands/ParseStaticItemsConfigCommand";
 import { ParseLocaleConfigCommand } from "../../locales/commands/ParseLocaleConfigCommand";
 import { ParseAssetsConfigCommand } from "../../assets/commands/ParseAssetsConfigCommand";
 import { DispatchGlobalEventCommand } from "../../events/commands/DispatchGlobalEventCommand";
-import { InitApplicationEvent } from "../events/InitApplicationEvents";
+import { InitApplicationEvent } from "../events/InitApplicationEvent";
+import { PreloaderPageId } from "../../preloader-page/data/PreloaderPageId";
 
 export class InitApplicationCommand extends QueueCommand {
 
@@ -30,7 +30,7 @@ export class InitApplicationCommand extends QueueCommand {
 
                 getInstance(InitApplicationDataCommand),
 
-                getInstance(ChangePageCommand, PageId.PRELOADER_PAGE)
+                getInstance(ChangePageCommand, PreloaderPageId)
             ]
         );
     }
