@@ -4,11 +4,14 @@ import { IEntity } from "../../../ecs/ecs/entities/IEntity";
 import { System } from "../../../ecs/ecs/systems/System";
 import { RenderModuleRootContainerId } from "../../data/RenderModuleRootContainerId";
 import { RenderComponent, RenderComponentType } from "../components/RenderComponent";
+import { DisplayTools } from '../../../../../flibs/src/display/pixijs/display/tools/DisplayTools';
 
 
 export class RenderSystem<EntityType extends IEntity<RenderComponent>> extends System<EntityType> {
 
-    protected rootContainer: DisplayObjectContainer;
+    protected containersManager: ContainersManager;
+
+    protected rootContainer: FContainer;
 
     constructor() {
         super([RenderComponentType]);
@@ -19,20 +22,35 @@ export class RenderSystem<EntityType extends IEntity<RenderComponent>> extends S
 
         this.rootContainer = new FContainer();
 
-        const containersManager: ContainersManager = getInstance(ContainersManager);
+        this.containersManager = getInstance(ContainersManager);
         // as any - to solve some type-related problems between modules
-        containersManager.addContainer(this.rootContainer as any, RenderModuleRootContainerId);
+        this.containersManager.addContainer(this.rootContainer as any, RenderModuleRootContainerId);
     }
 
     protected onEntityAdded(entity: EntityType): void {
         super.onEntityAdded(entity);
 
-        this.rootContainer.addChild(entity.components.render.view);
+        const tempCont: FContainer = this.getContainer(entity.components.render.containerId);
+        tempCont.addChild(entity.components.render.view);
     }
 
     protected onEntityRemoved(entity: EntityType): void {
         super.onEntityAdded(entity);
 
-        this.rootContainer.removeChild(entity.components.render.view);
+        DisplayTools.childRemoveItselfFromParent(entity.components.render.view);
+        // this.rootContainer.removeChild(entity.components.render.view);
+    }
+
+    protected getContainer(containerId: string): FContainer {
+        let result: FContainer;
+        if (containerId) {
+            result = this.containersManager.getContainer(containerId)
+        }
+
+        if (!result) {
+            result = this.rootContainer;
+        }
+
+        return result;
     }
 }
