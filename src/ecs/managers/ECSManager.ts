@@ -3,7 +3,7 @@ import { BaseAppManager } from "../../base/managers/BaseAppManager";
 import { appStateChangeEvent, appStorage } from "../../state/AppStateModule";
 import { TimeModuleAppStateType } from "../../time/data/state/TimeModuleAppStateType";
 import { IComponent } from "../ecs/components/IComponent";
-import { EntityWithoutId, IEntity } from "../ecs/entities/IEntity";
+import { IEntity } from "../ecs/entities/IEntity";
 import { EntitiesQuery } from "../ecs/entities/queries/EntitiesQuery";
 import { System } from "../ecs/systems/System";
 
@@ -46,7 +46,7 @@ export class ECSManager extends BaseAppManager {
     }
 
     public entities = {
-        create: (entity: EntityWithoutId): IEntity => {
+        create: (entity: IEntity): IEntity => {
             const result: IEntity = {
                 ...entity,
                 id: UniqueTools.getUniqueIdForPool(this.entitiesUniquePoolId)

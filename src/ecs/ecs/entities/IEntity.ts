@@ -13,5 +13,3 @@ export interface IEntity<ComponentTypes extends IComponent = IComponent> {
         [K in ComponentTypes as K["type"]]: K
     }
 }
-
-export type EntityWithoutId<ComponentTypes extends IComponent = IComponent> = Omit<IEntity<ComponentTypes>, "id">;
