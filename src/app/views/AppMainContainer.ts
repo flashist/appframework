@@ -6,15 +6,9 @@ import { DisplayObjectContainer, Graphics } from '@flashist/flibs';
 export class AppMainContainer extends BaseAppView {
 
     protected bg: DisplayObjectContainer;
-    protected bgColor: number;
-    protected bgAlpha: number;
-
     protected pagesView: PagesView;
 
     protected construction(...args): void {
-        this.bgColor = 0xFFFFFF;
-        this.bgAlpha = 0;
-
         super.construction(...args);
 
         this.bg = this.createBg();
@@ -39,7 +33,8 @@ export class AppMainContainer extends BaseAppView {
 
     protected createBg(): DisplayObjectContainer {
         let result: Graphics = new Graphics();
-        result.beginFill(this.bgColor, this.bgAlpha);
+        result.beginFill(0xFFFFFF, 0);
+        result.drawRect(0, 0, 10, 10);
 
         return result;
     }
