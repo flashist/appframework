@@ -19,8 +19,8 @@ export const AppModuleInitialState = {
             sizeArea: {
                 x: 0,
                 y: 0,
-                width: 1920,
-                height: 1280
+                width: 1280,
+                height: 1920
             } as Rectangle
         }
     }
