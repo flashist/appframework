@@ -1,14 +1,16 @@
-import {Ticker} from "pixi.js";
+import { Ticker } from "pixi.js";
 
-import {getInstance} from "@flashist/flibs";
-
-import {BaseAppManager} from "../../base/managers/BaseAppManager";
-import {TimeModel} from "../models/TimeModel";
+import { BaseAppManager } from "../../base/managers/BaseAppManager";
+import { AppStateStorage } from "../../state/data/AppStateStorage";
+import { appStorage } from "../../state/AppStateModule";
+import { TimeModuleAppStateType } from "../data/state/TimeModuleAppStateType";
+import { TimeModule } from '../TimeModule';
 
 
 export class TimeManager extends BaseAppManager {
 
-    protected timeModel: TimeModel = getInstance(TimeModel);
+    protected appStateStorage: AppStateStorage = appStorage();
+    protected appState: TimeModuleAppStateType = appStorage().getState<TimeModuleAppStateType>();
 
     protected addListeners(): void {
         super.addListeners();
@@ -23,7 +25,18 @@ export class TimeManager extends BaseAppManager {
         Ticker.shared.remove(this.onTick, this);
     }
 
-    protected onTick(deltaTime: number): void {
-        this.timeModel.changeTimeData(Date.now(), deltaTime);
+    protected onTick(): void {
+        const newTime: number = Date.now();
+        const timeDelta: number = newTime - this.appState.timeModule.curTime;
+
+        this.appStateStorage.change<TimeModuleAppStateType>()(
+            "timeModule.curTime",
+            newTime
+        );
+
+        this.appStateStorage.change<TimeModuleAppStateType>()(
+            "timeModule.lastDeltaTime",
+            timeDelta
+        );
     }
 }

@@ -1,21 +1,20 @@
-import {CommandErrorCode} from "@flashist/fcore";
+import { CommandErrorCode } from "@flashist/fcore";
 import {
-    GenericObjectsByTypeModel,
     getInstance,
     LoadItemCommand,
     LoadItemsListCommand,
     LoadManager
 } from "@flashist/flibs";
 
-import {AppConfigModel} from "../models/AppConfigModel";
-import {BaseAppCommand} from "../../base/commands/BaseAppCommand";
-import {AppSettings} from "../AppSettings";
-import {AppConfigVO} from "../data/AppConfigVO";
+import { BaseAppCommand } from "../../base/commands/BaseAppCommand";
+import { AppSettings } from "../AppSettings";
+import { appStorage } from "../../state/AppStateModule";
+import { AppModuleState } from "../data/state/AppModuleState";
 
 export class LoadAppConfigCommand extends BaseAppCommand {
     BasePageView
     protected executeInternal(): void {
-        const appConfigModel: AppConfigModel = getInstance(AppConfigModel);
+        // const appConfigModel: AppConfigModel = getInstance(AppConfigModel);
         new LoadItemCommand(
             {
                 src: AppSettings.appConfigPath,
@@ -24,24 +23,27 @@ export class LoadAppConfigCommand extends BaseAppCommand {
         )
             .execute()
             .then(
-                (data: AppConfigVO) => {
+                (data: any) => {
                     console.log("LoadAppConfigCommand | executeInternal __ data: ", data);
 
-                    //
-                    const genericObjectsByTypeModel: GenericObjectsByTypeModel = getInstance(GenericObjectsByTypeModel);
-                    genericObjectsByTypeModel.commitItems([data]);
+                    appStorage().change<AppModuleState>()(
+                        "app.config",
+                        data
+                    );
 
                     //
+                    const appState = appStorage().getState<AppModuleState>();
                     const loadManager: LoadManager = getInstance(LoadManager);
                     loadManager.addSubstituteParams(
                         {
-                            locale: appConfigModel.appConfig.locale
+                            locale: appState.app.config.locale
                         }
                     );
 
                     //
                     if (data.files) {
-                        new LoadItemsListCommand(appConfigModel.appConfig.files)
+                        // as any is needed to "avoid" DeepReadonly problem
+                        new LoadItemsListCommand(appState.app.config.files as any)
                             .execute();
                     }
 

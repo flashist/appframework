@@ -1,21 +1,17 @@
 import { DeviceTools, getInstance, serviceLocatorAdd } from "@flashist/flibs";
 
 import { BaseAppModule } from "../base/modules/BaseAppModule";
-import { DeviceInfoModel } from "./models/DeviceInfoModel";
+import { appStorage } from "../state/AppStateModule";
+import { DeviceModuleInitialState } from "./data/state/DeviceModuleState";
 
 export class DeviceModule extends BaseAppModule {
 
     init(): void {
         super.init();
 
+        appStorage().initializeWith(DeviceModuleInitialState);
+
         // Modules
-        serviceLocatorAdd(DeviceInfoModel, { isSingleton: true });
-    }
-
-    activateCompleteHook(): void {
-        super.activateCompleteHook();
-
-        const soundsStorageModule: DeviceInfoModel = getInstance(DeviceInfoModel);
-        soundsStorageModule.deviceInfo = DeviceTools.getDeviceInfo(navigator.userAgent);
+        // serviceLocatorAdd(DeviceInfoModel, { isSingleton: true });
     }
 }

@@ -11,12 +11,10 @@ import { AppModule } from "../app/AppModule";
 import { TimeModule } from "../time/TimeModule";
 import { DebugModule } from "../debug/DebugModule";
 import { LoadModule } from "../load/LoadModule";
-import { DependenciesModule } from "../dependencies/DependenciesModule";
-import { AssetsModule } from "../assets/AssetsModule";
 import { ContainersModule } from "../containers/ContainersModule";
 import { ObjectsPoolModule } from "../pool/ObjectsPoolModule";
 import { LocalesModule } from "../locales/LocalesModule";
-import { StorageModule } from "../storage/StorageModule";
+import { LocalStorageModule } from "../local-storage/LocalStorageModule";
 import { SoundsModule } from "../sounds/SoundsModule";
 import { HTMLModule } from "../html/HTMLModule";
 import { InitApplicationCommand } from "../init/commands/InitApplicationCommand";
@@ -25,9 +23,10 @@ import { GlobalEventDispatcher } from "../globaleventdispatcher/dispatcher/Globa
 import { RendererManagerEvent } from "../renderer/events/RendererManagerEvent";
 import { AppMainContainer } from "../app/views/AppMainContainer";
 import { BaseAppModule } from "../base/modules/BaseAppModule";
-import { InitApplicationEvent } from "../init/events/InitApplicationEvents";
+import { InitApplicationEvent } from "../init/events/InitApplicationEvent";
 import { DeviceModule } from "../device/DeviceModule";
-import { DeviceInfoModel } from "../device/models/DeviceInfoModel";
+import { AppStateModule, appStorage } from "../state/AppStateModule";
+import { DeviceModuleState } from "../device/data/state/DeviceModuleState";
 
 export class Facade extends BaseObject {
 
@@ -37,8 +36,6 @@ export class Facade extends BaseObject {
 
     public app: FApp;
     public mainContainer: AppMainContainer;
-
-    protected deviceInfoModel: DeviceInfoModel;
 
     protected resizeListener: any;
 
@@ -74,22 +71,24 @@ export class Facade extends BaseObject {
     protected addModules(): void {
         this.modulesManager = new AppModulesManager();
 
-        this.addSingleModule(new DependenciesModule());
-        this.addSingleModule(new ObjectsPoolModule());
+        // AppState should be inited THE FIRST!
+        // because other modules might add there init data
         this.addSingleModule(new GlobalEventDispatcherModule());
+        this.addSingleModule(new AppStateModule())
+        this.addSingleModule(new AppModule(this.options.debug));
+        //
+        this.addSingleModule(new ObjectsPoolModule());
         this.addSingleModule(new DeviceModule());
         this.addSingleModule(new RendererModule());
-        this.addSingleModule(new StorageModule());
+        this.addSingleModule(new LocalStorageModule());
         this.addSingleModule(new LoadModule());
         this.addSingleModule(new SoundsModule());
         this.addSingleModule(new HTMLModule());
         this.addSingleModule(new LocalesModule());
-        this.addSingleModule(new AssetsModule());
+
         this.addSingleModule(new PagesModule());
 
         this.addSingleModule(new RendererModule());
-
-        this.addSingleModule(new AppModule());
         this.addSingleModule(new TimeModule());
         this.addSingleModule(new ContainersModule());
 
@@ -116,8 +115,6 @@ export class Facade extends BaseObject {
     }
 
     protected initView(): void {
-        this.deviceInfoModel = getInstance(DeviceInfoModel);
-
         this.mainContainer = getInstance(AppMainContainer);
         FApp.instance.stage.addChild(this.mainContainer);
 
@@ -173,7 +170,8 @@ export class Facade extends BaseObject {
 
     protected onWindowResize(): void {
         const documentSize: Point = HtmlTools.getDocumentSize();
-        this.rendererManager.resize(documentSize.x, documentSize.y, this.deviceInfoModel.deviceInfo.pixelRatio);
+        const appState: DeviceModuleState = appStorage().getState<DeviceModuleState>();
+        this.rendererManager.resize(documentSize.x, documentSize.y, appState.device.pixelRatio);
     }
 
     protected onRendererResize(): void {

@@ -1,17 +1,17 @@
 import {BaseObject} from "@flashist/fcore";
 import {getInstance, SoundsManager, SoundsManagerEvent} from "@flashist/flibs";
 
-import {StorageManager} from "../../storage/managers/StorageManager";
+import {LocalStorageManager} from "../../local-storage/managers/LocalStorageManager";
 import {SoundsSettings} from "../SoundsSettings";
 
 export class SoundsStorageManager extends BaseObject {
 
     protected soundsManager: SoundsManager;
-    protected storageManager: StorageManager;
+    protected storageManager: LocalStorageManager;
 
     protected construction(...args): void {
         this.soundsManager = getInstance(SoundsManager);
-        this.storageManager = getInstance(StorageManager);
+        this.storageManager = getInstance(LocalStorageManager);
 
         super.construction(...args);
     }

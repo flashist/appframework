@@ -1,9 +1,11 @@
-import {CommandErrorCode} from "@flashist/fcore";
-import {AbstractLoadItem, GenericObjectsByTypeModel, getInstance, LoadManager} from "@flashist/flibs";
+import { CommandErrorCode } from "@flashist/fcore";
+import { AbstractLoadItem, getInstance, LoadManager } from "@flashist/flibs";
 
-import {BaseAppCommand} from "../../base/commands/BaseAppCommand";
-import {AppSettings} from "../AppSettings";
-import {IItemsConfigVO} from "../data/IItemsConfigVO";
+import { BaseAppCommand } from "../../base/commands/BaseAppCommand";
+import { IEntity } from "../../ecs/ecs/entities/IEntity";
+import { ECSManager } from "../../ecs/managers/ECSManager";
+import { AppSettings } from "../AppSettings";
+// import {IItemsConfigVO} from "../data/IItemsConfigVO";
 
 export class ParseStaticItemsConfigCommand extends BaseAppCommand {
 
@@ -12,11 +14,13 @@ export class ParseStaticItemsConfigCommand extends BaseAppCommand {
         let loadManager: LoadManager = getInstance(LoadManager);
         let staticItemsConfigFileItem: AbstractLoadItem = loadManager.getLoadItem(AppSettings.staticItemsFileId);
         if (staticItemsConfigFileItem && staticItemsConfigFileItem.data) {
-            const staticData: IItemsConfigVO = staticItemsConfigFileItem.data;
 
-            let genericObjectsByTypeModel: GenericObjectsByTypeModel = getInstance(GenericObjectsByTypeModel);
-            if (staticData.items) {
-                genericObjectsByTypeModel.commitItems(staticData.items);
+            if (staticItemsConfigFileItem.data) {
+                const ecsManager: ECSManager = getInstance(ECSManager);
+                const staticItems: IEntity[] = staticItemsConfigFileItem.data;
+                for (let singleStaticItem of staticItems) {
+                    ecsManager.entities.add(singleStaticItem);
+                }
             }
 
             this.notifyComplete();

@@ -1,31 +1,44 @@
-import {ResizableContainer} from "../../display/views/resize/ResizableContainer";
-import {ViewLazyCreationServiceLocatorStack} from "../../display/views/viewstack/ViewLazyCreationServiceLocatorStack";
-import {PagesModel} from "../models/PagesModel";
-import {getInstance} from "@flashist/flibs";
-import {PagesModelEvent} from "../models/PagesModelEvent";
+import { ResizableContainer } from "../../display/views/resize/ResizableContainer";
+import { ViewLazyCreationServiceLocatorStack } from "../../display/views/viewstack/ViewLazyCreationServiceLocatorStack";
+import { appStorage } from "../../state/AppStateModule";
+import { PagesModuleStateType } from "../data/state/PagesModuleStateType";
 
 export class PagesView extends ResizableContainer {
 
-    protected pagesModel: PagesModel;
+    // protected pagesModel: PagesModel;
 
     public viewStack: ViewLazyCreationServiceLocatorStack;
 
     protected construction(...args): void {
         super.construction(args);
 
-        this.pagesModel = getInstance(PagesModel);
+        // this.pagesModel = getInstance(PagesModel);
 
         this.viewStack = new ViewLazyCreationServiceLocatorStack();
         this.addChild(this.viewStack);
 
-        let pageIdToViewClassMap = this.pagesModel.getPageIdToViewClassMap();
-        let pageIds: string[] = pageIdToViewClassMap.getAllKeys();
-        let pageIdsCount: number = pageIds.length;
-        for (let pageIdIndex: number = 0; pageIdIndex < pageIdsCount; pageIdIndex++) {
-            let tempPageClass = pageIdToViewClassMap.getItemByIndex(pageIdIndex);
-            let tempPageId: string = pageIds[pageIdIndex];
+        // let pageIdToViewClassMap = this.pagesModel.getPageIdToViewClassMap();
+        // let pageIds: string[] = pageIdToViewClassMap.getAllKeys();
+        // let pageIdsCount: number = pageIds.length;
+        // for (let pageIdIndex: number = 0; pageIdIndex < pageIdsCount; pageIdIndex++) {
+        //     let tempPageClass = pageIdToViewClassMap.getItemByIndex(pageIdIndex);
+        //     let tempPageId: string = pageIds[pageIdIndex];
 
-            this.viewStack.addViewClass(tempPageClass, tempPageId);
+        //     this.viewStack.addViewClass(tempPageClass, tempPageId);
+        // }
+
+        // const pagesModuleState: IPagesModuleAppState = reduxGetTypedState<GlobalStoreWithPagesModuleState>().pagesModule;
+        // let pageIds: string[] = Object.keys(pagesModuleState.pageIdToViewClassMap);
+        // for (let singlePageId of pageIds) {
+        //     let tempPageClass = pagesModuleState.pageIdToViewClassMap[singlePageId];
+        //     this.viewStack.addViewClass(tempPageClass, singlePageId);
+        // }
+
+        const appState: PagesModuleStateType = appStorage().getState<PagesModuleStateType>();
+        let pageIds: string[] = Object.keys(appState.pagesModule.pageIdToViewClassMap);
+        for (let singlePageId of pageIds) {
+            let tempPageClass = appState.pagesModule.pageIdToViewClassMap[singlePageId];
+            this.viewStack.addViewClass(tempPageClass, singlePageId);
         }
 
         this.commitPagesData();
@@ -34,19 +47,24 @@ export class PagesView extends ResizableContainer {
     protected addListeners(): void {
         super.addListeners();
 
-        this.eventListenerHelper.addEventListener(
-            this.pagesModel,
-            PagesModelEvent.PAGE_ID_CHANGE,
-            this.onPageIdChange
-        );
+        // this.eventListenerHelper.addEventListener(
+        //     this.pagesModel,
+        //     PagesModelEvent.PAGE_ID_CHANGE,
+        //     this.onPageIdChange
+        // );
+        // this.reduxUnsubscribe = reduxStore.subscribe(
+        //     () => {
+
+        //     }
+        // )
     }
 
-    protected onPageIdChange(): void {
-        this.commitPagesData();
-    }
+    // protected onPageIdChange(): void {
+    //     this.commitPagesData();
+    // }
 
-    protected commitPagesData(): void {
-        this.viewStack.selectedId = this.pagesModel.pageId;
+    public commitPagesData(): void {
+        this.viewStack.selectedId = appStorage().getState<PagesModuleStateType>().pagesModule.pageId;
     }
 
     protected arrange(): void {
