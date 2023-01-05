@@ -10,6 +10,8 @@ export class BasePageView extends BaseAppView {
 
     private _sizeArea: Rectangle;
     protected sizeAreaView: Graphics;
+    protected sizeAreaColor: number = 0x0000FF;
+    protected sizeAreaColorAlpha: number = 0.5;
 
     protected contentCont: FContainer;
     protected reversedScaleContentScreenRect: Rectangle;
@@ -70,7 +72,7 @@ export class BasePageView extends BaseAppView {
     protected updateSizeAreaView(): void {
         this.sizeAreaView.clear();
         //
-        this.sizeAreaView.beginFill(0x0000FF, 0.5);
+        this.sizeAreaView.beginFill(this.sizeAreaColor, this.sizeAreaColorAlpha);
         this.sizeAreaView.drawRect(
             this.sizeArea.x,
             this.sizeArea.y,
