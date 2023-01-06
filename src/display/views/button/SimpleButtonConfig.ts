@@ -22,7 +22,7 @@ export interface ISingleButtonStateConfig {
     alpha: number;
 }
 
-export type SimpleButtonConfig = typeof SimpleButtonDefaultConfig;
+export type SimpleButtonConfig = Partial<typeof SimpleButtonDefaultConfig>;
 
 // export interface ISimpleButtonConfig {
 //     // bgConfig?: {
