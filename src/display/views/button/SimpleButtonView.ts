@@ -16,7 +16,7 @@ export class SimpleButtonView<DataType extends object = object> extends Resizabl
     protected config: ISimpleButtonConfig;
 
     protected contentCont: FContainer;
-    protected bg: Graphics | Sprite;
+    // protected bg: Graphics | Sprite;
     protected label: FLabel;
 
     constructor(config: ISimpleButtonConfig) {
@@ -31,24 +31,24 @@ export class SimpleButtonView<DataType extends object = object> extends Resizabl
         this.contentCont = new FContainer();
         this.addChild(this.contentCont);
 
-        this.bg = this.createBg();
-        this.contentCont.addChild(this.bg);
+        // this.bg = this.createBg();
+        // this.contentCont.addChild(this.bg);
 
         this.label = new FLabel(this.config.labelConfig);
         this.contentCont.addChild(this.label);
         //
-        this.label.interactive = false;
-        this.label.interactiveChildren = false;
+        this.label.interactive = true;
+        this.label.interactiveChildren = true;
 
         this.state = SimpleButtonState.NORMAL;
         this.enabled = true;
 
-        if (!this.config.bgConfig?.resizeBg) {
-            this.resize(
-                this.bg.width,
-                this.bg.height
-            );
-        }
+        // if (!this.config.bgConfig?.resizeBg) {
+        //     this.resize(
+        //         this.bg.width,
+        //         this.bg.height
+        //     );
+        // }
     }
 
     protected addListeners(): void {
@@ -93,18 +93,18 @@ export class SimpleButtonView<DataType extends object = object> extends Resizabl
     protected arrange(): void {
         super.arrange();
 
-        if (this.config.bgConfig?.resizeBg) {
-            if (this.bg.width !== this.resizeSize.x ||
-                this.bg.height !== this.resizeSize.y) {
+        // if (this.config.bgConfig?.resizeBg) {
+        //     if (this.bg.width !== this.resizeSize.x ||
+        //         this.bg.height !== this.resizeSize.y) {
 
-                this.updateBg();
-            }
-        }
+        //         this.updateBg();
+        //     }
+        // }
 
-        this.label.width = this.bg.width;
-        this.label.height = this.bg.height;
-        this.label.x = this.bg.x + Math.floor((this.bg.width - this.label.width) / 2);
-        this.label.y = this.bg.y + Math.floor((this.bg.height - this.label.height) / 2);
+        // this.label.width = this.bg.width;
+        // this.label.height = this.bg.height;
+        // this.label.x = this.bg.x + Math.floor((this.bg.width - this.label.width) / 2);
+        // this.label.y = this.bg.y + Math.floor((this.bg.height - this.label.height) / 2);
     }
 
     get enabled(): boolean {
@@ -153,7 +153,7 @@ export class SimpleButtonView<DataType extends object = object> extends Resizabl
             this.alpha = 0.5;
         }
 
-        this.updateBg();
+        // this.updateBg();
     }
 
     public get selected(): boolean {
@@ -183,43 +183,43 @@ export class SimpleButtonView<DataType extends object = object> extends Resizabl
         return result;
     }
 
-    protected createBg(): Sprite | Graphics {
-        let result: Sprite | Graphics;
-        if (this.config.bgConfig?.image) {
-            result = Sprite.from(this.config.bgConfig.image.imageId);
+    // protected createBg(): Sprite | Graphics {
+    //     let result: Sprite | Graphics;
+    //     if (this.config.bgConfig?.image) {
+    //         result = Sprite.from(this.config.bgConfig.image.imageId);
 
-        } else {
-            result = new Graphics();
-        }
+    //     } else {
+    //         result = new Graphics();
+    //     }
 
-        return result;
-    }
+    //     return result;
+    // }
 
-    protected updateBg(): void {
-        if (this.config.bgConfig?.image) {
-            if (this.config.bgConfig.resizeBg) {
-                this.bg.width = this.resizeSize.x;
-                this.bg.height = this.resizeSize.y;
-            }
+    // protected updateBg(): void {
+    //     if (this.config.bgConfig?.image) {
+    //         if (this.config.bgConfig.resizeBg) {
+    //             this.bg.width = this.resizeSize.x;
+    //             this.bg.height = this.resizeSize.y;
+    //         }
 
-        } else if (this.config.bgConfig?.vector) {
-            const vectorBg: Graphics = this.bg as Graphics;
+    //     } else if (this.config.bgConfig?.vector) {
+    //         const vectorBg: Graphics = this.bg as Graphics;
 
-            vectorBg.clear();
-            let bgColor: number = this.config.bgConfig.vector.bgColor;
-            if (this.state === SimpleButtonState.SELECTED_NORMAL || this.state === SimpleButtonState.OVER || this.state === SimpleButtonState.SELECTED_OVER) {
-                bgColor = this.config.bgConfig.vector.overBgColor;
-            }
+    //         vectorBg.clear();
+    //         let bgColor: number = this.config.bgConfig.vector.bgColor;
+    //         if (this.state === SimpleButtonState.SELECTED_NORMAL || this.state === SimpleButtonState.OVER || this.state === SimpleButtonState.SELECTED_OVER) {
+    //             bgColor = this.config.bgConfig.vector.overBgColor;
+    //         }
 
-            vectorBg.beginFill(bgColor, this.config.bgConfig.vector.bgAlpha);
-            vectorBg.lineStyle(
-                this.config.bgConfig.vector.bgBorderWidth,
-                this.config.bgConfig.vector.bgBorderColor,
-                this.config.bgConfig.vector.bgBorderAlpha,
-                0
-            );
-            vectorBg.drawRect(0, 0, this.resizeSize.x, this.resizeSize.y);
-            vectorBg.endFill();
-        }
-    }
+    //         vectorBg.beginFill(bgColor, this.config.bgConfig.vector.bgAlpha);
+    //         vectorBg.lineStyle(
+    //             this.config.bgConfig.vector.bgBorderWidth,
+    //             this.config.bgConfig.vector.bgBorderColor,
+    //             this.config.bgConfig.vector.bgBorderAlpha,
+    //             0
+    //         );
+    //         vectorBg.drawRect(0, 0, this.resizeSize.x, this.resizeSize.y);
+    //         vectorBg.endFill();
+    //     }
+    // }
 }

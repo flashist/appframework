@@ -1,22 +1,22 @@
 import { IFLabelConfig } from "@flashist/flibs";
 
 export interface ISimpleButtonConfig {
-    bgConfig?: {
-        image?: {
-            imageId: string;
-        };
+    // bgConfig?: {
+    //     image?: {
+    //         imageId: string;
+    //     };
 
-        vector?: {
-            bgColor: number;
-            overBgColor: number;
-            bgAlpha: number;
-            bgBorderColor: number;
-            bgBorderAlpha: number;
-            bgBorderWidth: number;
-        }
+    //     vector?: {
+    //         bgColor: number;
+    //         overBgColor: number;
+    //         bgAlpha: number;
+    //         bgBorderColor: number;
+    //         bgBorderAlpha: number;
+    //         bgBorderWidth: number;
+    //     }
 
-        resizeBg?: boolean;
-    };
+    //     resizeBg?: boolean;
+    // };
 
     labelConfig?: IFLabelConfig;
 }
