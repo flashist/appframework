@@ -4,8 +4,9 @@ import { ECSManager } from "../../managers/ECSManager";
 import { IEntity } from "../entities/IEntity";
 import { EntitiesQuery } from "../entities/queries/EntitiesQuery";
 import { EntitiesQueryEvent } from "../entities/queries/EntitiesQueryEvent";
+import { BaseObjectWithGlobalDispatcher } from '../../../base/BaseObjectWithGlobalDispatcher';
 
-export abstract class System<EntityType extends IEntity = IEntity> extends BaseObject {
+export abstract class System<EntityType extends IEntity = IEntity> extends BaseObjectWithGlobalDispatcher {
 
     protected ecsManager: ECSManager = getInstance(ECSManager);
 
