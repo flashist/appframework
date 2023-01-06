@@ -35,7 +35,7 @@ export class TimeManager extends BaseAppManager {
         );
 
         this.appStateStorage.change<TimeModuleAppStateType>()(
-            "timeModule.lastDeltaTime",
+            "timeModule.lastTimeDelta",
             timeDelta
         );
     }

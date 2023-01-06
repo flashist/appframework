@@ -2,7 +2,9 @@ export const TimeModuleInitialAppState = {
     timeModule: {
         startTime: 0,
         curTime: 0,
-        lastDeltaTime: 0
+        lastTimeDelta: 0,
+        minTimeDelta: 1000 / 16,
+        maxTimeDelta: 1000 / 16
     }
 };
 
