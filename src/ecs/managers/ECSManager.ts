@@ -36,7 +36,7 @@ export class ECSManager extends BaseAppManager {
 
         this.eventListenerHelper.addEventListener(
             this.globalDispatcher,
-            appStateChangeEvent<TimeModuleAppStateType>()("timeModule.lastDeltaTime"),
+            appStateChangeEvent<TimeModuleAppStateType>()("timeModule.lastTimeDelta"),
             this.onTimeDeltaChange
         );
     }
