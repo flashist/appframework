@@ -4,7 +4,7 @@ import { SimpleButtonConfig, ISingleButtonStateConfig, SimpleButtonDefaultConfig
 import { SimpleButtonState } from "./SimpleButtonState";
 import { ResizableContainer } from "../resize/ResizableContainer";
 import { IToggableItem } from "../togglegroup/IToggableItem";
-import { ObjectTools } from '../../../../../fcore/src/tools/ObjectTools';
+import { ObjectTools } from '@flashist/fcore';
 
 export class SimpleButtonView<DataType extends object = object> extends ResizableContainer<DataType> implements IToggableItem {
 
