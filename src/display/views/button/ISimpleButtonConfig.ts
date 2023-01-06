@@ -1,4 +1,4 @@
-import {IFLabelConfig} from "@flashist/flibs";
+import { IFLabelConfig } from "@flashist/flibs";
 
 export interface ISimpleButtonConfig {
     bgConfig?: {
@@ -15,7 +15,7 @@ export interface ISimpleButtonConfig {
             bgBorderWidth: number;
         }
 
-        resizeBg: boolean;
+        resizeBg?: boolean;
     };
 
     labelConfig?: IFLabelConfig;

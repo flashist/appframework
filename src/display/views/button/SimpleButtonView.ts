@@ -1,9 +1,9 @@
-import {FContainer, FLabel, Graphics, InteractiveEvent, Sprite} from "@flashist/flibs";
+import { FContainer, FLabel, Graphics, InteractiveEvent, Sprite } from "@flashist/flibs";
 
-import {ISimpleButtonConfig} from "./ISimpleButtonConfig";
-import {SimpleButtonState} from "./SimpleButtonState";
-import {ResizableContainer} from "../resize/ResizableContainer";
-import {IToggableItem} from "../togglegroup/IToggableItem";
+import { ISimpleButtonConfig } from "./ISimpleButtonConfig";
+import { SimpleButtonState } from "./SimpleButtonState";
+import { ResizableContainer } from "../resize/ResizableContainer";
+import { IToggableItem } from "../togglegroup/IToggableItem";
 
 export class SimpleButtonView<DataType extends object = object> extends ResizableContainer<DataType> implements IToggableItem {
 
@@ -43,7 +43,7 @@ export class SimpleButtonView<DataType extends object = object> extends Resizabl
         this.state = SimpleButtonState.NORMAL;
         this.enabled = true;
 
-        if (!this.config.bgConfig.resizeBg) {
+        if (!this.config.bgConfig?.resizeBg) {
             this.resize(
                 this.bg.width,
                 this.bg.height
@@ -93,7 +93,7 @@ export class SimpleButtonView<DataType extends object = object> extends Resizabl
     protected arrange(): void {
         super.arrange();
 
-        if (this.config.bgConfig.resizeBg) {
+        if (this.config.bgConfig?.resizeBg) {
             if (this.bg.width !== this.resizeSize.x ||
                 this.bg.height !== this.resizeSize.y) {
 
@@ -185,7 +185,7 @@ export class SimpleButtonView<DataType extends object = object> extends Resizabl
 
     protected createBg(): Sprite | Graphics {
         let result: Sprite | Graphics;
-        if (this.config.bgConfig.image) {
+        if (this.config.bgConfig?.image) {
             result = Sprite.from(this.config.bgConfig.image.imageId);
 
         } else {
@@ -196,17 +196,16 @@ export class SimpleButtonView<DataType extends object = object> extends Resizabl
     }
 
     protected updateBg(): void {
-        if (this.config.bgConfig.image) {
+        if (this.config.bgConfig?.image) {
             if (this.config.bgConfig.resizeBg) {
                 this.bg.width = this.resizeSize.x;
                 this.bg.height = this.resizeSize.y;
             }
 
-        } else {
+        } else if (this.config.bgConfig?.vector) {
             const vectorBg: Graphics = this.bg as Graphics;
 
             vectorBg.clear();
-
             let bgColor: number = this.config.bgConfig.vector.bgColor;
             if (this.state === SimpleButtonState.SELECTED_NORMAL || this.state === SimpleButtonState.OVER || this.state === SimpleButtonState.SELECTED_OVER) {
                 bgColor = this.config.bgConfig.vector.overBgColor;
