@@ -1,9 +1,10 @@
 import { FContainer, FLabel, Graphics, InteractiveEvent, Sprite } from "@flashist/flibs";
 
-import { ISimpleButtonConfig } from "./ISimpleButtonConfig";
+import { SimpleButtonConfig, ISingleButtonStateConfig, SimpleButtonDefaultConfig } from "./SimpleButtonConfig";
 import { SimpleButtonState } from "./SimpleButtonState";
 import { ResizableContainer } from "../resize/ResizableContainer";
 import { IToggableItem } from "../togglegroup/IToggableItem";
+import { ObjectTools } from '../../../../../fcore/src/tools/ObjectTools';
 
 export class SimpleButtonView<DataType extends object = object> extends ResizableContainer<DataType> implements IToggableItem {
 
@@ -13,20 +14,22 @@ export class SimpleButtonView<DataType extends object = object> extends Resizabl
     protected _state: string;
     protected _selected: boolean;
 
-    protected config: ISimpleButtonConfig;
+    protected config: SimpleButtonConfig;
 
     protected contentCont: FContainer;
     // protected bg: Graphics | Sprite;
     protected label: FLabel;
 
-    constructor(config: ISimpleButtonConfig) {
+    constructor(config: SimpleButtonConfig) {
         super(config);
     }
 
-    protected construction(config: ISimpleButtonConfig): void {
+    protected construction(config: SimpleButtonConfig): void {
         super.construction();
-
-        this.config = config;
+        // First "write" default values
+        this.config = ObjectTools.clone(SimpleButtonDefaultConfig);
+        // Then override them with passed config
+        ObjectTools.copyProps(this.config, config);
 
         this.contentCont = new FContainer();
         this.addChild(this.contentCont);
@@ -144,13 +147,25 @@ export class SimpleButtonView<DataType extends object = object> extends Resizabl
     protected commitData(): void {
         super.commitData();
 
+        let tempConfigState: string = this.state;
+        if (!this.config.states[tempConfigState]) {
+            if (this.selected) {
+                tempConfigState = SimpleButtonState.SELECTED_TO_NORMAL_MAP[this.state];
+            }
+        }
+
+        if (!this.config.states[tempConfigState]) {
+            tempConfigState = SimpleButtonState.NORMAL;
+        }
+
+        let tempConfig: ISingleButtonStateConfig = this.config.states[tempConfigState];
+        this.alpha = tempConfig.alpha;
+
         if (this.enabled) {
             this.interactive = true;
-            this.alpha = 1;
 
         } else {
             this.interactive = false;
-            this.alpha = 0.5;
         }
 
         // this.updateBg();
