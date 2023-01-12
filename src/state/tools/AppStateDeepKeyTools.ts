@@ -5,7 +5,8 @@ export class AppStateDeepKeyTools {
     static prepareDeepKeyHelperData(deepKey: string, value: any): IDeepKeyHelperVO {
         const result: IDeepKeyHelperVO = {
             splitDeepKeyParts: [],
-            dispatchingChangePaths: []
+            dispatchingChangePaths: [],
+            dispatchingChangePathsMap: {}
         };
 
         let tempTotalPath: string = "";
