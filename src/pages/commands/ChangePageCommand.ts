@@ -11,7 +11,7 @@ export class ChangePageCommand extends BaseAppCommand {
     }
 
     protected executeInternal(): void {
-        appStorage().change<PagesModuleState>()("pagesModule.pageId", this.pageId);
+        appStorage().change<PagesModuleState>()("pages.pageId", this.pageId);
 
         this.notifyComplete();
     }
