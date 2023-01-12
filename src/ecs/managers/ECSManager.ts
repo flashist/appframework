@@ -2,6 +2,7 @@ import { ArrayTools, UniqueTools } from "@flashist/fcore";
 import { BaseAppManager } from "../../base/managers/BaseAppManager";
 import { appStateChangeEvent, appStorage } from "../../state/AppStateModule";
 import { TimeModuleAppState } from "../../time/data/state/TimeModuleAppState";
+import { TimeManagerEvent } from "../../time/managers/TimeManagerEvent";
 import { IComponent } from "../ecs/components/IComponent";
 import { IEntity } from "../ecs/entities/IEntity";
 import { EntitiesQuery } from "../ecs/entities/queries/EntitiesQuery";
@@ -36,12 +37,12 @@ export class ECSManager extends BaseAppManager {
 
         this.eventListenerHelper.addEventListener(
             this.globalDispatcher,
-            appStateChangeEvent<TimeModuleAppState>()("timeModule.lastTimeDelta"),
-            this.onTimeDeltaChange
+            TimeManagerEvent.UPDATE,
+            this.onTimeUpdate
         );
     }
 
-    protected onTimeDeltaChange(): void {
+    protected onTimeUpdate(): void {
         this.update(this.appState.timeModule.lastTimeDelta);
     }
 

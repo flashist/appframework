@@ -5,6 +5,7 @@ import { AppStateStorage } from "../../state/data/AppStateStorage";
 import { appStorage } from "../../state/AppStateModule";
 import { TimeModuleAppState } from "../data/state/TimeModuleAppState";
 import { TimeModule } from '../TimeModule';
+import { TimeManagerEvent } from "./TimeManagerEvent";
 
 
 export class TimeManager extends BaseAppManager {
@@ -48,5 +49,7 @@ export class TimeManager extends BaseAppManager {
             "timeModule.lastTimeDelta",
             timeDelta
         );
+
+        this.dispatchEvent(TimeManagerEvent.UPDATE);
     }
 }
