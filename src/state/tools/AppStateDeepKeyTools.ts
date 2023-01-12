@@ -19,6 +19,7 @@ export class AppStateDeepKeyTools {
             }
             tempTotalPath += singleSplitPath;
             result.dispatchingChangePaths.push(tempTotalPath);
+            result.dispatchingChangePathsMap[tempTotalPath] = true;
         }
 
         if (!ObjectTools.isSimpleType(value)) {
