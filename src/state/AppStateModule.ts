@@ -29,6 +29,10 @@ export const appStateChangeEvent = <StateType extends object>() => {
     }
 }
 
+//
+window["appStorage"] = appStorage;
+window["appStateChangeEvent"] = appStateChangeEvent;
+
 /**
 //
 export const getAppStateStorage = (): AppStateStorage => {
