@@ -3,14 +3,14 @@ import { Ticker } from "pixi.js";
 import { BaseAppManager } from "../../base/managers/BaseAppManager";
 import { AppStateStorage } from "../../state/data/AppStateStorage";
 import { appStorage } from "../../state/AppStateModule";
-import { TimeModuleAppStateType } from "../data/state/TimeModuleAppStateType";
+import { TimeModuleAppState } from "../data/state/TimeModuleAppState";
 import { TimeModule } from '../TimeModule';
 
 
 export class TimeManager extends BaseAppManager {
 
     protected appStateStorage: AppStateStorage = appStorage();
-    protected timeModuleState: TimeModuleAppStateType = appStorage().getState<TimeModuleAppStateType>();
+    protected timeModuleState: TimeModuleAppState = appStorage().getState<TimeModuleAppState>();
 
     protected addListeners(): void {
         super.addListeners();
@@ -39,12 +39,12 @@ export class TimeManager extends BaseAppManager {
             }
         }
 
-        this.appStateStorage.change<TimeModuleAppStateType>()(
+        this.appStateStorage.change<TimeModuleAppState>()(
             "timeModule.curTime",
             newTime
         );
 
-        this.appStateStorage.change<TimeModuleAppStateType>()(
+        this.appStateStorage.change<TimeModuleAppState>()(
             "timeModule.lastTimeDelta",
             timeDelta
         );

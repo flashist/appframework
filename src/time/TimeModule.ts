@@ -2,7 +2,7 @@ import { serviceLocatorAdd } from "@flashist/flibs";
 
 import { BaseAppModule } from "../base/modules/BaseAppModule";
 import { appStorage } from "../state/AppStateModule";
-import { TimeModuleInitialAppState } from "./data/state/TimeModuleAppStateType";
+import { TimeModuleInitialAppState } from "./data/state/TimeModuleAppState";
 import { TimeManager } from "./managers/TimeManager";
 
 export class TimeModule extends BaseAppModule {

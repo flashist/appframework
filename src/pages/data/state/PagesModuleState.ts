@@ -3,8 +3,8 @@ import { IConstructor } from "@flashist/fcore";
 export const PagesModuleInitialState = {
     pagesModule: {
         pageId: "",
-        pageIdToViewClassMap: {} as {[pageId: string]: IConstructor}
+        pageIdToViewClassMap: {} as { [pageId: string]: IConstructor }
     }
 };
 
-export type PagesModuleStateType = typeof PagesModuleInitialState;
+export type PagesModuleState = typeof PagesModuleInitialState;

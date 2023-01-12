@@ -1,7 +1,7 @@
 import { ArrayTools, UniqueTools } from "@flashist/fcore";
 import { BaseAppManager } from "../../base/managers/BaseAppManager";
 import { appStateChangeEvent, appStorage } from "../../state/AppStateModule";
-import { TimeModuleAppStateType } from "../../time/data/state/TimeModuleAppStateType";
+import { TimeModuleAppState } from "../../time/data/state/TimeModuleAppState";
 import { IComponent } from "../ecs/components/IComponent";
 import { IEntity } from "../ecs/entities/IEntity";
 import { EntitiesQuery } from "../ecs/entities/queries/EntitiesQuery";
@@ -21,14 +21,14 @@ export class ECSManager extends BaseAppManager {
 
     protected systemsList: System[] = [];
 
-    protected appState: TimeModuleAppStateType;
+    protected appState: TimeModuleAppState;
 
     protected entitiesUniquePoolId: string = "ecsEntitiesUniquePool";
 
     protected construction(...args: any[]): void {
         super.construction(...args);
 
-        this.appState = appStorage().getState<TimeModuleAppStateType>();
+        this.appState = appStorage().getState<TimeModuleAppState>();
     }
 
     protected addListeners(): void {
@@ -36,7 +36,7 @@ export class ECSManager extends BaseAppManager {
 
         this.eventListenerHelper.addEventListener(
             this.globalDispatcher,
-            appStateChangeEvent<TimeModuleAppStateType>()("timeModule.lastTimeDelta"),
+            appStateChangeEvent<TimeModuleAppState>()("timeModule.lastTimeDelta"),
             this.onTimeDeltaChange
         );
     }

@@ -1,7 +1,7 @@
 import { ResizableContainer } from "../../display/views/resize/ResizableContainer";
 import { ViewLazyCreationServiceLocatorStack } from "../../display/views/viewstack/ViewLazyCreationServiceLocatorStack";
 import { appStorage } from "../../state/AppStateModule";
-import { PagesModuleStateType } from "../data/state/PagesModuleStateType";
+import { PagesModuleState } from "../data/state/PagesModuleState";
 
 export class PagesView extends ResizableContainer {
 
@@ -34,7 +34,7 @@ export class PagesView extends ResizableContainer {
         //     this.viewStack.addViewClass(tempPageClass, singlePageId);
         // }
 
-        const appState: PagesModuleStateType = appStorage().getState<PagesModuleStateType>();
+        const appState: PagesModuleState = appStorage().getState<PagesModuleState>();
         let pageIds: string[] = Object.keys(appState.pagesModule.pageIdToViewClassMap);
         for (let singlePageId of pageIds) {
             let tempPageClass = appState.pagesModule.pageIdToViewClassMap[singlePageId];
@@ -64,7 +64,7 @@ export class PagesView extends ResizableContainer {
     // }
 
     public commitPagesData(): void {
-        this.viewStack.selectedId = appStorage().getState<PagesModuleStateType>().pagesModule.pageId;
+        this.viewStack.selectedId = appStorage().getState<PagesModuleState>().pagesModule.pageId;
     }
 
     protected arrange(): void {

@@ -8,4 +8,4 @@ export const TimeModuleInitialAppState = {
     }
 };
 
-export type TimeModuleAppStateType = typeof TimeModuleInitialAppState;
+export type TimeModuleAppState = typeof TimeModuleInitialAppState;
