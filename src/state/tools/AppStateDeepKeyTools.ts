@@ -38,9 +38,41 @@ export class AppStateDeepKeyTools {
 
             const valueDeepKeyPaths: string[] = getComplexValueKeyPaths(value, deepKey);
             for (let singleValueDeepKeyPath of valueDeepKeyPaths) {
-                tempTotalPath += "." + singleValueDeepKeyPath;
-                result.dispatchingChangePaths.push(tempTotalPath);
+                // tempTotalPath += "." + singleValueDeepKeyPath;
+                // result.dispatchingChangePaths.push(tempTotalPath);
+                const singleValueHelper: IDeepKeyHelperVO = AppStateDeepKeyTools.splitDeepKeyIntoEvents(singleValueDeepKeyPath);
+                for (let singleSplitDispatchingPart of singleValueHelper.dispatchingChangePaths) {
+                    if (!result.dispatchingChangePathsMap[singleSplitDispatchingPart]) {
+                        result.dispatchingChangePathsMap[singleSplitDispatchingPart] = true;
+                        result.dispatchingChangePaths.push(singleSplitDispatchingPart);
+                    }
+                }
             }
+        }
+
+        return result;
+    }
+
+    static splitDeepKeyIntoEvents(deepKey: string): IDeepKeyHelperVO {
+        const result: IDeepKeyHelperVO = {
+            splitDeepKeyParts: [],
+
+            dispatchingChangePaths: [],
+            dispatchingChangePathsMap: {}
+        };
+
+        let tempTotalPath: string = "";
+        const splitPaths: string[] = deepKey.split(".");
+        for (let singleSplitPath of splitPaths) {
+            result.splitDeepKeyParts.push(singleSplitPath);
+
+            if (tempTotalPath) {
+                tempTotalPath += ".";
+            }
+            tempTotalPath += singleSplitPath;
+            result.dispatchingChangePaths.push(tempTotalPath);
+
+            result.dispatchingChangePathsMap[tempTotalPath] = true;
         }
 
         return result;
