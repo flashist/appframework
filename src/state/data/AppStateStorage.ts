@@ -99,7 +99,7 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
         }
 
         const pathsHelperData: IDeepKeyHelperVO = this.getPathsHelperData(deepKey as string, value);
-        console.log("AppStateStorage | innerChange __ pathsHelperData: ", pathsHelperData);
+        // console.log("AppStateStorage | innerChange __ pathsHelperData: ", pathsHelperData);
 
         let tempObject: any = this.state;
         let nestedPathsCount: number = pathsHelperData.splitDeepKeyParts.length;
