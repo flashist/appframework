@@ -22,14 +22,14 @@ export class ECSManager extends BaseAppManager {
 
     protected systemsList: System[] = [];
 
-    protected appState: TimeModuleAppState;
+    protected timeState: TimeModuleAppState;
 
     protected entitiesUniquePoolId: string = "ecsEntitiesUniquePool";
 
     protected construction(...args: any[]): void {
         super.construction(...args);
 
-        this.appState = appStorage().getState<TimeModuleAppState>();
+        this.timeState = appStorage().getState<TimeModuleAppState>();
     }
 
     protected addListeners(): void {
@@ -43,7 +43,7 @@ export class ECSManager extends BaseAppManager {
     }
 
     protected onTimeUpdate(): void {
-        this.update(this.appState.timeModule.lastTimeDelta);
+        this.update(this.timeState.timeModule.lastTimeDelta);
     }
 
     public entities = {
