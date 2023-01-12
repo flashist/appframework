@@ -43,10 +43,10 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
         }
     }
 
-    protected getPathsHelperData(deepKey: string): IDeepKeyHelperVO {
+    protected getPathsHelperData(deepKey: string, value: any): IDeepKeyHelperVO {
         let result: IDeepKeyHelperVO = this.pathsHelperDataCache[deepKey];
         if (!result) {
-            result = AppStateDeepKeyTools.prepareDeepKeyHelperData(deepKey);
+            result = AppStateDeepKeyTools.prepareDeepKeyHelperData(deepKey, value);
             this.pathsHelperDataCache[deepKey] = result;
         }
 
@@ -69,7 +69,8 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
             );
         }
 
-        const pathsHelperData: IDeepKeyHelperVO = this.getPathsHelperData(deepKey as string);
+        const pathsHelperData: IDeepKeyHelperVO = this.getPathsHelperData(deepKey as string, value);
+        console.log("AppStateStorage | innerChange __ pathsHelperData: ", pathsHelperData);
 
         let tempObject: any = this.state;
         let nestedPathsCount: number = pathsHelperData.splitDeepKeyParts.length;
