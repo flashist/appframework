@@ -43,7 +43,7 @@ export class ECSManager extends BaseAppManager {
     }
 
     protected onTimeUpdate(): void {
-        this.update(this.timeState.timeModule.lastTimeDelta);
+        this.update(this.timeState.time.lastTimeDelta);
     }
 
     public entities = {

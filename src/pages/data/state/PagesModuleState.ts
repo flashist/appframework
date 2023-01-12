@@ -1,7 +1,7 @@
 import { IConstructor } from "@flashist/fcore";
 
 export const PagesModuleInitialState = {
-    pagesModule: {
+    pages: {
         pageId: "",
         pageIdToViewClassMap: {} as { [pageId: string]: IConstructor }
     }

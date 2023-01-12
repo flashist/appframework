@@ -1,5 +1,5 @@
 export const TimeModuleInitialAppState = {
-    timeModule: {
+    time: {
         startTime: 0,
         curTime: 0,
         lastTimeDelta: 0,

@@ -35,9 +35,9 @@ export class PagesView extends ResizableContainer {
         // }
 
         const appState: PagesModuleState = appStorage().getState<PagesModuleState>();
-        let pageIds: string[] = Object.keys(appState.pagesModule.pageIdToViewClassMap);
+        let pageIds: string[] = Object.keys(appState.pages.pageIdToViewClassMap);
         for (let singlePageId of pageIds) {
-            let tempPageClass = appState.pagesModule.pageIdToViewClassMap[singlePageId];
+            let tempPageClass = appState.pages.pageIdToViewClassMap[singlePageId];
             this.viewStack.addViewClass(tempPageClass, singlePageId);
         }
 
@@ -64,7 +64,7 @@ export class PagesView extends ResizableContainer {
     // }
 
     public commitPagesData(): void {
-        this.viewStack.selectedId = appStorage().getState<PagesModuleState>().pagesModule.pageId;
+        this.viewStack.selectedId = appStorage().getState<PagesModuleState>().pages.pageId;
     }
 
     protected arrange(): void {

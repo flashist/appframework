@@ -10,7 +10,7 @@ export class PagesMediator extends BaseAppMediator<PagesView> {
 
         this.eventListenerHelper.addEventListener(
             this.globalDispatcher,
-            appStateChangeEvent<PagesModuleState>()("pagesModule.pageId"),
+            appStateChangeEvent<PagesModuleState>()("pages.pageId"),
             this.onPageIdChange
         );
     }

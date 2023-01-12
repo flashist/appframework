@@ -28,25 +28,25 @@ export class TimeManager extends BaseAppManager {
 
     protected onTick(): void {
         const newTime: number = Date.now();
-        let timeDelta: number = newTime - this.timeModuleState.timeModule.curTime;
-        if (this.timeModuleState.timeModule.minTimeDelta) {
-            if (timeDelta < this.timeModuleState.timeModule.minTimeDelta) {
-                timeDelta = this.timeModuleState.timeModule.minTimeDelta;
+        let timeDelta: number = newTime - this.timeModuleState.time.curTime;
+        if (this.timeModuleState.time.minTimeDelta) {
+            if (timeDelta < this.timeModuleState.time.minTimeDelta) {
+                timeDelta = this.timeModuleState.time.minTimeDelta;
             }
         }
-        if (this.timeModuleState.timeModule.maxTimeDelta) {
-            if (timeDelta > this.timeModuleState.timeModule.maxTimeDelta) {
-                timeDelta = this.timeModuleState.timeModule.maxTimeDelta;
+        if (this.timeModuleState.time.maxTimeDelta) {
+            if (timeDelta > this.timeModuleState.time.maxTimeDelta) {
+                timeDelta = this.timeModuleState.time.maxTimeDelta;
             }
         }
 
         this.appStateStorage.change<TimeModuleAppState>()(
-            "timeModule.curTime",
+            "time.curTime",
             newTime
         );
 
         this.appStateStorage.change<TimeModuleAppState>()(
-            "timeModule.lastTimeDelta",
+            "time.lastTimeDelta",
             timeDelta
         );
 
