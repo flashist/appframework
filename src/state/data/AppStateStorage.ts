@@ -9,6 +9,35 @@ import { IPreChangeHook } from "./IPreChangeHook";
 
 export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
 
+    /**
+     * The purpose of the method is to "prepare" a "wrapper" of a part of a state,
+     * to avoid constant writings of the full path. So instead of:
+     * change<MyType>()("a.b.c.2.test1", value);
+     * change<MyType>()("a.b.c.2.test2", value);
+     * change<MyType>()("a.b.c.2.test3", value);
+     * change<MyType>()("a.b.c.2.test4", value);
+     * 
+     * You can do
+     * const changeWrapper = changePropertyWrapper<MyType>("a.b.c.2");
+     * changeWrapper("test1", value)
+     * changeWrapper("test2", value)
+     * changeWrapper("test3", value)
+     * changeWrapper("test4", value)
+     * 
+     * How to use:
+     *  const testWrapper = this.changePropertyWrapper<TestState>()("b.complexObject");
+        testWrapper("test1", "1")
+
+     * @returns 
+     */
+    public changePropertyWrapper<StateType extends object>() {
+        return <WrapperStateType extends Partial<Flatten<StateType>[DeepKeyType]>, DeepKeyType extends keyof Flatten<StateType>>(key: DeepKeyType) => {
+            return <WrapperDeepKeyType extends keyof Flatten<WrapperStateType>>(wrapperKey: WrapperDeepKeyType, value: Partial<Flatten<WrapperStateType>[WrapperDeepKeyType]>): void => {
+                this.innerChange({} as StateType, (`${key as string}.${wrapperKey as string}`) as any, value);
+            }
+        }
+    }
+
     protected isInitialized: boolean = false;
 
     protected state: object = {};
