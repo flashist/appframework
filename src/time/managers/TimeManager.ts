@@ -50,6 +50,11 @@ export class TimeManager extends BaseAppManager {
             timeDelta
         );
 
+        this.appStateStorage.change<TimeModuleAppState>()(
+            "time.lastTimeDeltaSec",
+            timeDelta / 1000
+        );
+
         this.dispatchEvent(TimeManagerEvent.UPDATE);
     }
 }

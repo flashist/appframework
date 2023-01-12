@@ -3,6 +3,7 @@ export const TimeModuleInitialAppState = {
         startTime: 0,
         curTime: 0,
         lastTimeDelta: 0,
+        lastTimeDeltaSec: 0,
         minTimeDelta: 0,
         maxTimeDelta: 0
     }
