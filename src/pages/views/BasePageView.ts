@@ -17,8 +17,8 @@ export class BasePageView extends BaseAppView {
     protected reversedScaleContentContResizeSizeRect: Rectangle;
     protected contentContLocalPosOfGlobalZero: Point;
 
-    protected reversedScaleContentLocalPosCached: Point;
-    protected reversedScaleContentGlobalPosCached: Point;
+    // protected reversedScaleContentLocalPosCached: Point;
+    // protected reversedScaleContentGlobalPosCached: Point;
 
     protected construction(...args): void {
         super.construction(args);
@@ -27,8 +27,8 @@ export class BasePageView extends BaseAppView {
 
         this.reversedScaleContentContResizeSizeRect = new Rectangle();
         this.contentContLocalPosOfGlobalZero = new Point();
-        this.reversedScaleContentLocalPosCached = new Point();
-        this.reversedScaleContentGlobalPosCached = new Point();
+        // this.reversedScaleContentLocalPosCached = new Point();
+        // this.reversedScaleContentGlobalPosCached = new Point();
 
         this.contentCont = new FContainer();
         this.addChild(this.contentCont);
@@ -100,14 +100,14 @@ export class BasePageView extends BaseAppView {
         this.contentCont.scale.set(tempScale);
         /*this.contentCont.x = this.sizeArea.x + Math.floor((this.resizeSize.x - this.contentCont.width) / 2);
         this.contentCont.y = this.sizeArea.y + Math.floor((this.resizeSize.y - this.contentCont.height) / 2);*/
-        this.contentCont.x = Math.floor((this.resizeSize.x - (this.sizeArea.width * tempScale)) / 2);
-        this.contentCont.x -= Math.floor(this.sizeArea.x * tempScale);
-        this.contentCont.y = Math.floor((this.resizeSize.y - (this.sizeArea.height * tempScale)) / 2);
-        this.contentCont.y -= Math.floor(this.sizeArea.y * tempScale);
+        // this.contentCont.x = Math.floor((this.resizeSize.x - (this.sizeArea.width * tempScale)) / 2);
+        // this.contentCont.x -= Math.floor(this.sizeArea.x * tempScale);
+        // this.contentCont.y = Math.floor((this.resizeSize.y - (this.sizeArea.height * tempScale)) / 2);
+        // this.contentCont.y -= Math.floor(this.sizeArea.y * tempScale);
 
-        this.reversedScaleContentLocalPosCached.x = this.contentCont.x;
-        this.reversedScaleContentLocalPosCached.y = this.contentCont.y;
-        this.contentCont.toGlobal(this.reversedScaleContentLocalPosCached, this.reversedScaleContentGlobalPosCached);
+        // this.reversedScaleContentLocalPosCached.x = this.contentCont.x;
+        // this.reversedScaleContentLocalPosCached.y = this.contentCont.y;
+        // this.contentCont.toGlobal(this.reversedScaleContentLocalPosCached, this.reversedScaleContentGlobalPosCached);
         //
         this.contentCont.toLocal({ x: 0, y: 0 }, null, this.contentContLocalPosOfGlobalZero);
         this.reversedScaleContentContResizeSizeRect.x = this.contentContLocalPosOfGlobalZero.x;
