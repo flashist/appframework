@@ -14,7 +14,7 @@ export class BasePageView extends BaseAppView {
     protected sizeAreaColorAlpha: number = 0.5;
 
     protected contentCont: FContainer;
-    protected reversedScaleContentContResizeSizeRect: Rectangle;
+    protected contentContReversedResizeSize: Rectangle;
     protected contentContLocalPosOfGlobalZero: Point;
 
     // protected reversedScaleContentLocalPosCached: Point;
@@ -25,7 +25,7 @@ export class BasePageView extends BaseAppView {
 
         // appState.app.config = getInstance(AppConfigModel);
 
-        this.reversedScaleContentContResizeSizeRect = new Rectangle();
+        this.contentContReversedResizeSize = new Rectangle();
         this.contentContLocalPosOfGlobalZero = new Point();
         // this.reversedScaleContentLocalPosCached = new Point();
         // this.reversedScaleContentGlobalPosCached = new Point();
@@ -110,9 +110,9 @@ export class BasePageView extends BaseAppView {
         // this.contentCont.toGlobal(this.reversedScaleContentLocalPosCached, this.reversedScaleContentGlobalPosCached);
         //
         this.contentCont.toLocal({ x: 0, y: 0 }, null, this.contentContLocalPosOfGlobalZero);
-        this.reversedScaleContentContResizeSizeRect.x = this.contentContLocalPosOfGlobalZero.x;
-        this.reversedScaleContentContResizeSizeRect.y = this.contentContLocalPosOfGlobalZero.y;
-        this.reversedScaleContentContResizeSizeRect.width = Math.floor(this.resizeSize.x / this.contentCont.scale.x);
-        this.reversedScaleContentContResizeSizeRect.height = Math.floor(this.resizeSize.y / this.contentCont.scale.y);
+        this.contentContReversedResizeSize.x = this.contentContLocalPosOfGlobalZero.x;
+        this.contentContReversedResizeSize.y = this.contentContLocalPosOfGlobalZero.y;
+        this.contentContReversedResizeSize.width = Math.floor(this.resizeSize.x / this.contentCont.scale.x);
+        this.contentContReversedResizeSize.height = Math.floor(this.resizeSize.y / this.contentCont.scale.y);
     }
 }
