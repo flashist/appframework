@@ -14,7 +14,8 @@ export class BasePageView extends BaseAppView {
     protected sizeAreaColorAlpha: number = 0.5;
 
     protected contentCont: FContainer;
-    protected reversedScaleContentScreenRect: Rectangle;
+    protected reversedScaleContentContResizeSizeRect: Rectangle;
+    protected contentContLocalPosOfGlobalZero: Point;
 
     protected reversedScaleContentLocalPosCached: Point;
     protected reversedScaleContentGlobalPosCached: Point;
@@ -24,7 +25,8 @@ export class BasePageView extends BaseAppView {
 
         // appState.app.config = getInstance(AppConfigModel);
 
-        this.reversedScaleContentScreenRect = new Rectangle();
+        this.reversedScaleContentContResizeSizeRect = new Rectangle();
+        this.contentContLocalPosOfGlobalZero = new Point();
         this.reversedScaleContentLocalPosCached = new Point();
         this.reversedScaleContentGlobalPosCached = new Point();
 
@@ -107,9 +109,10 @@ export class BasePageView extends BaseAppView {
         this.reversedScaleContentLocalPosCached.y = this.contentCont.y;
         this.contentCont.toGlobal(this.reversedScaleContentLocalPosCached, this.reversedScaleContentGlobalPosCached);
         //
-        this.reversedScaleContentScreenRect.x = this.reversedScaleContentGlobalPosCached.x;
-        this.reversedScaleContentScreenRect.y = this.reversedScaleContentGlobalPosCached.y;
-        this.reversedScaleContentScreenRect.width = Math.floor(this.resizeSize.x / this.contentCont.scale.x);
-        this.reversedScaleContentScreenRect.height = Math.floor(this.resizeSize.y / this.contentCont.scale.y);
+        this.contentCont.toLocal({ x: 0, y: 0 }, null, this.contentContLocalPosOfGlobalZero);
+        this.reversedScaleContentContResizeSizeRect.x = this.contentContLocalPosOfGlobalZero.x;
+        this.reversedScaleContentContResizeSizeRect.y = this.contentContLocalPosOfGlobalZero.y;
+        this.reversedScaleContentContResizeSizeRect.width = Math.floor(this.resizeSize.x / this.contentCont.scale.x);
+        this.reversedScaleContentContResizeSizeRect.height = Math.floor(this.resizeSize.y / this.contentCont.scale.y);
     }
 }
