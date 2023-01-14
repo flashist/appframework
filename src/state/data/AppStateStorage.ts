@@ -72,11 +72,40 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
         }
     }
 
-    protected getPathsHelperData(deepKey: string, value: any): IDeepKeyHelperVO {
+    protected getPathsHelperData(deepKey: string, value: any = null): IDeepKeyHelperVO {
         let result: IDeepKeyHelperVO = this.pathsHelperDataCache[deepKey];
         if (!result) {
             result = AppStateDeepKeyTools.prepareDeepKeyHelperData(deepKey, value);
             this.pathsHelperDataCache[deepKey] = result;
+        }
+
+        return result;
+    }
+
+    public getValue<StateType extends object>() {
+        return <DeepKeyType extends keyof Flatten<StateType>>(key: DeepKeyType): Partial<Flatten<StateType>[DeepKeyType]> => {
+            return this.innerGetValue({} as StateType, key);
+        }
+    }
+
+    protected innerGetValue<StateType, DeepKeyType extends keyof Flatten<StateType>, ValueType extends Flatten<StateType>[DeepKeyType]>(stateForTypings: StateType, deepKey: DeepKeyType): Partial<ValueType> {
+
+        let result: Partial<ValueType>;
+
+        const pathsHelperData: IDeepKeyHelperVO = this.getPathsHelperData(deepKey as string);
+        // console.log("AppStateStorage | innerChange __ pathsHelperData: ", pathsHelperData);
+
+        let tempObject: any = this.state;
+        let nestedPathsCount: number = pathsHelperData.splitDeepKeyParts.length;
+        for (let nestedPathIndex: number = 0; nestedPathIndex < nestedPathsCount; nestedPathIndex++) {
+            const singlePath: string | number = pathsHelperData.splitDeepKeyParts[nestedPathIndex];
+
+            if (nestedPathIndex === (nestedPathsCount - 1)) {
+                result = tempObject[singlePath]
+
+            } else {
+                tempObject = tempObject[singlePath];
+            }
         }
 
         return result;
