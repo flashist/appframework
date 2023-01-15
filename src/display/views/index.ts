@@ -1,7 +1,6 @@
 // created from 'create-ts-index'
 
 export * from './button';
-export * from './getsize';
 export * from './layout';
 export * from './resize';
 export * from './simplelist';

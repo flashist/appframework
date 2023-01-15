@@ -2,4 +2,3 @@
 
 export * from './LoadGroupName';
 export * from './LoadModule';
-export * from './LoaderId';
