@@ -6,7 +6,7 @@ export class HTMLManager extends BaseAppManager {
 
     protected soundsManager: SoundsManager;
 
-    protected firstClickSoundLocker = {};
+    protected firstClickSoundLocker;
     protected isFirstClickComplete: boolean = false;
 
     protected construction(...args: any[]): void {
@@ -15,6 +15,7 @@ export class HTMLManager extends BaseAppManager {
         this.soundsManager = getInstance(SoundsManager);
 
         // At the beginning set a lock to make sure nothing happens in audio before the 1st click
+        this.firstClickSoundLocker = {};
         this.soundsManager.addDisableLock(this.firstClickSoundLocker);
     }
 
