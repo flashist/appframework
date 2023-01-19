@@ -1,5 +1,5 @@
 import { CommandErrorCode } from "@flashist/fcore";
-import { AbstractLoadItem, getInstance, LoadManager } from "@flashist/flibs";
+import { AbstractLoadItem, GenericObjectsByTypeModel, getInstance, LoadManager } from "@flashist/flibs";
 
 import { BaseAppCommand } from "../../base/commands/BaseAppCommand";
 import { IEntity } from "../../ecs/ecs/entities/IEntity";
@@ -20,6 +20,11 @@ export class ParseStaticItemsConfigCommand extends BaseAppCommand {
                 const staticItems: IEntity[] = staticItemsConfigFileItem.data;
                 for (let singleStaticItem of staticItems) {
                     ecsManager.entities.add(singleStaticItem);
+                }
+
+                if (staticItemsConfigFileItem.data.items) {
+                    const genericObjectsByTypeModel: GenericObjectsByTypeModel = getInstance(GenericObjectsByTypeModel);
+                    genericObjectsByTypeModel.commitItems(staticItemsConfigFileItem.data.items);
                 }
             }
 
