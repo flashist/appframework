@@ -65,7 +65,7 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
         return this.state as any;
     }
 
-    public getChangableState<StateType extends object>(): StateType {
+    public getMutableState<StateType extends object>(): StateType {
         return this.state as any;
     }
 
