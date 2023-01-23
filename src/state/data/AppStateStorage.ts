@@ -65,6 +65,10 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
         return this.state as any;
     }
 
+    public getChangableState<StateType extends object>(): StateType {
+        return this.state as any;
+    }
+
     protected dispatchChangeEvents(helperData: IDeepKeyHelperVO): void {
         for (let singleDispatchingChangePath of helperData.dispatchingChangePaths) {
             const eventName: string = AppStateEventChangeTools.getChangeEvent(singleDispatchingChangePath);
