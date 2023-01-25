@@ -192,8 +192,7 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
 
     // DELETE: START
     public delete<StateType extends object>() {
-        return
-        <
+        return <
             DeepKeyType extends keyof Flatten<StateType>,
             ValueType extends Flatten<StateType>[DeepKeyType] & Array<any> = Flatten<StateType>[DeepKeyType] & Array<any>
         >(key: DeepKeyType) => {
@@ -222,12 +221,11 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
 
     // PUSH: START
     public push<StateType extends object>() {
-        return
-        <
+        return <
             DeepKeyType extends keyof Flatten<StateType>,
             ArrayType extends Flatten<StateType>[DeepKeyType] & Array<any> = Flatten<StateType>[DeepKeyType] & Array<any>
         >(key: DeepKeyType, ...elements: ArrayType) => {
-            this.innerPush({} as StateType, key, ...elements);
+            return this.innerPush({} as StateType, key, ...elements);
         }
     }
 
@@ -253,8 +251,7 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
 
     // SPLICE: START
     public splice<StateType extends object>() {
-        return
-        <
+        return <
             DeepKeyType extends keyof Flatten<StateType>,
             ArrayType extends Flatten<StateType>[DeepKeyType] & Array<any> = Flatten<StateType>[DeepKeyType] & Array<any>
         >(key: DeepKeyType, start: number, deleteCount?: number) => {
