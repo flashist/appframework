@@ -1,8 +1,10 @@
 import { ObjectTools } from "@flashist/fcore";
+import { AppStateChangeType } from "../data/AppStateChangeType";
+import { IAppStateChangeConfigVO } from "../data/IappStateChangeConfigVO";
 import { IDeepKeyHelperVO } from "./INestedPathHelperVO";
 
 export class AppStateDeepKeyTools {
-    static prepareDeepKeyHelperData(deepKey: string, value: any): IDeepKeyHelperVO {
+    static prepareDeepKeyHelperData(deepKey: string, config: IAppStateChangeConfigVO = null): IDeepKeyHelperVO {
         const result: IDeepKeyHelperVO = {
             splitDeepKeyParts: [],
             dispatchingChangePaths: [],
@@ -22,31 +24,33 @@ export class AppStateDeepKeyTools {
             result.dispatchingChangePathsMap[tempTotalPath] = true;
         }
 
-        if (!ObjectTools.isSimpleType(value)) {
-            const getComplexValueKeyPaths = (value: any, valueDeepKey: string): string[] => {
-                let result: string[] = [valueDeepKey];
+        if (config && config.changeType === AppStateChangeType.CHANGE) {
+            if (!ObjectTools.isSimpleType(config.value)) {
+                const getComplexValueKeyPaths = (value: any, valueDeepKey: string): string[] => {
+                    let result: string[] = [valueDeepKey];
 
-                if (!ObjectTools.isSimpleType(value)) {
-                    const keys: string[] = Object.keys(value);
-                    for (let singleKey of keys) {
-                        const singlePropValue: any = value[singleKey]
-                        const singleKeyDeepKeyPaths: string[] = getComplexValueKeyPaths(singlePropValue, `${valueDeepKey}.${singleKey}`);
-                        result.push(...singleKeyDeepKeyPaths);
+                    if (!ObjectTools.isSimpleType(value)) {
+                        const keys: string[] = Object.keys(value);
+                        for (let singleKey of keys) {
+                            const singlePropValue: any = value[singleKey]
+                            const singleKeyDeepKeyPaths: string[] = getComplexValueKeyPaths(singlePropValue, `${valueDeepKey}.${singleKey}`);
+                            result.push(...singleKeyDeepKeyPaths);
+                        }
                     }
+
+                    return result;
                 }
 
-                return result;
-            }
-
-            const valueDeepKeyPaths: string[] = getComplexValueKeyPaths(value, deepKey);
-            for (let singleValueDeepKeyPath of valueDeepKeyPaths) {
-                // tempTotalPath += "." + singleValueDeepKeyPath;
-                // result.dispatchingChangePaths.push(tempTotalPath);
-                const singleValueHelper: IDeepKeyHelperVO = AppStateDeepKeyTools.splitDeepKeyIntoEvents(singleValueDeepKeyPath);
-                for (let singleSplitDispatchingPart of singleValueHelper.dispatchingChangePaths) {
-                    if (!result.dispatchingChangePathsMap[singleSplitDispatchingPart]) {
-                        result.dispatchingChangePathsMap[singleSplitDispatchingPart] = true;
-                        result.dispatchingChangePaths.push(singleSplitDispatchingPart);
+                const valueDeepKeyPaths: string[] = getComplexValueKeyPaths(config.value, deepKey);
+                for (let singleValueDeepKeyPath of valueDeepKeyPaths) {
+                    // tempTotalPath += "." + singleValueDeepKeyPath;
+                    // result.dispatchingChangePaths.push(tempTotalPath);
+                    const singleValueHelper: IDeepKeyHelperVO = AppStateDeepKeyTools.splitDeepKeyIntoEvents(singleValueDeepKeyPath);
+                    for (let singleSplitDispatchingPart of singleValueHelper.dispatchingChangePaths) {
+                        if (!result.dispatchingChangePathsMap[singleSplitDispatchingPart]) {
+                            result.dispatchingChangePathsMap[singleSplitDispatchingPart] = true;
+                            result.dispatchingChangePaths.push(singleSplitDispatchingPart);
+                        }
                     }
                 }
             }

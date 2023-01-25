@@ -6,6 +6,8 @@ import { AppStateDeepKeyTools } from "../tools/AppStateDeepKeyTools";
 import { IDeepKeyHelperVO } from "../tools/INestedPathHelperVO";
 import { DeepReadonly } from "./DeepReadableTypings";
 import { IPreChangeHook } from "./IPreChangeHook";
+import { IAppStateChangeConfigVO } from "./IappStateChangeConfigVO";
+import { AppStateChangeType } from "./AppStateChangeType";
 
 export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
 
@@ -76,14 +78,26 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
         }
     }
 
-    protected getPathsHelperData(deepKey: string, value: any = null): IDeepKeyHelperVO {
+    protected getPathsHelperData(deepKey: string, config: IAppStateChangeConfigVO = null): IDeepKeyHelperVO {
         let result: IDeepKeyHelperVO = this.pathsHelperDataCache[deepKey];
         if (!result) {
-            result = AppStateDeepKeyTools.prepareDeepKeyHelperData(deepKey, value);
+            result = AppStateDeepKeyTools.prepareDeepKeyHelperData(deepKey, config);
             this.pathsHelperDataCache[deepKey] = result;
         }
 
         return result;
+    }
+
+    protected triggerPreChangeHooks<StateType, DeepKeyType extends keyof Flatten<StateType>>(stateForTypings: StateType, deepKey: DeepKeyType, config: IAppStateChangeConfigVO): void {
+        if (this.preChangeHooks.length <= 0) {
+            return;
+        }
+
+        this.preChangeHooks.forEach(
+            (item: IPreChangeHook) => {
+                item(stateForTypings, deepKey, config);
+            }
+        );
     }
 
     public getValue<StateType extends object>() {
@@ -96,7 +110,7 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
 
         let result: Partial<ValueType>;
 
-        const pathsHelperData: IDeepKeyHelperVO = this.getPathsHelperData(deepKey as string);
+        const pathsHelperData: IDeepKeyHelperVO = this.getPathsHelperData(deepKey as string, null);
         // console.log("AppStateStorage | innerChange __ pathsHelperData: ", pathsHelperData);
 
         let tempObject: any = this.state;
@@ -115,23 +129,10 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
         return result;
     }
 
-    public change<StateType extends object>() {
-        return <DeepKeyType extends keyof Flatten<StateType>>(key: DeepKeyType, value: Partial<Flatten<StateType>[DeepKeyType]>): void => {
-            this.innerChange({} as StateType, key, value);
-        }
-    }
+    protected processStateAction<StateType, DeepKeyType extends keyof Flatten<StateType>, ValueType extends Flatten<StateType>[DeepKeyType]>(stateForTypings: StateType, deepKey: DeepKeyType, config: IAppStateChangeConfigVO<ValueType>) {
+        let result: any;
 
-    protected innerChange<StateType, DeepKeyType extends keyof Flatten<StateType>, ValueType extends Flatten<StateType>[DeepKeyType]>(stateForTypings: StateType, deepKey: DeepKeyType, value: Partial<ValueType>): void {
-        // Pre Change Hooks: execute pre-change-hooks on every element: e.g. ecs module hooks might change prepare the new ecs components to sort their container-type-keys to make sure they are always the same q
-        if (this.preChangeHooks.length > 0) {
-            this.preChangeHooks.forEach(
-                (item: IPreChangeHook) => {
-                    item<StateType, DeepKeyType, ValueType>(stateForTypings, deepKey, value);
-                }
-            );
-        }
-
-        const pathsHelperData: IDeepKeyHelperVO = this.getPathsHelperData(deepKey as string, value);
+        const pathsHelperData: IDeepKeyHelperVO = this.getPathsHelperData(deepKey as string, config);
         // console.log("AppStateStorage | innerChange __ pathsHelperData: ", pathsHelperData);
 
         let tempObject: any = this.state;
@@ -140,7 +141,21 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
             const singlePath: string | number = pathsHelperData.splitDeepKeyParts[nestedPathIndex];
 
             if (nestedPathIndex === (nestedPathsCount - 1)) {
-                ObjectTools.copySinglePropFromValue(tempObject, singlePath as string, value);
+                // ObjectTools.copySinglePropFromValue(tempObject, singlePath as string, value);
+
+                if (config.changeType === AppStateChangeType.CHANGE) {
+                    ObjectTools.copySinglePropFromValue(tempObject, singlePath as string, config.value);
+
+                } else if (config.changeType === AppStateChangeType.DELETE) {
+                    result = tempObject[singlePath];
+                    delete tempObject[singlePath];
+
+                } else if (config.changeType === AppStateChangeType.PUSH) {
+                    tempObject[singlePath].push(...config.elements);
+
+                } else if (config.changeType === AppStateChangeType.SPLICE) {
+                    result = tempObject[singlePath].splice(config.start, config.deleteCount);
+                }
 
             } else {
                 tempObject = tempObject[singlePath];
@@ -148,7 +163,124 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
         }
 
         this.dispatchChangeEvents(pathsHelperData);
+
+        return result;
     }
+
+
+    // CHANGE: START
+
+    public change<StateType extends object>() {
+        return <DeepKeyType extends keyof Flatten<StateType>>(key: DeepKeyType, value: Partial<Flatten<StateType>[DeepKeyType]>): void => {
+            this.innerChange({} as StateType, key, value);
+        }
+    }
+
+    protected innerChange<StateType, DeepKeyType extends keyof Flatten<StateType>, ValueType extends Flatten<StateType>[DeepKeyType]>(stateForTypings: StateType, deepKey: DeepKeyType, value: Partial<ValueType>): void {
+        const config: IAppStateChangeConfigVO = {
+            changeType: AppStateChangeType.SPLICE,
+            value: value
+        };
+
+        // Pre Change Hooks: execute pre-change-hooks on every element: e.g. ecs module hooks might change prepare the new ecs components to sort their container-type-keys to make sure they are always the same q
+        this.triggerPreChangeHooks(stateForTypings, deepKey, config);
+
+        this.processStateAction(stateForTypings, deepKey, config);
+    }
+
+    // CHANGE: END
+
+    // DELETE: START
+    public delete<StateType extends object>() {
+        return
+        <
+            DeepKeyType extends keyof Flatten<StateType>,
+            ValueType extends Flatten<StateType>[DeepKeyType] & Array<any> = Flatten<StateType>[DeepKeyType] & Array<any>
+        >(key: DeepKeyType): ValueType => {
+            return this.innerDelete({} as StateType, key);
+        }
+    }
+
+    protected innerDelete
+        <
+            StateType,
+            DeepKeyType extends keyof Flatten<StateType>,
+            ValueType extends Flatten<StateType>[DeepKeyType]
+        >(stateForTypings: StateType, deepKey: DeepKeyType): ValueType {
+
+        const config: IAppStateChangeConfigVO = {
+            changeType: AppStateChangeType.DELETE
+        };
+
+        // Pre Change Hooks: execute pre-change-hooks on every element: e.g. ecs module hooks might change prepare the new ecs components to sort their container-type-keys to make sure they are always the same q
+        this.triggerPreChangeHooks(stateForTypings, deepKey, config);
+
+        return this.processStateAction(stateForTypings, deepKey, config);
+    }
+    // DELETE: END
+
+
+    // PUSH: START
+    public push<StateType extends object>() {
+        return
+        <
+            DeepKeyType extends keyof Flatten<StateType>,
+            ArrayType extends Flatten<StateType>[DeepKeyType] & Array<any> = Flatten<StateType>[DeepKeyType] & Array<any>
+        >(key: DeepKeyType, ...elements: ArrayType) => {
+            this.innerPush({} as StateType, key, ...elements);
+        }
+    }
+
+    protected innerPush
+        <
+            StateType,
+            DeepKeyType extends keyof Flatten<StateType>,
+            ArrayType extends Flatten<StateType>[DeepKeyType] & Array<any> = Flatten<StateType>[DeepKeyType] & Array<any>
+        >(stateForTypings: StateType, deepKey: DeepKeyType, ...elements: ArrayType) {
+
+        const config: IAppStateChangeConfigVO = {
+            changeType: AppStateChangeType.SPLICE,
+            elements: elements
+        };
+
+        // Pre Change Hooks: execute pre-change-hooks on every element: e.g. ecs module hooks might change prepare the new ecs components to sort their container-type-keys to make sure they are always the same q
+        this.triggerPreChangeHooks(stateForTypings, deepKey, config);
+
+        this.processStateAction(stateForTypings, deepKey, config);
+    }
+    // PUSH: END
+
+
+    // SPLICE: START
+    public splice<StateType extends object>() {
+        return
+        <
+            DeepKeyType extends keyof Flatten<StateType>,
+            ArrayType extends Flatten<StateType>[DeepKeyType] & Array<any> = Flatten<StateType>[DeepKeyType] & Array<any>
+        >(key: DeepKeyType, start: number, deleteCount?: number): ArrayType[] => {
+            return this.innerSplice({} as StateType, key, start, deleteCount);
+        }
+    }
+
+    protected innerSplice
+        <
+            StateType,
+            DeepKeyType extends keyof Flatten<StateType>,
+            ArrayType extends Flatten<StateType>[DeepKeyType]
+        >(stateForTypings: StateType, deepKey: DeepKeyType, start: number, deleteCount?: number): ArrayType[] {
+
+        const config: IAppStateChangeConfigVO = {
+            changeType: AppStateChangeType.SPLICE,
+            start: start,
+            deleteCount: deleteCount
+        };
+
+        // Pre Change Hooks: execute pre-change-hooks on every element: e.g. ecs module hooks might change prepare the new ecs components to sort their container-type-keys to make sure they are always the same q
+        this.triggerPreChangeHooks(stateForTypings, deepKey, config);
+
+        return this.processStateAction(stateForTypings, deepKey, config);
+    }
+    // SPLICE: END
 
     // // public change<StateType extends object, ChangeType>(nestedPaths: ObjectNestedPathsType<StateType>, value: ChangeType): void {
     // public change<StateType, DeepKeyType extends keyof Flatten<StateType>>(obj: StateType, key: DeepKeyType, value: Flatten<StateType>[DeepKeyType]): void {
