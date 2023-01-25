@@ -178,7 +178,7 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
 
     protected innerChange<StateType, DeepKeyType extends keyof Flatten<StateType>, ValueType extends Flatten<StateType>[DeepKeyType]>(stateForTypings: StateType, deepKey: DeepKeyType, value: Partial<ValueType>): void {
         const config: IAppStateChangeConfigVO = {
-            changeType: AppStateChangeType.SPLICE,
+            changeType: AppStateChangeType.CHANGE,
             value: value
         };
 
@@ -237,7 +237,7 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
         >(stateForTypings: StateType, deepKey: DeepKeyType, ...elements: ArrayType): void {
 
         const config: IAppStateChangeConfigVO = {
-            changeType: AppStateChangeType.SPLICE,
+            changeType: AppStateChangeType.PUSH,
             elements: elements
         };
 
