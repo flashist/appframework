@@ -196,7 +196,7 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
         <
             DeepKeyType extends keyof Flatten<StateType>,
             ValueType extends Flatten<StateType>[DeepKeyType] & Array<any> = Flatten<StateType>[DeepKeyType] & Array<any>
-        >(key: DeepKeyType): ValueType => {
+        >(key: DeepKeyType) => {
             return this.innerDelete({} as StateType, key);
         }
     }
@@ -236,7 +236,7 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
             StateType,
             DeepKeyType extends keyof Flatten<StateType>,
             ArrayType extends Flatten<StateType>[DeepKeyType] & Array<any> = Flatten<StateType>[DeepKeyType] & Array<any>
-        >(stateForTypings: StateType, deepKey: DeepKeyType, ...elements: ArrayType) {
+        >(stateForTypings: StateType, deepKey: DeepKeyType, ...elements: ArrayType): void {
 
         const config: IAppStateChangeConfigVO = {
             changeType: AppStateChangeType.SPLICE,
@@ -257,7 +257,7 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
         <
             DeepKeyType extends keyof Flatten<StateType>,
             ArrayType extends Flatten<StateType>[DeepKeyType] & Array<any> = Flatten<StateType>[DeepKeyType] & Array<any>
-        >(key: DeepKeyType, start: number, deleteCount?: number): ArrayType[] => {
+        >(key: DeepKeyType, start: number, deleteCount?: number) => {
             return this.innerSplice({} as StateType, key, start, deleteCount);
         }
     }
