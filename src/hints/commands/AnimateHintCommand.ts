@@ -42,7 +42,7 @@ export class AnimateHintCommand extends BaseAppCommand {
         this.hint.x = localPos.x;
         this.hint.y = localPos.y;
 
-        const tempFinalY: number = localPos.y + NumberTools.getRandom(
+        const tempFinalY: number = localPos.y + NumberTools.getRandomFloat(
             this.config.finalGlobalPosMinChange.y,
             this.config.finalGlobalPosMaxChange.y
         );
@@ -55,7 +55,7 @@ export class AnimateHintCommand extends BaseAppCommand {
             }
         );
 
-        const tempFinalX: number = localPos.x + NumberTools.getRandom(
+        const tempFinalX: number = localPos.x + NumberTools.getRandomFloat(
             this.config.finalGlobalPosMinChange.x,
             this.config.finalGlobalPosMaxChange.x
         );
