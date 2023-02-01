@@ -12,6 +12,7 @@ import {
 } from "./SimpleImageButtonState";
 import { ResizableContainer } from "../../resize";
 import { IToggableItem } from "../../togglegroup";
+import { SimpleButtonState } from "../SimpleButtonState";
 
 export class SimpleImageButton<DataType extends object = object> extends ResizableContainer<DataType> implements IToggableItem {
 
@@ -140,6 +141,12 @@ export class SimpleImageButton<DataType extends object = object> extends Resizab
         }
 
         this._enabled = value;
+
+        if (this._enabled) {
+            this.state = this.findStateValue(SimpleButtonState.NORMAL);
+        } else {
+            this.state = this.findStateValue(SimpleButtonState.DISABLED);
+        }
 
         this.commitData();
     }
