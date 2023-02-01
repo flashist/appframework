@@ -177,7 +177,7 @@ export class SimpleImageButton<DataType extends object = object> extends Resizab
             }
         }
         if (!this.config.states[tempConfigState]) {
-            tempConfigState = SimpleImageButtonState.NORMAL;
+            tempConfigState = this.findStateValue(SimpleImageButtonState.NORMAL);
         }
 
         let tempConfig: ISimpleImageButtonStateVO = this.config.states[tempConfigState];
