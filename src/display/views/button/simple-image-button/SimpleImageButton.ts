@@ -235,12 +235,17 @@ export class SimpleImageButton<DataType extends object = object> extends Resizab
     protected findStateValue(normalState: string): string {
         let result: string;
 
-        if (this.selected) {
-            result = SimpleImageButtonStateNormalToSelectedMap[normalState];
-        }
+        if (this.enabled) {
+            if (this.selected) {
+                result = SimpleImageButtonStateNormalToSelectedMap[normalState];
+            }
 
-        if (!result) {
-            result = normalState;
+            if (!result) {
+                result = normalState;
+            }
+
+        } else {
+            result = SimpleButtonState.DISABLED;
         }
 
         return result;
