@@ -79,11 +79,22 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
     }
 
     protected getPathsHelperData(deepKey: string, config: IAppStateChangeConfigVO = null): IDeepKeyHelperVO {
-        let result: IDeepKeyHelperVO = this.pathsHelperDataCache[deepKey];
-        if (!result) {
+        let result: IDeepKeyHelperVO = null;
+        // Simple data changes can be cached
+        if (!config.value || ObjectTools.isSimpleType(config.value)) {
+            result = this.pathsHelperDataCache[deepKey];
+            if (!result) {
+                result = AppStateDeepKeyTools.prepareDeepKeyHelperData(deepKey, config);
+                this.pathsHelperDataCache[deepKey] = result;
+            }
+
+            // Complex data changes can't be cached and will have to be recalculated every time
+        } else {
+            //  TODO: find a way to cach complex-data changes
+            //  (I am not sure it's possible, because it depends on the value-object structure which can be changed, even if the deepKey is the same)
             result = AppStateDeepKeyTools.prepareDeepKeyHelperData(deepKey, config);
-            this.pathsHelperDataCache[deepKey] = result;
         }
+
 
         return result;
     }
