@@ -152,36 +152,6 @@ export class SimpleImageButton<DataType extends object = object> extends Resizab
     protected commitData(): void {
         super.commitData();
 
-        if (this.lockState) {
-            return;
-        }
-
-        let tempConfigState: string = this.state;
-        if (!this.config.states[tempConfigState]) {
-            if (this.selected) {
-                tempConfigState = SimpleImageButtonStateSelectedToNormalMap[this.state];
-            }
-        }
-        if (!this.config.states[tempConfigState]) {
-            tempConfigState = this.findStateValue(SimpleImageButtonState.NORMAL);
-        }
-
-        let tempConfig: ISimpleImageButtonStateVO = this.config.states[tempConfigState];
-        if (tempConfig.alpha || tempConfig.alpha === 0) {
-            this.alpha = tempConfig.alpha;
-        }
-        if (tempConfig.imageId || tempConfig.imageId === "") {
-            if (this.image) {
-                DisplayTools.childRemoveItselfFromParent(this.image);
-                this.image = null;
-            }
-
-            if (tempConfig.imageId) {
-                this.image = Sprite.from(tempConfig.imageId);
-                this.contentCont.addChild(this.image);
-            }
-        }
-
         if (this.enabled) {
             this.interactive = true;
             this.buttonMode = true;
@@ -191,7 +161,44 @@ export class SimpleImageButton<DataType extends object = object> extends Resizab
             this.buttonMode = false;
         }
 
-        this.lastProcessedState = tempConfigState;
+        if (!this.lockState) {
+            let tempConfigState: string = this.state;
+            if (!this.config.states[tempConfigState]) {
+                if (this.selected) {
+                    tempConfigState = SimpleImageButtonStateSelectedToNormalMap[this.state];
+                }
+            }
+            if (!this.config.states[tempConfigState]) {
+                tempConfigState = this.findStateValue(SimpleImageButtonState.NORMAL);
+            }
+
+            let tempConfig: ISimpleImageButtonStateVO = this.config.states[tempConfigState];
+            if (tempConfig.alpha || tempConfig.alpha === 0) {
+                this.alpha = tempConfig.alpha;
+            }
+            if (tempConfig.imageId || tempConfig.imageId === "") {
+                if (this.image) {
+                    DisplayTools.childRemoveItselfFromParent(this.image);
+                    this.image = null;
+                }
+
+                if (tempConfig.imageId) {
+                    this.image = Sprite.from(tempConfig.imageId);
+                    this.contentCont.addChild(this.image);
+                }
+            }
+
+            if (this.enabled) {
+                this.interactive = true;
+                this.buttonMode = true;
+
+            } else {
+                this.interactive = false;
+                this.buttonMode = false;
+            }
+
+            this.lastProcessedState = tempConfigState;
+        }
 
         this.arrange();
     }
