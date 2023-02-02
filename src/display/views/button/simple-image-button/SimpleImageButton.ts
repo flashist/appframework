@@ -152,7 +152,7 @@ export class SimpleImageButton<DataType extends object = object> extends Resizab
     protected commitData(): void {
         super.commitData();
 
-        if (!this.lockState) {
+        if (this.lockState) {
             return;
         }
 
