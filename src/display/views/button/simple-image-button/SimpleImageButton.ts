@@ -25,11 +25,11 @@ export class SimpleImageButton<DataType extends object = object> extends Resizab
     protected config: SimpleImageButtonConfig;
 
     protected contentCont: FContainer;
-    // protected bg: Graphics | Sprite;
-    // protected label: FLabel;
     protected image: Sprite;
 
     protected lastProcessedState: string;
+
+    private _lockState: boolean;
 
     constructor(config: Partial<SimpleImageButtonConfig>) {
         super(config);
@@ -45,24 +45,8 @@ export class SimpleImageButton<DataType extends object = object> extends Resizab
         this.contentCont = new FContainer();
         this.addChild(this.contentCont);
 
-        // this.bg = this.createBg();
-        // this.contentCont.addChild(this.bg);
-
-        // this.label = new FLabel(this.config.labelConfig);
-        // this.contentCont.addChild(this.label);
-        // //
-        // this.label.interactive = true;
-        // this.label.interactiveChildren = true;
-
         this.state = SimpleImageButtonState.NORMAL;
         this.enabled = true;
-
-        // if (!this.config.bgConfig?.resizeBg) {
-        //     this.resize(
-        //         this.bg.width,
-        //         this.bg.height
-        //     );
-        // }
     }
 
     protected addListeners(): void {
@@ -151,15 +135,6 @@ export class SimpleImageButton<DataType extends object = object> extends Resizab
         this.commitData();
     }
 
-    // public get text(): string {
-    //     return this.label.text;
-    // }
-    //
-    // public set text(value: string) {
-    //     this.label.text = value;
-    //     this.arrange();
-    // }
-
     public get state(): string {
         return this._state;
     }
@@ -176,6 +151,10 @@ export class SimpleImageButton<DataType extends object = object> extends Resizab
 
     protected commitData(): void {
         super.commitData();
+
+        if (!this.lockState) {
+            return;
+        }
 
         let tempConfigState: string = this.state;
         if (!this.config.states[tempConfigState]) {
@@ -214,7 +193,6 @@ export class SimpleImageButton<DataType extends object = object> extends Resizab
 
         this.lastProcessedState = tempConfigState;
 
-        // this.updateBg();
         this.arrange();
     }
 
@@ -251,43 +229,16 @@ export class SimpleImageButton<DataType extends object = object> extends Resizab
         return result;
     }
 
-    // protected createBg(): Sprite | Graphics {
-    //     let result: Sprite | Graphics;
-    //     if (this.config.bgConfig?.image) {
-    //         result = Sprite.from(this.config.bgConfig.image.imageId);
+    public get lockState(): boolean {
+        return this._lockState;
+    }
+    public set lockState(value: boolean) {
+        if (value === this._lockState) {
+            return;
+        }
 
-    //     } else {
-    //         result = new Graphics();
-    //     }
+        this._lockState = value;
 
-    //     return result;
-    // }
-
-    // protected updateBg(): void {
-    //     if (this.config.bgConfig?.image) {
-    //         if (this.config.bgConfig.resizeBg) {
-    //             this.bg.width = this.resizeSize.x;
-    //             this.bg.height = this.resizeSize.y;
-    //         }
-
-    //     } else if (this.config.bgConfig?.vector) {
-    //         const vectorBg: Graphics = this.bg as Graphics;
-
-    //         vectorBg.clear();
-    //         let bgColor: number = this.config.bgConfig.vector.bgColor;
-    //         if (this.state === SimpleImageButtonState.SELECTED_NORMAL || this.state === SimpleImageButtonState.OVER || this.state === SimpleImageButtonState.SELECTED_OVER) {
-    //             bgColor = this.config.bgConfig.vector.overBgColor;
-    //         }
-
-    //         vectorBg.beginFill(bgColor, this.config.bgConfig.vector.bgAlpha);
-    //         vectorBg.lineStyle(
-    //             this.config.bgConfig.vector.bgBorderWidth,
-    //             this.config.bgConfig.vector.bgBorderColor,
-    //             this.config.bgConfig.vector.bgBorderAlpha,
-    //             0
-    //         );
-    //         vectorBg.drawRect(0, 0, this.resizeSize.x, this.resizeSize.y);
-    //         vectorBg.endFill();
-    //     }
-    // }
+        this.commitData();
+    }
 }
