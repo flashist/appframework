@@ -81,7 +81,7 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
     protected getPathsHelperData(deepKey: string, config: IAppStateChangeConfigVO = null): IDeepKeyHelperVO {
         let result: IDeepKeyHelperVO = null;
         // Simple data changes can be cached
-        if (!config.value || ObjectTools.isSimpleType(config.value)) {
+        if (config && ObjectTools.isSimpleType(config.value)) {
             result = this.pathsHelperDataCache[deepKey];
             if (!result) {
                 result = AppStateDeepKeyTools.prepareDeepKeyHelperData(deepKey, config);
