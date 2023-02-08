@@ -96,7 +96,7 @@ export class SimpleImageButton<DataType extends object = object> extends Resizab
 
     protected onTap(): void {
         // this.onOut();
-        this.onOver();
+        this.onOver();´
     }
 
     protected arrange(): void {

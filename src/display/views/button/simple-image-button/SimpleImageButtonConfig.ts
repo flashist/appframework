@@ -1,7 +1,7 @@
 import {SimpleImageButtonState} from "./SimpleImageButtonState";
 
 export const SimpleImageButtonDefaultConfig = {
-    states: {} as Record<SimpleImageButtonState, ISimpleImageButtonStateVO>
+    states: {} as Record<string, ISimpleImageButtonStateVO>
 }
 
 export interface ISimpleImageButtonStateVO {
