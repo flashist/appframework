@@ -25,14 +25,13 @@ export class HTMLManager extends BaseAppManager {
         this.eventListenerHelper.addEventListener(
             document,
             "click",
-            () => {
-                if (this.isFirstClickComplete) {
-                    return;
-                }
-                this.isFirstClickComplete = true;
+            this.onInteraction
+        );
 
-                this.soundsManager.removeDisableLock(this.firstClickSoundLocker);
-            }
+        this.eventListenerHelper.addEventListener(
+            document,
+            "onTouchEnd",
+            this.onInteraction
         );
 
         this.eventListenerHelper.addEventListener(
@@ -46,6 +45,15 @@ export class HTMLManager extends BaseAppManager {
             "blur",
             this.onBlur
         );
+    }
+
+    protected onInteraction(): void {
+        if (this.isFirstClickComplete) {
+            return;
+        }
+        this.isFirstClickComplete = true;
+
+        this.soundsManager.removeDisableLock(this.firstClickSoundLocker);
     }
 
     protected onFocus(): void {
