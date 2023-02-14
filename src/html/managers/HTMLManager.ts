@@ -30,7 +30,7 @@ export class HTMLManager extends BaseAppManager {
 
         this.eventListenerHelper.addEventListener(
             document,
-            "onTouchEnd",
+            "touchend",
             this.onInteraction
         );
 
