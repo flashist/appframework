@@ -2,19 +2,20 @@ import { ResizableContainer } from "../../display/views/resize/ResizableContaine
 import { ViewLazyCreationServiceLocatorStack } from "../../display/views/viewstack/ViewLazyCreationServiceLocatorStack";
 import { appStorage } from "../../state/AppStateModule";
 import { PagesModuleState } from "../data/state/PagesModuleState";
+import {BasePageView} from "./BasePageView";
 
 export class PagesView extends ResizableContainer {
 
     // protected pagesModel: PagesModel;
 
-    public viewStack: ViewLazyCreationServiceLocatorStack;
+    protected viewStack: ViewLazyCreationServiceLocatorStack<BasePageView>;
 
     protected construction(...args): void {
         super.construction(args);
 
         // this.pagesModel = getInstance(PagesModel);
 
-        this.viewStack = new ViewLazyCreationServiceLocatorStack();
+        this.viewStack = new ViewLazyCreationServiceLocatorStack<BasePageView>();
         this.addChild(this.viewStack);
 
         // let pageIdToViewClassMap = this.pagesModel.getPageIdToViewClassMap();
@@ -71,5 +72,17 @@ export class PagesView extends ResizableContainer {
         super.arrange();
 
         this.viewStack.resize(this.resizeSize.x, this.resizeSize.y);
+
+        if (this.viewStack.selectedItem) {
+            this.viewStack.selectedItem.contentScale;
+
+            appStorage().change<PagesModuleState>()(
+                "pages.activePageContentScale",
+                {
+                    x: this.viewStack.selectedItem.contentScale.x,
+                    y: this.viewStack.selectedItem.contentScale.y
+                }
+            );
+        }
     }
 }

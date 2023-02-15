@@ -115,4 +115,8 @@ export class BasePageView extends BaseAppView {
         this.contentContReversedResizeSize.width = Math.floor(this.resizeSize.x / this.contentCont.scale.x);
         this.contentContReversedResizeSize.height = Math.floor(this.resizeSize.y / this.contentCont.scale.y);
     }
+
+    public get contentScale(): Point {
+        return this.contentCont.scale.clone();
+    }
 }
