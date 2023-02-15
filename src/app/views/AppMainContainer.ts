@@ -2,6 +2,7 @@ import { PagesView } from "../../pages/views/PagesView";
 import { ResizableContainer } from "../../display/views/resize/ResizableContainer";
 import { BaseAppView } from "../../base/views/BaseAppView";
 import { DisplayObjectContainer, Graphics } from '@flashist/flibs';
+import {AppMainContainerEvent} from "./AppMainContainerEvent";
 
 export class AppMainContainer extends BaseAppView {
 
@@ -21,6 +22,8 @@ export class AppMainContainer extends BaseAppView {
     protected arrange(): void {
         super.arrange();
 
+        this.globalDispatcher.dispatchEvent(AppMainContainerEvent.PRE_RESIZE);
+
         // Make the bg a bit bigger to cover the whole screen 100%
         this.bg.width = this.resizeSize.x + 2;
         this.bg.height = this.resizeSize.y + 2;
@@ -29,6 +32,8 @@ export class AppMainContainer extends BaseAppView {
             this.resizeSize.x,
             this.resizeSize.y
         );
+
+        this.globalDispatcher.dispatchEvent(AppMainContainerEvent.POST_RESIZE);
     }
 
     protected createBg(): DisplayObjectContainer {
