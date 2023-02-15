@@ -76,15 +76,15 @@ export class PagesView extends ResizableContainer {
         this.viewStack.resize(this.resizeSize.x, this.resizeSize.y);
 
         if (this.viewStack.selectedItem) {
-            this.viewStack.selectedItem.contentScale;
-
-            appStorage().change<PagesModuleState>()(
-                "pages.activePageContentScale",
-                {
-                    x: this.viewStack.selectedItem.contentScale.x,
-                    y: this.viewStack.selectedItem.contentScale.y
-                }
-            );
+            if (this.viewStack.selectedItem.contentScale) {
+                appStorage().change<PagesModuleState>()(
+                    "pages.activePageContentScale",
+                    {
+                        x: this.viewStack.selectedItem.contentScale.x,
+                        y: this.viewStack.selectedItem.contentScale.y
+                    }
+                );
+            }
         }
     }
 }
