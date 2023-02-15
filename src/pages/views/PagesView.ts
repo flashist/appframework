@@ -66,6 +66,8 @@ export class PagesView extends ResizableContainer {
 
     public commitPagesData(): void {
         this.viewStack.selectedId = appStorage().getState<PagesModuleState>().pages.pageId;
+
+        this.arrange();
     }
 
     protected arrange(): void {
