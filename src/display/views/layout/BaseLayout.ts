@@ -141,8 +141,8 @@ export abstract class BaseLayout {
         var result: Point = new Point();
 
         var maxChildSize: Point = this.getMaxChildSize(container);
-        result.x = this.settings.paddingX * 2 + maxChildSize.x * columnsCount + (this.settings.spacingY * (columnsCount - 1));
-        result.y = this.settings.paddingY * 2 + maxChildSize.y * rowsCount + (this.settings.spacingX * (rowsCount - 1));
+        result.x = this.settings.paddingX * 2 + maxChildSize.x * columnsCount + (this.settings.spacingX * (columnsCount - 1));
+        result.y = this.settings.paddingY * 2 + maxChildSize.y * rowsCount + (this.settings.spacingY * (rowsCount - 1));
 
         return result;
     }

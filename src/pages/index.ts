@@ -1,6 +1,4 @@
-// created from 'create-ts-index'
-
 export * from './commands';
-export * from './data';
-export * from './views';
+export * from './data/state';
 export * from './PagesModule';
+export * from './views';

@@ -1,5 +1,4 @@
-// created from 'create-ts-index'
-
 export * from './data';
-export * from './ecs';
+export * from './ecs/components';
+export * from './ecs/systems';
 export * from './ECSRenderModule';

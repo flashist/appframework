@@ -66,6 +66,7 @@ export class LocalStorageManager extends BaseObject {
     }
 
     protected prepareStorage(): void {
+        // Workaround for old browsers, where localStorage is not supported
         if (!window.localStorage) {
             Object.defineProperty(window, "localStorage", new (function () {
                 var aKeys = [], oStorage = {};

@@ -1,8 +1,7 @@
-// created from 'create-ts-index'
-
-export * from './commands';
-export * from './data';
-export * from './managers';
-export * from './views';
 export * from './AppModule';
 export * from './AppSettings';
+export * from './commands';
+export * from './data/local-storage';
+export * from './data/state';
+export * from './managers';
+export * from './views';
