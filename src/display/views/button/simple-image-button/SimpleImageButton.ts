@@ -1,5 +1,5 @@
-import { DisplayTools, FContainer, InteractiveEvent, Sprite } from "@flashist/flibs";
-import { ObjectTools } from '@flashist/fcore';
+import {DisplayTools, FContainer, Graphics, GraphicsTools, InteractiveEvent, Sprite} from "@flashist/flibs";
+import {ObjectTools} from '@flashist/fcore';
 import {
     ISimpleImageButtonStateVO,
     SimpleImageButtonConfig,
@@ -10,9 +10,9 @@ import {
     SimpleImageButtonStateNormalToSelectedMap,
     SimpleImageButtonStateSelectedToNormalMap
 } from "./SimpleImageButtonState";
-import { ResizableContainer } from "../../resize";
-import { IToggableItem } from "../../togglegroup";
-import { SimpleButtonState } from "../SimpleButtonState";
+import {ResizableContainer} from "../../resize";
+import {IToggableItem} from "../../togglegroup";
+import {SimpleButtonState} from "../SimpleButtonState";
 
 export class SimpleImageButton<DataType extends object = object> extends ResizableContainer<DataType> implements IToggableItem {
 
@@ -25,6 +25,7 @@ export class SimpleImageButton<DataType extends object = object> extends Resizab
     protected config: SimpleImageButtonConfig;
 
     protected contentCont: FContainer;
+    protected transpBg: Graphics;
     protected image: Sprite;
 
     protected lastProcessedState: string;
@@ -44,6 +45,9 @@ export class SimpleImageButton<DataType extends object = object> extends Resizab
 
         this.contentCont = new FContainer();
         this.addChild(this.contentCont);
+
+        this.transpBg = GraphicsTools.createTraspRect(0, 0, 10, 10);
+        this.contentCont.addChild(this.transpBg);
 
         this.state = SimpleImageButtonState.NORMAL;
         this.enabled = true;
@@ -97,23 +101,6 @@ export class SimpleImageButton<DataType extends object = object> extends Resizab
     protected onTap(): void {
         this.onOut();
         // this.onOver();
-    }
-
-    protected arrange(): void {
-        super.arrange();
-
-        // if (this.config.bgConfig?.resizeBg) {
-        //     if (this.bg.width !== this.resizeSize.x ||
-        //         this.bg.height !== this.resizeSize.y) {
-
-        //         this.updateBg();
-        //     }
-        // }
-
-        // this.label.width = this.bg.width;
-        // this.label.height = this.bg.height;
-        // this.label.x = this.bg.x + Math.floor((this.bg.width - this.label.width) / 2);
-        // this.label.y = this.bg.y + Math.floor((this.bg.height - this.label.height) / 2);
     }
 
     get enabled(): boolean {
@@ -204,6 +191,19 @@ export class SimpleImageButton<DataType extends object = object> extends Resizab
         this.arrange();
     }
 
+    protected arrange(): void {
+        super.arrange();
+
+        if (this.image) {
+            this.transpBg.width = this.image.width;
+            this.transpBg.height = this.image.height;
+
+        } else {
+            this.transpBg.width = 1;
+            this.transpBg.height = 1;
+        }
+    }
+
     public get selected(): boolean {
         return this._selected;
     }
@@ -240,6 +240,7 @@ export class SimpleImageButton<DataType extends object = object> extends Resizab
     public get lockState(): boolean {
         return this._lockState;
     }
+
     public set lockState(value: boolean) {
         if (value === this._lockState) {
             return;
