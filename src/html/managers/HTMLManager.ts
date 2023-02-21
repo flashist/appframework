@@ -55,19 +55,19 @@ export class HTMLManager extends BaseAppManager {
     }
 
     protected onVisibilityChange(): void {
-        // if (document.visibilityState === "visible") {
-        //     this.soundsManager.removeDisableLock(this.visibilityLocker);
-        //
-        // } else {
-        //     this.soundsManager.addDisableLock(this.visibilityLocker);
-        // }
+        if (document.visibilityState === "visible") {
+            this.soundsManager.removeDisableLock(this.visibilityLocker);
+
+        } else {
+            this.soundsManager.addDisableLock(this.visibilityLocker);
+        }
     }
 
     protected onFocus(): void {
-        this.soundsManager.removeDisableLock(this.blurLocker);
+        // this.soundsManager.removeDisableLock(this.blurLocker);
     }
 
     protected onBlur(): void {
-        this.soundsManager.addDisableLock(this.blurLocker);
+        // this.soundsManager.addDisableLock(this.blurLocker);
     }
 }
