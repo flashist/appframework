@@ -55,7 +55,7 @@ export class HTMLManager extends BaseAppManager {
     }
 
     protected onVisibilityChange(): void {
-        alert("HTML MANAGER | onVisibilityChange __ document.visibilityState: " + document.visibilityState);
+        console.log("HTML MANAGER | onVisibilityChange __ document.visibilityState: " + document.visibilityState);
         if (document.visibilityState === "visible") {
             this.soundsManager.removeDisableLock(this.visibilityLocker);
 
@@ -65,12 +65,12 @@ export class HTMLManager extends BaseAppManager {
     }
 
     protected onFocus(): void {
-        alert("HTML MANAGER | onFocus");
+        console.log("HTML MANAGER | onFocus");
         this.soundsManager.removeDisableLock(this.blurLocker);
     }
 
     protected onBlur(): void {
-        alert("HTML MANAGER | onBlur");
+        console.log("HTML MANAGER | onBlur");
         this.soundsManager.addDisableLock(this.blurLocker);
     }
 }
