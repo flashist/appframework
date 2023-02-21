@@ -6,11 +6,10 @@ export class HTMLManager extends BaseAppManager {
 
     protected soundsManager: SoundsManager= getInstance(SoundsManager);
 
-    protected firstClickSoundLocker: any = {};
     protected isFirstClickComplete: boolean = false;
 
-    protected blurLocker: any = {};
-    protected visibilityLocker: any = {};
+    protected blurLocker: any = {id: "HTMLManager.blurLocker"};
+    protected visibilityLocker: any = {id:"HTMLManager.visibilityLocker"};
 
     protected addListeners(): void {
         super.addListeners();
@@ -56,12 +55,12 @@ export class HTMLManager extends BaseAppManager {
     }
 
     protected onVisibilityChange(): void {
-        if (document.visibilityState === "visible") {
-            this.soundsManager.removeDisableLock(this.visibilityLocker);
-
-        } else {
-            this.soundsManager.addDisableLock(this.visibilityLocker);
-        }
+        // if (document.visibilityState === "visible") {
+        //     this.soundsManager.removeDisableLock(this.visibilityLocker);
+        //
+        // } else {
+        //     this.soundsManager.addDisableLock(this.visibilityLocker);
+        // }
     }
 
     protected onFocus(): void {
