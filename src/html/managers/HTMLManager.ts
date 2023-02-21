@@ -4,20 +4,13 @@ import { BaseAppManager } from "../../base/managers/BaseAppManager";
 
 export class HTMLManager extends BaseAppManager {
 
-    protected soundsManager: SoundsManager;
+    protected soundsManager: SoundsManager= getInstance(SoundsManager);
 
-    protected firstClickSoundLocker;
+    protected firstClickSoundLocker: any = {};
     protected isFirstClickComplete: boolean = false;
 
-    protected construction(...args: any[]): void {
-        super.construction(...args);
-
-        this.soundsManager = getInstance(SoundsManager);
-
-        // At the beginning set a lock to make sure nothing happens in audio before the 1st click
-        this.firstClickSoundLocker = {};
-        this.soundsManager.addDisableLock(this.firstClickSoundLocker);
-    }
+    protected blurLocker: any = {};
+    protected visibilityLocker: any = {};
 
     protected addListeners(): void {
         super.addListeners();
@@ -59,23 +52,23 @@ export class HTMLManager extends BaseAppManager {
         }
         this.isFirstClickComplete = true;
 
-        this.soundsManager.removeDisableLock(this.firstClickSoundLocker);
+        this.soundsManager.activate();
     }
 
     protected onVisibilityChange(): void {
         if (document.visibilityState === "visible") {
-            this.soundsManager.removeDisableLock(this);
+            this.soundsManager.removeDisableLock(this.visibilityLocker);
 
         } else {
-            this.soundsManager.addDisableLock(this);
+            this.soundsManager.addDisableLock(this.visibilityLocker);
         }
     }
 
     protected onFocus(): void {
-        this.soundsManager.removeDisableLock(this);
+        this.soundsManager.removeDisableLock(this.blurLocker);
     }
 
     protected onBlur(): void {
-        this.soundsManager.addDisableLock(this);
+        this.soundsManager.addDisableLock(this.blurLocker);
     }
 }
