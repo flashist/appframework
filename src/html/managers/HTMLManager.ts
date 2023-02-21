@@ -45,6 +45,12 @@ export class HTMLManager extends BaseAppManager {
             "blur",
             this.onBlur
         );
+
+        this.eventListenerHelper.addEventListener(
+            document,
+            "visibilitychange",
+            this.onVisibilityChange
+        );
     }
 
     protected onInteraction(): void {
@@ -54,6 +60,15 @@ export class HTMLManager extends BaseAppManager {
         this.isFirstClickComplete = true;
 
         this.soundsManager.removeDisableLock(this.firstClickSoundLocker);
+    }
+
+    protected onVisibilityChange(): void {
+        if (document.visibilityState === "visible") {
+            this.soundsManager.removeDisableLock(this);
+
+        } else {
+            this.soundsManager.addDisableLock(this);
+        }
     }
 
     protected onFocus(): void {
