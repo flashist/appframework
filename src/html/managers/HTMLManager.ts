@@ -52,6 +52,8 @@ export class HTMLManager extends BaseAppManager {
         this.isFirstClickComplete = true;
 
         this.soundsManager.activate();
+
+        this.onFocus();
     }
 
     protected onVisibilityChange(): void {
