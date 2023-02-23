@@ -37,7 +37,8 @@ export class BasePageView extends BaseAppView {
         this.sizeAreaView = new Graphics();
         this.contentCont.addChild(this.sizeAreaView);
         //
-        this.sizeAreaView.alpha = 0;
+        // this.sizeAreaView.alpha = 0;
+        this.sizeAreaView.visible = false;
 
         this._sizeArea = new Rectangle();
 
