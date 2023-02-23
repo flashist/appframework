@@ -31,9 +31,11 @@ export class TimeManager extends BaseAppManager {
         let timeDelta: number = newTime - this.timeModuleState.time.curTime;
         if (this.timeModuleState.time.minTimeDelta) {
             if (timeDelta < this.timeModuleState.time.minTimeDelta) {
-                timeDelta = this.timeModuleState.time.minTimeDelta;
+                // timeDelta = this.timeModuleState.time.minTimeDelta;
+                return;
             }
         }
+
         if (this.timeModuleState.time.maxTimeDelta) {
             if (timeDelta > this.timeModuleState.time.maxTimeDelta) {
                 timeDelta = this.timeModuleState.time.maxTimeDelta;
