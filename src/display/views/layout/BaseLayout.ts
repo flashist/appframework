@@ -1,10 +1,10 @@
-import {Align, Point, VAlign} from "@flashist/flibs";
+import { Align, Point, VAlign } from "@flashist/flibs";
 
-import {LayoutConfig} from "./LayoutConfig";
-import {ILayoutableContainer} from "./container/ILayoutableContainer";
+import { LayoutConfig } from "./LayoutConfig";
+import { ILayoutableContainer } from "./container/ILayoutableContainer";
 
-import {ILayoutableChild} from "./container/ILayoutableChild";
-import {GetSizeTools} from "../../tools/GetSizeTools";
+import { ILayoutableChild } from "./container/ILayoutableChild";
+import { GetSizeTools } from "../../tools/GetSizeTools";
 
 /**
  * ...
@@ -51,13 +51,13 @@ export abstract class BaseLayout {
     }
 
     protected arrangeChild(child: ILayoutableChild,
-                           prevChild: ILayoutableChild,
-                           align: String,
-                           valign: String,
-                           childMaxSize: Point,
-                           columnIndex: number = 0,
-                           rowIndex: number = 0,
-                           cellShift: Point = null): void {
+        prevChild: ILayoutableChild,
+        align: String,
+        valign: String,
+        childMaxSize: Point,
+        columnIndex: number = 0,
+        rowIndex: number = 0,
+        cellShift: Point = null): void {
 
         var tempChildSize: Point = GetSizeTools.getObjectSize(child);
 
@@ -74,7 +74,7 @@ export abstract class BaseLayout {
                 break;
         }
 
-        newChildPos.y = this.settings.paddingY + (childMaxSize.y + this.settings.paddingY) * rowIndex;
+        newChildPos.y = this.settings.paddingY + (childMaxSize.y + this.settings.spacingY) * rowIndex;
         switch (valign) {
             case VAlign.MIDDLE:
                 newChildPos.y += Math.floor((childMaxSize.y - tempChildSize.y) / 2);
