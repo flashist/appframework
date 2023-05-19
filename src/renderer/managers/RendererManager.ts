@@ -29,12 +29,12 @@ export class RendererManager extends BaseAppManager {
         // Renderer
         // Facade.instance.app.renderer.autoDensity = true;
         // CSS settings
-        Facade.instance.app.renderer.view.style.position = "absolute";
-        Facade.instance.app.renderer.view.style.top = "0px";
-        Facade.instance.app.renderer.view.style.left = "0px";
+        (Facade.instance.app.renderer.view.style as any).position = "absolute";
+        (Facade.instance.app.renderer.view.style as any).top = "0px";
+        (Facade.instance.app.renderer.view.style as any).left = "0px";
 
         // Append the renderer canvas to DOM
-        document.body.appendChild(Facade.instance.app.view);
+        document.body.appendChild(Facade.instance.app.view as any);
     }
 
     public resize(width: number, height: number, pixelRatio: number): void {

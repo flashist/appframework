@@ -155,11 +155,11 @@ export class BaseBtn extends BaseObject {
         if (this.hitArea) {
             if (this.enabled) {
                 this.hitArea.interactive = true;
-                this.hitArea.buttonMode = true;
+                this.hitArea.cursor = "pointer";
 
             } else {
                 this.hitArea.interactive = false;
-                this.hitArea.buttonMode = false;
+                this.hitArea.cursor = null;
             }
         }
     }

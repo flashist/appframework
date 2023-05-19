@@ -1,5 +1,5 @@
-import {DisplayTools, FContainer, Graphics, GraphicsTools, InteractiveEvent, Sprite} from "@flashist/flibs";
-import {ObjectTools} from '@flashist/fcore';
+import { DisplayTools, FContainer, Graphics, GraphicsTools, InteractiveEvent, Sprite } from "@flashist/flibs";
+import { ObjectTools } from '@flashist/fcore';
 import {
     ISimpleImageButtonStateVO,
     SimpleImageButtonConfig,
@@ -10,9 +10,9 @@ import {
     SimpleImageButtonStateNormalToSelectedMap,
     SimpleImageButtonStateSelectedToNormalMap
 } from "./SimpleImageButtonState";
-import {ResizableContainer} from "../../resize";
-import {IToggableItem} from "../../togglegroup";
-import {SimpleButtonState} from "../SimpleButtonState";
+import { ResizableContainer } from "../../resize";
+import { IToggableItem } from "../../togglegroup";
+import { SimpleButtonState } from "../SimpleButtonState";
 
 export class SimpleImageButton<DataType extends object = object> extends ResizableContainer<DataType> implements IToggableItem {
 
@@ -142,11 +142,11 @@ export class SimpleImageButton<DataType extends object = object> extends Resizab
 
         if (this.enabled) {
             this.interactive = true;
-            this.buttonMode = true;
+            this.cursor = "pointer";
 
         } else {
             this.interactive = false;
-            this.buttonMode = false;
+            this.cursor = null;
         }
 
         if (!this.lockState) {
@@ -178,11 +178,11 @@ export class SimpleImageButton<DataType extends object = object> extends Resizab
 
             if (this.enabled) {
                 this.interactive = true;
-                this.buttonMode = true;
+                this.cursor = "pointer";
 
             } else {
                 this.interactive = false;
-                this.buttonMode = false;
+                this.cursor = null;
             }
 
             this.lastProcessedState = tempConfigState;

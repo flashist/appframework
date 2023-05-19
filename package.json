@@ -17,12 +17,12 @@
   "typings": "index.d.ts",
   "dependencies": {
     "@flashist/fconsole": "0.x",
-    "@flashist/fcore": "0.x"
+    "@flashist/fcore": "0.x",
+    "@flashist/flibs": "0.x"
   },
   "devDependencies": {
     "@flashist/fbuildscripts": "0.x",
-    "@flashist/flibs": "0.0.248",
-    "pixi.js": "6.x",
+    "pixi.js": "7.x",
     "typescript": "^4.0.2"
   }
 }

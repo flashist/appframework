@@ -1,14 +1,14 @@
-import {ObjectTools} from "@flashist/fcore";
+import { ObjectTools } from "@flashist/fcore";
 
-import {DisplayResizeTools, FContainer, Graphics, Point, Sprite, Texture} from "@flashist/flibs";
+import { DisplayResizeTools, FContainer, Graphics, Point, Sprite, Texture } from "@flashist/flibs";
 
-import {IToggleGroupItem} from "../togglegroup/IToggleGroupItem";
-import {BaseBtn} from "./BaseBtn";
-import {IButtonViewConfig} from "./IButtonViewConfig";
-import {ResizableContainer} from "../resize/ResizableContainer";
-import {BaseBtnState} from "./BaseBtnState";
-import {BaseBtnEvent} from "./BaseBtnEvent";
-import {DefaultButtonViewConfig} from "./DefaultButtonViewConfig";
+import { IToggleGroupItem } from "../togglegroup/IToggleGroupItem";
+import { BaseBtn } from "./BaseBtn";
+import { IButtonViewConfig } from "./IButtonViewConfig";
+import { ResizableContainer } from "../resize/ResizableContainer";
+import { BaseBtnState } from "./BaseBtnState";
+import { BaseBtnEvent } from "./BaseBtnEvent";
+import { DefaultButtonViewConfig } from "./DefaultButtonViewConfig";
 
 export class BaseBtnView<DataType extends object = object> extends ResizableContainer<DataType> implements IToggleGroupItem {
 
@@ -40,7 +40,7 @@ export class BaseBtnView<DataType extends object = object> extends ResizableCont
         if (!this._config) {
             this._config = BaseBtnView.DEFAULT_CONFIG;
         }
-        ObjectTools.copyProps(this._config, BaseBtnView.DEFAULT_CONFIG, {ignoreExistedProperties: true});
+        ObjectTools.copyProps(this._config, BaseBtnView.DEFAULT_CONFIG, { ignoreExistedProperties: true });
 
         this.contentCont = new FContainer();
         this.addChild(this.contentCont);
@@ -100,11 +100,11 @@ export class BaseBtnView<DataType extends object = object> extends ResizableCont
     protected onBtnStateChange(): void {
         this.commitStateData();
 
-        this.emit(BaseBtnEvent.STATE_CHANGE);
+        this.dispatchEvent(new Event(BaseBtnEvent.STATE_CHANGE));
     }
 
     protected onBtnSelectedChange(): void {
-        this.emit(BaseBtnEvent.SELECTED_CHANGE);
+        this.dispatchEvent(new Event(BaseBtnEvent.SELECTED_CHANGE));
     }
 
 
