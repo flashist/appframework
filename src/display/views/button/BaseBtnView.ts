@@ -9,6 +9,7 @@ import { ResizableContainer } from "../resize/ResizableContainer";
 import { BaseBtnState } from "./BaseBtnState";
 import { BaseBtnEvent } from "./BaseBtnEvent";
 import { DefaultButtonViewConfig } from "./DefaultButtonViewConfig";
+import { FederatedEvent } from "pixi.js";
 
 export class BaseBtnView<DataType extends object = object> extends ResizableContainer<DataType> implements IToggleGroupItem {
 
@@ -100,11 +101,11 @@ export class BaseBtnView<DataType extends object = object> extends ResizableCont
     protected onBtnStateChange(): void {
         this.commitStateData();
 
-        this.dispatchEvent(new Event(BaseBtnEvent.STATE_CHANGE));
+        this.emit(BaseBtnEvent.STATE_CHANGE as any);
     }
 
     protected onBtnSelectedChange(): void {
-        this.dispatchEvent(new Event(BaseBtnEvent.SELECTED_CHANGE));
+        this.emit(BaseBtnEvent.SELECTED_CHANGE as any);
     }
 
 
