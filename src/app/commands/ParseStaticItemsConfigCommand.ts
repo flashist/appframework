@@ -17,9 +17,9 @@ export class ParseStaticItemsConfigCommand extends BaseAppCommand {
 
             if (staticItemsConfigFileItem.data) {
                 const ecsManager: ECSManager = getInstance(ECSManager);
-                const staticItems: IEntity[] = staticItemsConfigFileItem.data;
-                for (let singleStaticItem of staticItems) {
-                    ecsManager.entities.add(singleStaticItem);
+                const entitiyItems: IEntity[] = staticItemsConfigFileItem.data.entities;
+                for (let singleEntityItem of entitiyItems) {
+                    ecsManager.entities.add(singleEntityItem);
                 }
 
                 if (staticItemsConfigFileItem.data.items) {
