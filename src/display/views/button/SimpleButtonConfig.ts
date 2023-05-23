@@ -20,6 +20,7 @@ export const SimpleButtonDefaultConfig = {
 
 export interface ISingleButtonStateConfig {
     alpha: number;
+    icon?: string;
 }
 
 export type SimpleButtonConfig = Partial<typeof SimpleButtonDefaultConfig>;

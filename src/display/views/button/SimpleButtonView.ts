@@ -1,4 +1,4 @@
-import { FContainer, FLabel, Graphics, InteractiveEvent, Sprite } from "@flashist/flibs";
+import { FContainer, FLabel, Texture, InteractiveEvent, Sprite } from "@flashist/flibs";
 
 import { SimpleButtonConfig, ISingleButtonStateConfig, SimpleButtonDefaultConfig } from "./SimpleButtonConfig";
 import { SimpleButtonState } from "./SimpleButtonState";
@@ -17,6 +17,7 @@ export class SimpleButtonView<DataType extends object = object> extends Resizabl
     protected config: SimpleButtonConfig;
 
     protected contentCont: FContainer;
+    protected icon: Sprite;
     // protected bg: Graphics | Sprite;
     protected label: FLabel;
 
@@ -36,6 +37,9 @@ export class SimpleButtonView<DataType extends object = object> extends Resizabl
 
         // this.bg = this.createBg();
         // this.contentCont.addChild(this.bg);
+
+        this.icon = new Sprite();
+        this.contentCont.addChild(this.icon);
 
         this.label = new FLabel(this.config.labelConfig);
         this.contentCont.addChild(this.label);
@@ -160,6 +164,10 @@ export class SimpleButtonView<DataType extends object = object> extends Resizabl
 
         let tempConfig: ISingleButtonStateConfig = this.config.states[tempConfigState];
         this.alpha = tempConfig.alpha;
+
+        if (tempConfig.icon) {
+            this.icon.texture = Texture.from(tempConfig.icon);
+        }
 
         if (this.enabled) {
             this.interactive = true;
