@@ -16,7 +16,7 @@ export const SimpleButtonDefaultConfig = {
         disabled: {
             alpha: 0.5
         } as ISingleButtonStateConfig
-    }
+    } as ISimpleButtonStatesConfig
 }
 
 export interface ISingleButtonStateConfig {
