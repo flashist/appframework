@@ -1,4 +1,5 @@
 import { IFLabelConfig } from "@flashist/flibs";
+import { SimpleButtonState } from "./SimpleButtonState";
 
 export const SimpleButtonDefaultConfig = {
     labelConfig: {} as IFLabelConfig,
@@ -21,6 +22,10 @@ export const SimpleButtonDefaultConfig = {
 export interface ISingleButtonStateConfig {
     alpha: number;
     icon?: string;
+}
+
+export type ISimpleButtonStatesConfig = {
+    [key in SimpleButtonState]?: ISingleButtonStateConfig;
 }
 
 export type SimpleButtonConfig = Partial<typeof SimpleButtonDefaultConfig>;

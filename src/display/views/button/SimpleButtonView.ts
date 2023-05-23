@@ -8,6 +8,26 @@ import { ObjectTools } from '@flashist/fcore';
 
 export class SimpleButtonView<DataType extends object = object> extends ResizableContainer<DataType> implements IToggableItem {
 
+    public static NORMAL_TO_SELECTED_MAP = ((): any => {
+        let result = {};
+        result[SimpleButtonState.NORMAL] = SimpleButtonState.SELECTED_NORMAL;
+        result[SimpleButtonState.OVER] = SimpleButtonState.SELECTED_OVER;
+        result[SimpleButtonState.PRESS] = SimpleButtonState.SELECTED_PRESS;
+        result[SimpleButtonState.DISABLED] = SimpleButtonState.SELECTED_DISABLED;
+
+        return result;
+    })();
+
+    public static SELECTED_TO_NORMAL_MAP = ((): any => {
+        let result = {};
+        result[SimpleButtonState.SELECTED_NORMAL] = SimpleButtonState.NORMAL;
+        result[SimpleButtonState.SELECTED_OVER] = SimpleButtonState.OVER;
+        result[SimpleButtonState.SELECTED_PRESS] = SimpleButtonState.PRESS;
+        result[SimpleButtonState.SELECTED_DISABLED] = SimpleButtonState.DISABLED;
+
+        return result;
+    })();
+
     public id: string;
 
     private _enabled: boolean;
@@ -154,7 +174,7 @@ export class SimpleButtonView<DataType extends object = object> extends Resizabl
         let tempConfigState: string = this.state;
         if (!this.config.states[tempConfigState]) {
             if (this.selected) {
-                tempConfigState = SimpleButtonState.SELECTED_TO_NORMAL_MAP[this.state];
+                tempConfigState = SimpleButtonView.SELECTED_TO_NORMAL_MAP[this.state];
             }
         }
 
@@ -196,7 +216,7 @@ export class SimpleButtonView<DataType extends object = object> extends Resizabl
         let result: string;
 
         if (this.selected) {
-            result = SimpleButtonState.NORMAL_TO_SELECTED_MAP[normalState];
+            result = SimpleButtonView.NORMAL_TO_SELECTED_MAP[normalState];
         }
 
         if (!result) {
