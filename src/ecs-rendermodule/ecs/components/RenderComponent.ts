@@ -9,7 +9,7 @@ export const RenderComponentDefaultValue = {
 }
 
 // export type RenderComponent = typeof RenderComponentDefaultValue
-export type RendererPlugins<ViewType extends DisplayObject = DisplayObject> = {
+export type RenderComponent<ViewType extends DisplayObject = DisplayObject> = {
     type: typeof RenderComponentType;
     view: ViewType;
     containerId: string;
