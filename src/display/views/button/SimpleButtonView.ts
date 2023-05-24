@@ -191,9 +191,11 @@ export class SimpleButtonView<DataType extends object = object> extends Resizabl
 
         if (this.enabled) {
             this.interactive = true;
+            this.cursor = "pointer";
 
         } else {
             this.interactive = false;
+            this.cursor = null;
         }
 
         // this.updateBg();
