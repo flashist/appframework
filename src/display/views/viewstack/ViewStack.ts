@@ -1,16 +1,16 @@
-import {AssociativeArray, IDatable} from "@flashist/fcore";
+import { AssociativeArray, IDatable } from "@flashist/fcore";
 
-import {DisplayObjectContainer} from "@flashist/flibs";
+import { DisplayObjectContainer } from "@flashist/flibs";
 
-import {IResizable} from "../resize/IResizable";
-import {ResizableContainer} from "../resize/ResizableContainer";
+import { IResizable } from "../resize/IResizable";
+import { AppResizableContainer } from "../resize/AppResizableContainer";
 
 export class ViewStack
     <
         StackViewType extends DisplayObjectContainer = DisplayObjectContainer,
         DataType extends object = object
     >
-    extends ResizableContainer<DataType> implements IResizable {
+    extends AppResizableContainer<DataType> implements IResizable {
 
     protected viewToIdMap: AssociativeArray<StackViewType>;
 

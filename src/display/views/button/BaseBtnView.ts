@@ -5,13 +5,13 @@ import { DisplayResizeTools, FContainer, Graphics, Point, Sprite, Texture } from
 import { IToggleGroupItem } from "../togglegroup/IToggleGroupItem";
 import { BaseBtn } from "./BaseBtn";
 import { IButtonViewConfig } from "./IButtonViewConfig";
-import { ResizableContainer } from "../resize/ResizableContainer";
+import { AppResizableContainer } from "../resize/AppResizableContainer";
 import { BaseBtnState } from "./BaseBtnState";
 import { BaseBtnEvent } from "./BaseBtnEvent";
 import { DefaultButtonViewConfig } from "./DefaultButtonViewConfig";
 import { FederatedEvent } from "pixi.js";
 
-export class BaseBtnView<DataType extends object = object> extends ResizableContainer<DataType> implements IToggleGroupItem {
+export class BaseBtnView<DataType extends object = object> extends AppResizableContainer<DataType> implements IToggleGroupItem {
 
     private static readonly DEFAULT_CONFIG: IButtonViewConfig = new DefaultButtonViewConfig();
 

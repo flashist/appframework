@@ -10,11 +10,11 @@ import {
     SimpleImageButtonStateNormalToSelectedMap,
     SimpleImageButtonStateSelectedToNormalMap
 } from "./SimpleImageButtonState";
-import { ResizableContainer } from "../../resize";
+import { AppResizableContainer } from "../../resize";
 import { IToggableItem } from "../../togglegroup";
 import { SimpleButtonState } from "../SimpleButtonState";
 
-export class SimpleImageButton<DataType extends object = object> extends ResizableContainer<DataType> implements IToggableItem {
+export class SimpleImageButton<DataType extends object = object> extends AppResizableContainer<DataType> implements IToggableItem {
 
     public id: string;
 

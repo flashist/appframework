@@ -1,10 +1,10 @@
-import { ResizableContainer } from "../../display/views/resize/ResizableContainer";
+import { AppResizableContainer } from "../../display/views/resize/AppResizableContainer";
 import { ViewLazyCreationServiceLocatorStack } from "../../display/views/viewstack/ViewLazyCreationServiceLocatorStack";
 import { appStorage } from "../../state/AppStateModule";
 import { PagesModuleState } from "../data/state/PagesModuleState";
-import {BasePageView} from "./BasePageView";
+import { BasePageView } from "./BasePageView";
 
-export class PagesView extends ResizableContainer {
+export class PagesView extends AppResizableContainer {
 
     // protected pagesModel: PagesModel;
 

@@ -2,11 +2,11 @@ import { FContainer, FLabel, Texture, InteractiveEvent, Sprite } from "@flashist
 
 import { SimpleButtonConfig, ISingleButtonStateConfig, SimpleButtonDefaultConfig } from "./SimpleButtonConfig";
 import { SimpleButtonState } from "./SimpleButtonState";
-import { ResizableContainer } from "../resize/ResizableContainer";
+import { AppResizableContainer } from "../resize/AppResizableContainer";
 import { IToggableItem } from "../togglegroup/IToggableItem";
 import { ObjectTools } from '@flashist/fcore';
 
-export class SimpleButtonView<DataType extends object = object> extends ResizableContainer<DataType> implements IToggableItem {
+export class SimpleButtonView<DataType extends object = object> extends AppResizableContainer<DataType> implements IToggableItem {
 
     public static NORMAL_TO_SELECTED_MAP = ((): any => {
         let result = {};

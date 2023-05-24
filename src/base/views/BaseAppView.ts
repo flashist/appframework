@@ -1,10 +1,10 @@
 import { IEventListenerCallback } from "@flashist/fcore";
 import { getInstance } from "@flashist/flibs";
 
-import { ResizableContainer } from "../../display/views/resize/ResizableContainer";
+import { AppResizableContainer } from "../../display/views/resize/AppResizableContainer";
 import { GlobalEventDispatcher } from "../../globaleventdispatcher/dispatcher/GlobalEventDispatcher";
 
-export class BaseAppView<DataType extends object = object> extends ResizableContainer<DataType> {
+export class BaseAppView<DataType extends object = object> extends AppResizableContainer<DataType> {
 
     protected globalDispatcher: GlobalEventDispatcher;
 

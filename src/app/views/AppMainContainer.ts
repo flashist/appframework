@@ -1,8 +1,7 @@
-import { PagesView } from "../../pages/views/PagesView";
-import { ResizableContainer } from "../../display/views/resize/ResizableContainer";
-import { BaseAppView } from "../../base/views/BaseAppView";
 import { DisplayObjectContainer, Graphics } from '@flashist/flibs';
-import {AppMainContainerEvent} from "./AppMainContainerEvent";
+import { BaseAppView } from "../../base/views/BaseAppView";
+import { PagesView } from "../../pages/views/PagesView";
+import { AppMainContainerEvent } from "./AppMainContainerEvent";
 
 export class AppMainContainer extends BaseAppView {
 
