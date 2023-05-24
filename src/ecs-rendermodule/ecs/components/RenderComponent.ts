@@ -8,4 +8,9 @@ export const RenderComponentDefaultValue = {
     containerId: null as string
 }
 
-export type RenderComponent = typeof RenderComponentDefaultValue
+// export type RenderComponent = typeof RenderComponentDefaultValue
+export type RendererPlugins<ViewType extends DisplayObject = DisplayObject> = {
+    type: typeof RenderComponentType;
+    view: ViewType;
+    containerId: string;
+}
