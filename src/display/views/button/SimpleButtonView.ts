@@ -144,6 +144,12 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
 
         this._enabled = value;
 
+        if (this._enabled) {
+            this.state = this.findStateValue(SimpleButtonState.NORMAL);
+        } else {
+            this.state = this.findStateValue(SimpleButtonState.DISABLED);
+        }
+
         this.commitData();
     }
 
