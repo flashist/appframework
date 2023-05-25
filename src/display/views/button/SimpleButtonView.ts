@@ -211,7 +211,9 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         }
 
         let tempConfig: ISingleButtonStateConfig = this.config.states[tempConfigState];
-        this.alpha = tempConfig.alpha;
+        if (tempConfig.alpha || tempConfig.alpha === 0) {
+            this.alpha = tempConfig.alpha;
+        }
 
         if (tempConfig.icon) {
             this.icon.texture = Texture.from(tempConfig.icon);

@@ -20,7 +20,7 @@ export const SimpleButtonDefaultConfig = {
 }
 
 export interface ISingleButtonStateConfig {
-    alpha: number;
+    alpha?: number;
     icon?: string;
 }
 
