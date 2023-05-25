@@ -93,6 +93,16 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         );
         this.eventListenerHelper.addEventListener(
             this,
+            InteractiveEvent.DOWN,
+            this.onDown
+        );
+        this.eventListenerHelper.addEventListener(
+            this,
+            InteractiveEvent.UP,
+            this.onUp
+        );
+        this.eventListenerHelper.addEventListener(
+            this,
             InteractiveEvent.TAP,
             this.onTap
         );
@@ -111,6 +121,14 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     private onOut(): void {
         // this.contentCont.alpha = 0.75;
         this.state = this.findStateValue(SimpleButtonState.NORMAL);
+    }
+
+    protected onDown(): void {
+        this.state = this.findStateValue(SimpleButtonState.PRESS);
+    }
+
+    protected onUp(): void {
+        this.state = this.findStateValue(SimpleButtonState.OVER);
     }
 
     protected onTap(): void {
