@@ -1,4 +1,4 @@
-import { FContainer, FLabel, Texture, InteractiveEvent, Sprite } from "@flashist/flibs";
+import { FContainer, FLabel, Texture, InteractiveEvent, Sprite, DisplayResizeTools } from "@flashist/flibs";
 
 import { SimpleButtonConfig, ISingleButtonStateConfig, SimpleButtonDefaultConfig } from "./SimpleButtonConfig";
 import { SimpleButtonState } from "./SimpleButtonState";
@@ -141,6 +141,17 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
 
     protected arrange(): void {
         super.arrange();
+
+        if (this.resizeSize.x && this.resizeSize.y) {
+            this.contentCont.scale.set(1);
+            const tempScale: number = DisplayResizeTools.getScale(
+                this.contentCont.width,
+                this.contentCont.height,
+                this.resizeSize.x,
+                this.resizeSize.y
+            );
+            this.contentCont.scale.set(tempScale);
+        }
 
         // if (this.config.bgConfig?.resizeBg) {
         //     if (this.bg.width !== this.resizeSize.x ||
