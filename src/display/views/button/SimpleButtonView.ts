@@ -30,7 +30,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
 
     public id: string;
 
-    private _enabled: boolean;
+    protected _enabled: boolean;
     protected _state: string;
     protected _selected: boolean;
 
@@ -109,16 +109,20 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         this.eventListenerHelper.addEventListener(
             this,
             InteractiveEvent.UP_OUTSIDE,
-            this.onOut
+            this.onUpOutside
         );
     }
 
-    private onOver(): void {
+    protected onUpOutside(): void {
+        this.state = this.findStateValue(SimpleButtonState.NORMAL);
+    }
+
+    protected onOver(): void {
         // this.contentCont.alpha = 1;
         this.state = this.findStateValue(SimpleButtonState.OVER);
     }
 
-    private onOut(): void {
+    protected onOut(): void {
         // this.contentCont.alpha = 0.75;
         this.state = this.findStateValue(SimpleButtonState.NORMAL);
     }
