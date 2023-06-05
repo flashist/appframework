@@ -41,7 +41,6 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     // protected bg: Graphics | Sprite;
     protected label: FLabel;
     protected viewCont: FContainer;
-    protected curView: DisplayObjectContainer;
 
     constructor(config: SimpleButtonConfig) {
         super(config);
@@ -62,6 +61,10 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
 
         this.viewCont = new FContainer();
         this.contentCont.addChild(this.viewCont);
+
+        if (this.config.view) {
+            this.viewCont.addChild(this.config.view);
+        }
 
         this.icon = new Sprite();
         this.contentCont.addChild(this.icon);
@@ -233,14 +236,6 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
 
         if (tempConfig.icon) {
             this.icon.texture = Texture.from(tempConfig.icon);
-        }
-
-        if (tempConfig.view && this.curView !== tempConfig.view) {
-            // Remove old view
-            DisplayTools.removeAllChildren(this.viewCont);
-
-            // Add new view
-            this.viewCont.addChild(tempConfig.view);
         }
 
         if (this.enabled) {

@@ -3,6 +3,7 @@ import { SimpleButtonState } from "./SimpleButtonState";
 
 export const SimpleButtonDefaultConfig = {
     labelConfig: {} as IFLabelConfig,
+    view: null as DisplayObjectContainer,
     states: {
         normal: {
             alpha: 0.75
@@ -22,7 +23,6 @@ export const SimpleButtonDefaultConfig = {
 export interface ISingleButtonStateConfig {
     alpha?: number;
     icon?: string;
-    view?: DisplayObjectContainer;
 }
 
 export type ISimpleButtonStatesConfig = {
