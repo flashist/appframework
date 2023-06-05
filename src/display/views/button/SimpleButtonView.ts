@@ -1,4 +1,4 @@
-import { FContainer, FLabel, Texture, InteractiveEvent, Sprite, DisplayResizeTools } from "@flashist/flibs";
+import { FContainer, FLabel, Texture, InteractiveEvent, Sprite, DisplayResizeTools, DisplayTools, DisplayObjectContainer } from "@flashist/flibs";
 
 import { SimpleButtonConfig, ISingleButtonStateConfig, SimpleButtonDefaultConfig } from "./SimpleButtonConfig";
 import { SimpleButtonState } from "./SimpleButtonState";
@@ -40,6 +40,8 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     protected icon: Sprite;
     // protected bg: Graphics | Sprite;
     protected label: FLabel;
+    protected viewCont: FContainer;
+    protected curView: DisplayObjectContainer;
 
     constructor(config: SimpleButtonConfig) {
         super(config);
@@ -57,6 +59,9 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
 
         // this.bg = this.createBg();
         // this.contentCont.addChild(this.bg);
+
+        this.viewCont = new FContainer();
+        this.contentCont.addChild(this.viewCont);
 
         this.icon = new Sprite();
         this.contentCont.addChild(this.icon);
@@ -230,6 +235,14 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
             this.icon.texture = Texture.from(tempConfig.icon);
         }
 
+        if (tempConfig.view && this.curView !== tempConfig.view) {
+            // Remove old view
+            DisplayTools.removeAllChildren(this.viewCont);
+
+            // Add new view
+            this.viewCont.addChild(tempConfig.view);
+        }
+
         if (this.enabled) {
             this.interactive = true;
             this.cursor = "pointer";
@@ -240,6 +253,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         }
 
         // this.updateBg();
+        this.arrange();
     }
 
     public get selected(): boolean {
