@@ -62,10 +62,6 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         this.viewCont = new FContainer();
         this.contentCont.addChild(this.viewCont);
 
-        if (this.config.view) {
-            this.viewCont.addChild(this.config.view);
-        }
-
         this.icon = new Sprite();
         this.contentCont.addChild(this.icon);
 
@@ -276,6 +272,12 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         }
 
         return result;
+    }
+
+    public addExternalView(view: DisplayObjectContainer): void {
+        this.viewCont.addChild(view);
+
+        this.arrange();
     }
 
     // protected createBg(): Sprite | Graphics {
