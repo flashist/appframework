@@ -1,4 +1,4 @@
-import { FContainer, FLabel, Texture, InteractiveEvent, Sprite, DisplayResizeTools, DisplayTools, DisplayObjectContainer } from "@flashist/flibs";
+import { FContainer, FLabel, Texture, InteractiveEvent, Sprite, DisplayResizeTools, Graphics, DisplayObjectContainer } from "@flashist/flibs";
 
 import { SimpleButtonConfig, ISingleButtonStateConfig, SimpleButtonDefaultConfig } from "./SimpleButtonConfig";
 import { SimpleButtonState } from "./SimpleButtonState";
@@ -36,6 +36,10 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
 
     protected config: SimpleButtonConfig;
 
+    protected _bgAlpha: number;
+    protected _bgColor: number;
+
+    protected bg: Graphics;
     protected contentCont: FContainer;
     protected icon: Sprite;
     // protected bg: Graphics | Sprite;
@@ -53,11 +57,17 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         // Then override them with passed config
         ObjectTools.copyProps(this.config, config);
 
+        this._bgAlpha = 0;
+        this._bgColor = 0x000000;
+
         this.contentCont = new FContainer();
         this.addChild(this.contentCont);
 
         // this.bg = this.createBg();
         // this.contentCont.addChild(this.bg);
+
+        this.bg = new Graphics();
+        this.addChild(this.bg);
 
         this.viewCont = new FContainer();
         this.contentCont.addChild(this.viewCont);
@@ -68,8 +78,8 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         this.label = new FLabel(this.config.labelConfig);
         this.contentCont.addChild(this.label);
         //
-        this.label.interactive = true;
-        this.label.interactiveChildren = true;
+        // this.label.interactive = true;
+        // this.label.interactiveChildren = true;
 
         this.state = SimpleButtonState.NORMAL;
         this.enabled = true;
@@ -156,6 +166,9 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
             );
             this.contentCont.scale.set(tempScale);
         }
+
+        this.bg.width = this.contentCont.width;
+        this.bg.height = this.contentCont.height;
 
         // if (this.config.bgConfig?.resizeBg) {
         //     if (this.bg.width !== this.resizeSize.x ||
@@ -277,6 +290,44 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     public addExternalView(view: DisplayObjectContainer): void {
         this.viewCont.addChild(view);
 
+        this.arrange();
+    }
+
+    private updateBg(): void {
+        this.bg.clear();
+        this.bg.beginFill(this.bgColor, 1);
+        this.bg.drawRect(0, 0, 10, 10);
+        this.bg.endFill();
+        this.bg.alpha = this.bgAlpha;
+    }
+
+    public get bgAlpha(): number {
+        return this.bgAlpha;
+    }
+
+    public set bgAlpha(value: number) {
+        if (value === this.bgAlpha) {
+            return;
+        }
+
+        this.bgAlpha = value;
+
+        this.updateBg();
+        this.arrange();
+    }
+
+    public get bgColor(): number {
+        return this.bgColor;
+    }
+
+    public set bgColor(value: number) {
+        if (value === this.bgColor) {
+            return;
+        }
+
+        this.bgColor = value;
+
+        this.updateBg();
         this.arrange();
     }
 
