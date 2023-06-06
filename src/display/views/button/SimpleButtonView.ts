@@ -316,7 +316,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     }
 
     public get bgLineWidth(): number {
-        return this.bgAlpha;
+        return this._bgLineWidth;
     }
     public set bgLineWidth(value: number) {
         if (value === this.bgLineWidth) {
@@ -330,7 +330,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     }
 
     public get bgLineColor(): number {
-        return this.bgAlpha;
+        return this._bgLineColor;
     }
     public set bgLineColor(value: number) {
         if (value === this.bgLineColor) {
@@ -344,7 +344,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     }
 
     public get bgLineAlpha(): number {
-        return this.bgLineAlpha;
+        return this._bgLineAlpha;
     }
     public set bgLineAlpha(value: number) {
         if (value === this.bgLineColor) {
@@ -358,7 +358,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     }
 
     public get bgCornerRadius(): number {
-        return this.bgCornerRadius;
+        return this._bgCornerRadius;
     }
     public set bgCornerRadius(value: number) {
         if (value === this.bgCornerRadius) {
@@ -372,7 +372,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     }
 
     public get bgAlpha(): number {
-        return this.bgAlpha;
+        return this._bgAlpha;
     }
     public set bgAlpha(value: number) {
         if (value === this.bgAlpha) {
@@ -386,7 +386,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     }
 
     public get bgColor(): number {
-        return this.bgColor;
+        return this._bgColor;
     }
     public set bgColor(value: number) {
         if (value === this.bgColor) {
