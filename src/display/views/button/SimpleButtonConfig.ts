@@ -2,6 +2,18 @@ import { IFLabelConfig } from "@flashist/flibs";
 import { SimpleButtonState } from "./SimpleButtonState";
 
 export const SimpleButtonDefaultConfig = {
+    bgConfig: {
+        bgAlpha: 0,
+        bgColor: 0x000000,
+        bgLineWidth: 0,
+        bgLineColor: 0x000000,
+        bgLineAlpha: 0,
+        bgCornerRadius: 0,
+        contentToBgPaddingX: 0,
+        contentToBgPaddingY: 0,
+        contentToBgShiftX: 0,
+        contentToBgShiftY: 0
+    } as ISimpleButtonBgConfig,
     labelConfig: {} as IFLabelConfig,
     states: {
         normal: {
@@ -17,6 +29,19 @@ export const SimpleButtonDefaultConfig = {
             alpha: 0.5
         } as ISingleButtonStateConfig
     } as ISimpleButtonStatesConfig
+}
+
+export interface ISimpleButtonBgConfig {
+    bgAlpha: number,
+    bgColor: number,
+    bgLineWidth: number,
+    bgLineColor: number,
+    bgLineAlpha: number,
+    bgCornerRadius: number,
+    contentToBgPaddingX: number,
+    contentToBgPaddingY: number,
+    contentToBgShiftX: number,
+    contentToBgShiftY: number
 }
 
 export interface ISingleButtonStateConfig {

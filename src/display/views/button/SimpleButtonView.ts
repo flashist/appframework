@@ -36,14 +36,14 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
 
     protected config: SimpleButtonConfig;
 
-    protected _bgAlpha: number;
-    protected _bgColor: number;
-    protected _bgLineWidth: number;
-    protected _bgLineColor: number;
-    protected _bgLineAlpha: number;
-    protected _bgCornerRadius: number;
-    protected _contentToBgPaddingX: number;
-    protected _contentToBgPaddingY: number;
+    // protected _bgAlpha: number;
+    // protected _bgColor: number;
+    // protected _bgLineWidth: number;
+    // protected _bgLineColor: number;
+    // protected _bgLineAlpha: number;
+    // protected _bgCornerRadius: number;
+    // protected _contentToBgPaddingX: number;
+    // protected _contentToBgPaddingY: number;
 
     protected bg: Graphics;
     protected contentCont: FContainer;
@@ -63,23 +63,22 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         // Then override them with passed config
         ObjectTools.copyProps(this.config, config);
 
-        this._bgAlpha = 0;
-        this._bgColor = 0x000000;
-        this._bgLineWidth = 0;
-        this._bgLineColor = 0x000000;
-        this._bgLineAlpha = 0;
-        this._bgCornerRadius = 0;
-        this._contentToBgPaddingX = 0;
-        this._contentToBgPaddingY = 0;
-
-        this.contentCont = new FContainer();
-        this.addChild(this.contentCont);
-
+        // this._bgAlpha = 0;
+        // this._bgColor = 0x000000;
+        // this._bgLineWidth = 0;
+        // this._bgLineColor = 0x000000;
+        // this._bgLineAlpha = 0;
+        // this._bgCornerRadius = 0;
+        // this._contentToBgPaddingX = 0;
+        // this._contentToBgPaddingY = 0;
         // this.bg = this.createBg();
         // this.contentCont.addChild(this.bg);
 
         this.bg = new Graphics();
         this.addChild(this.bg);
+
+        this.contentCont = new FContainer();
+        this.addChild(this.contentCont);
 
         this.viewCont = new FContainer();
         this.contentCont.addChild(this.viewCont);
@@ -182,8 +181,8 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
 
         this.updateBg();
 
-        this.label.x = this.bg.x + Math.floor((this.bg.width - this.label.width) / 2);
-        this.label.y = this.bg.y + Math.floor((this.bg.height - this.label.height) / 2);
+        this.label.x = this.bg.x + Math.floor((this.bg.width - this.label.width) / 2) + this.config.bgConfig.contentToBgShiftX;
+        this.label.y = this.bg.y + Math.floor((this.bg.height - this.label.height) / 2) + this.config.bgConfig.contentToBgShiftY;
 
         // this.bg.width = this.contentCont.width;
         // this.bg.height = this.contentCont.height;
@@ -313,125 +312,125 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
 
     private updateBg(): void {
         this.bg.clear();
-        this.bg.beginFill(this.bgColor, this.bgAlpha);
-        this.bg.lineStyle(this.bgLineWidth, this.bgLineColor, this.bgLineAlpha, 0);
+        this.bg.beginFill(this.config.bgConfig.bgColor, this.config.bgConfig.bgAlpha);
+        this.bg.lineStyle(this.config.bgConfig.bgLineWidth, this.config.bgConfig.bgLineColor, this.config.bgConfig.bgLineAlpha, 0);
 
-        this.bg.drawRoundedRect(0, 0, this.contentCont.width + this.contentToBgPaddingX * 2, this.contentCont.height + this.contentToBgPaddingY * 2, this.bgCornerRadius);
+        this.bg.drawRoundedRect(0, 0, this.contentCont.width + this.config.bgConfig.contentToBgPaddingX * 2, this.contentCont.height + this.config.bgConfig.contentToBgPaddingY * 2, this.config.bgConfig.bgCornerRadius);
 
         this.bg.endFill();
     }
 
-    public get bgLineWidth(): number {
-        return this._bgLineWidth;
-    }
-    public set bgLineWidth(value: number) {
-        if (value === this.bgLineWidth) {
-            return;
-        }
+    // public get bgLineWidth(): number {
+    //     return this._bgLineWidth;
+    // }
+    // public set bgLineWidth(value: number) {
+    //     if (value === this.bgLineWidth) {
+    //         return;
+    //     }
 
-        this._bgLineWidth = value;
+    //     this._bgLineWidth = value;
 
-        // this.updateBg();
-        this.arrange();
-    }
+    //     // this.updateBg();
+    //     this.arrange();
+    // }
 
-    public get bgLineColor(): number {
-        return this._bgLineColor;
-    }
-    public set bgLineColor(value: number) {
-        if (value === this.bgLineColor) {
-            return;
-        }
+    // public get bgLineColor(): number {
+    //     return this._bgLineColor;
+    // }
+    // public set bgLineColor(value: number) {
+    //     if (value === this.bgLineColor) {
+    //         return;
+    //     }
 
-        this._bgLineColor = value;
+    //     this._bgLineColor = value;
 
-        // this.updateBg();
-        this.arrange();
-    }
+    //     // this.updateBg();
+    //     this.arrange();
+    // }
 
-    public get bgLineAlpha(): number {
-        return this._bgLineAlpha;
-    }
-    public set bgLineAlpha(value: number) {
-        if (value === this.bgLineColor) {
-            return;
-        }
+    // public get bgLineAlpha(): number {
+    //     return this._bgLineAlpha;
+    // }
+    // public set bgLineAlpha(value: number) {
+    //     if (value === this.bgLineColor) {
+    //         return;
+    //     }
 
-        this._bgLineAlpha = value;
+    //     this._bgLineAlpha = value;
 
-        // this.updateBg();
-        this.arrange();
-    }
+    //     // this.updateBg();
+    //     this.arrange();
+    // }
 
-    public get bgCornerRadius(): number {
-        return this._bgCornerRadius;
-    }
-    public set bgCornerRadius(value: number) {
-        if (value === this.bgCornerRadius) {
-            return;
-        }
+    // public get bgCornerRadius(): number {
+    //     return this._bgCornerRadius;
+    // }
+    // public set bgCornerRadius(value: number) {
+    //     if (value === this.bgCornerRadius) {
+    //         return;
+    //     }
 
-        this._bgCornerRadius = value;
+    //     this._bgCornerRadius = value;
 
-        // this.updateBg();
-        this.arrange();
-    }
+    //     // this.updateBg();
+    //     this.arrange();
+    // }
 
-    public get bgAlpha(): number {
-        return this._bgAlpha;
-    }
-    public set bgAlpha(value: number) {
-        if (value === this.bgAlpha) {
-            return;
-        }
+    // public get bgAlpha(): number {
+    //     return this._bgAlpha;
+    // }
+    // public set bgAlpha(value: number) {
+    //     if (value === this.bgAlpha) {
+    //         return;
+    //     }
 
-        this._bgAlpha = value;
+    //     this._bgAlpha = value;
 
-        // this.updateBg();
-        this.arrange();
-    }
+    //     // this.updateBg();
+    //     this.arrange();
+    // }
 
-    public get bgColor(): number {
-        return this._bgColor;
-    }
-    public set bgColor(value: number) {
-        if (value === this.bgColor) {
-            return;
-        }
+    // public get bgColor(): number {
+    //     return this._bgColor;
+    // }
+    // public set bgColor(value: number) {
+    //     if (value === this.bgColor) {
+    //         return;
+    //     }
 
-        this._bgColor = value;
+    //     this._bgColor = value;
 
-        // this.updateBg();
-        this.arrange();
-    }
+    //     // this.updateBg();
+    //     this.arrange();
+    // }
 
-    public get contentToBgPaddingX(): number {
-        return this._contentToBgPaddingX;
-    }
-    public set contentToBgPaddingX(value: number) {
-        if (value === this.contentToBgPaddingX) {
-            return;
-        }
+    // public get contentToBgPaddingX(): number {
+    //     return this._contentToBgPaddingX;
+    // }
+    // public set contentToBgPaddingX(value: number) {
+    //     if (value === this.contentToBgPaddingX) {
+    //         return;
+    //     }
 
-        this._contentToBgPaddingX = value;
+    //     this._contentToBgPaddingX = value;
 
-        // this.updateBg();
-        this.arrange();
-    }
+    //     // this.updateBg();
+    //     this.arrange();
+    // }
 
-    public get contentToBgPaddingY(): number {
-        return this._contentToBgPaddingY;
-    }
-    public set contentToBgPaddingY(value: number) {
-        if (value === this.contentToBgPaddingY) {
-            return;
-        }
+    // public get contentToBgPaddingY(): number {
+    //     return this._contentToBgPaddingY;
+    // }
+    // public set contentToBgPaddingY(value: number) {
+    //     if (value === this.contentToBgPaddingY) {
+    //         return;
+    //     }
 
-        this._contentToBgPaddingY = value;
+    //     this._contentToBgPaddingY = value;
 
-        // this.updateBg();
-        this.arrange();
-    }
+    //     // this.updateBg();
+    //     this.arrange();
+    // }
 
     // protected createBg(): Sprite | Graphics {
     //     let result: Sprite | Graphics;
