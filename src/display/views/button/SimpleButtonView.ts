@@ -140,7 +140,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     }
 
     protected onTap(): void {
-        // this.onOut();
+        this.onOut();
     }
 
     protected arrange(): void {
