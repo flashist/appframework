@@ -42,6 +42,8 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     protected _bgLineColor: number;
     protected _bgLineAlpha: number;
     protected _bgCornerRadius: number;
+    protected _contentToBgPaddingX: number;
+    protected _contentToBgPaddingY: number;
 
     protected bg: Graphics;
     protected contentCont: FContainer;
@@ -67,6 +69,8 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         this._bgLineColor = 0x000000;
         this._bgLineAlpha = 0;
         this._bgCornerRadius = 0;
+        this._contentToBgPaddingX = 0;
+        this._contentToBgPaddingY = 0;
 
         this.contentCont = new FContainer();
         this.addChild(this.contentCont);
@@ -311,7 +315,9 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         this.bg.clear();
         this.bg.beginFill(this.bgColor, this.bgAlpha);
         this.bg.lineStyle(this.bgLineWidth, this.bgLineColor, this.bgLineAlpha, 0);
-        this.bg.drawRoundedRect(0, 0, this.contentCont.width, this.contentCont.height, this.bgCornerRadius);
+
+        this.bg.drawRoundedRect(0, 0, this.contentCont.width + this.contentToBgPaddingX * 2, this.contentCont.height + this.contentToBgPaddingY * 2, this.bgCornerRadius);
+
         this.bg.endFill();
     }
 
@@ -394,6 +400,34 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         }
 
         this._bgColor = value;
+
+        // this.updateBg();
+        this.arrange();
+    }
+
+    public get contentToBgPaddingX(): number {
+        return this._contentToBgPaddingX;
+    }
+    public set contentToBgPaddingX(value: number) {
+        if (value === this.contentToBgPaddingX) {
+            return;
+        }
+
+        this._contentToBgPaddingX = value;
+
+        // this.updateBg();
+        this.arrange();
+    }
+
+    public get contentToBgPaddingY(): number {
+        return this._contentToBgPaddingY;
+    }
+    public set contentToBgPaddingY(value: number) {
+        if (value === this.contentToBgPaddingY) {
+            return;
+        }
+
+        this._contentToBgPaddingY = value;
 
         // this.updateBg();
         this.arrange();
