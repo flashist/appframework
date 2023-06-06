@@ -3,7 +3,8 @@ import { SimpleButtonState } from "./SimpleButtonState";
 
 export const SimpleButtonDefaultConfig = {
     bgConfig: {
-        bgAlpha: 0,
+        // 0.001 to make sure the bg is drawn, but is almost invisible
+        bgAlpha: 0.001,
         bgColor: 0x000000,
         bgLineWidth: 0,
         bgLineColor: 0x000000,
