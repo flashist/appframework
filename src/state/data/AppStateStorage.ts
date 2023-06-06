@@ -277,6 +277,10 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
             ArrayType extends Flatten<StateType>[DeepKeyType]
         >(stateForTypings: StateType, deepKey: DeepKeyType, start: number, deleteCount?: number): ArrayType[] {
 
+        if (deleteCount === undefined) {
+            deleteCount = Number.MAX_SAFE_INTEGER;
+        }
+
         const config: IAppStateChangeConfigVO = {
             changeType: AppStateChangeType.SPLICE,
             start: start,
