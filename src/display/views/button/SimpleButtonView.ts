@@ -38,6 +38,10 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
 
     protected _bgAlpha: number;
     protected _bgColor: number;
+    protected _bgLineWidth: number;
+    protected _bgLineColor: number;
+    protected _bgLineAlpha: number;
+    protected _bgCornerRadius: number;
 
     protected bg: Graphics;
     protected contentCont: FContainer;
@@ -59,6 +63,10 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
 
         this._bgAlpha = 0;
         this._bgColor = 0x000000;
+        this._bgLineWidth = 0;
+        this._bgLineColor = 0x000000;
+        this._bgLineAlpha = 0;
+        this._bgCornerRadius = 0;
 
         this.contentCont = new FContainer();
         this.addChild(this.contentCont);
@@ -167,8 +175,14 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
             this.contentCont.scale.set(tempScale);
         }
 
-        this.bg.width = this.contentCont.width;
-        this.bg.height = this.contentCont.height;
+
+        this.updateBg();
+
+        this.label.x = this.bg.x + Math.floor((this.bg.width - this.label.width) / 2);
+        this.label.y = this.bg.y + Math.floor((this.bg.height - this.label.height) / 2);
+
+        // this.bg.width = this.contentCont.width;
+        // this.bg.height = this.contentCont.height;
 
         // if (this.config.bgConfig?.resizeBg) {
         //     if (this.bg.width !== this.resizeSize.x ||
@@ -295,39 +309,93 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
 
     private updateBg(): void {
         this.bg.clear();
-        this.bg.beginFill(this.bgColor, 1);
-        this.bg.drawRect(0, 0, 10, 10);
+        this.bg.beginFill(this.bgColor, this.bgAlpha);
+        this.bg.lineStyle(this.bgLineWidth, this.bgLineColor, this.bgLineAlpha, 0);
+        this.bg.drawRoundedRect(0, 0, this.contentCont.width, this.contentCont.height, this.bgCornerRadius);
         this.bg.endFill();
-        this.bg.alpha = this.bgAlpha;
+    }
+
+    public get bgLineWidth(): number {
+        return this.bgAlpha;
+    }
+    public set bgLineWidth(value: number) {
+        if (value === this.bgLineWidth) {
+            return;
+        }
+
+        this._bgLineWidth = value;
+
+        // this.updateBg();
+        this.arrange();
+    }
+
+    public get bgLineColor(): number {
+        return this.bgAlpha;
+    }
+    public set bgLineColor(value: number) {
+        if (value === this.bgLineColor) {
+            return;
+        }
+
+        this._bgLineColor = value;
+
+        // this.updateBg();
+        this.arrange();
+    }
+
+    public get bgLineAlpha(): number {
+        return this.bgLineAlpha;
+    }
+    public set bgLineAlpha(value: number) {
+        if (value === this.bgLineColor) {
+            return;
+        }
+
+        this._bgLineAlpha = value;
+
+        // this.updateBg();
+        this.arrange();
+    }
+
+    public get bgCornerRadius(): number {
+        return this.bgCornerRadius;
+    }
+    public set bgCornerRadius(value: number) {
+        if (value === this.bgCornerRadius) {
+            return;
+        }
+
+        this._bgCornerRadius = value;
+
+        // this.updateBg();
+        this.arrange();
     }
 
     public get bgAlpha(): number {
         return this.bgAlpha;
     }
-
     public set bgAlpha(value: number) {
         if (value === this.bgAlpha) {
             return;
         }
 
-        this.bgAlpha = value;
+        this._bgAlpha = value;
 
-        this.updateBg();
+        // this.updateBg();
         this.arrange();
     }
 
     public get bgColor(): number {
         return this.bgColor;
     }
-
     public set bgColor(value: number) {
         if (value === this.bgColor) {
             return;
         }
 
-        this.bgColor = value;
+        this._bgColor = value;
 
-        this.updateBg();
+        // this.updateBg();
         this.arrange();
     }
 
