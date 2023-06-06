@@ -13,7 +13,7 @@ export const SimpleButtonDefaultConfig = {
         contentToBgPaddingY: 0,
         contentToBgShiftX: 0,
         contentToBgShiftY: 0
-    } as ISimpleButtonBgConfig,
+    } as Partial<ISimpleButtonBgConfig>,
     labelConfig: {} as IFLabelConfig,
     states: {
         normal: {
