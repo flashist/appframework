@@ -1,10 +1,10 @@
-﻿import {ArrayTools, Dictionary, IConstructor, Logger, ObjectTools} from "@flashist/fcore";
+﻿import { ArrayTools, Dictionary, IConstructor, Logger, ObjectTools } from "@flashist/fcore";
 
-import {DisplayTools, FContainer, Point} from "@flashist/flibs";
+import { DisplayTools, FContainer, Point, getInstance } from "@flashist/flibs";
 
-import {ISimpleListItem} from "./ISimpleListItem";
-import {ILayoutableContainer} from "../layout/container/ILayoutableContainer";
-import {IResizable} from "../resize/IResizable";
+import { ISimpleListItem } from "./ISimpleListItem";
+import { ILayoutableContainer } from "../layout/container/ILayoutableContainer";
+import { IResizable } from "../resize/IResizable";
 
 export class SimpleList
     <ItemType extends ISimpleListItem = ISimpleListItem, ItemData extends any = any>
@@ -201,7 +201,8 @@ export class SimpleList
                 }
 
                 if (!tempItem) {
-                    tempItem = new this.ItemRendererClass();
+                    // tempItem = new this.ItemRendererClass();
+                    tempItem = getInstance(this.ItemRendererClass);
                 }
 
                 this.addItem(tempItem, itemIndex);
