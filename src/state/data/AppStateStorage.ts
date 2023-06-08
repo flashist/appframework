@@ -154,7 +154,11 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
             if (nestedPathIndex === (nestedPathsCount - 1)) {
                 // ObjectTools.copySinglePropFromValue(tempObject, singlePath as string, value);
 
-                if (config.changeType === AppStateChangeType.CHANGE) {
+                if (config.changeType === AppStateChangeType.SUBSTITUTE) {
+                    delete tempObject[singlePath];
+                    ObjectTools.copySinglePropFromValue(tempObject, singlePath as string, config.value);
+
+                } else if (config.changeType === AppStateChangeType.CHANGE) {
                     ObjectTools.copySinglePropFromValue(tempObject, singlePath as string, config.value);
 
                 } else if (config.changeType === AppStateChangeType.DELETE) {
@@ -177,6 +181,26 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
 
         return result;
     }
+
+    // SUBSTITUTE: START
+    public substitute<StateType extends object>() {
+        return <DeepKeyType extends keyof Flatten<StateType>>(key: DeepKeyType, value: Partial<Flatten<StateType>[DeepKeyType]>): void => {
+            this.innerSubstitute({} as StateType, key, value);
+        }
+    }
+
+    protected innerSubstitute<StateType, DeepKeyType extends keyof Flatten<StateType>, ValueType extends Flatten<StateType>[DeepKeyType]>(stateForTypings: StateType, deepKey: DeepKeyType, value: Partial<ValueType>): void {
+        const config: IAppStateChangeConfigVO = {
+            changeType: AppStateChangeType.SUBSTITUTE,
+            value: value
+        };
+
+        // Pre Change Hooks: execute pre-change-hooks on every element: e.g. ecs module hooks might change prepare the new ecs components to sort their container-type-keys to make sure they are always the same q
+        this.triggerPreChangeHooks(stateForTypings, deepKey, config);
+
+        this.processStateAction(stateForTypings, deepKey, config);
+    }
+    // SUBSTITUTE: END
 
 
     // CHANGE: START
