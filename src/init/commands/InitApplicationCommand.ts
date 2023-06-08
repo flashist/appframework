@@ -12,6 +12,7 @@ import { ParseAssetsConfigCommand } from "../../assets/commands/ParseAssetsConfi
 import { DispatchGlobalEventCommand } from "../../events/commands/DispatchGlobalEventCommand";
 import { InitApplicationEvent } from "../events/InitApplicationEvent";
 import { PreloaderPageId } from "../../preloader-page/data/PreloaderPageId";
+import { SetAppLocaleCommand } from "../../locales/commands/SetAppLocaleCommand";
 
 export class InitApplicationCommand extends QueueCommand {
 
@@ -21,6 +22,7 @@ export class InitApplicationCommand extends QueueCommand {
                 getInstance(LoadAppConfigCommand),
                 getInstance(WaitGroupLoadingCompleteCommand, LoadGroupName.CONFIG),
 
+                getInstance(SetAppLocaleCommand),
                 getInstance(ParseLocaleConfigCommand),
                 getInstance(ParseAssetsConfigCommand),
                 getInstance(ParseStaticItemsConfigCommand),

@@ -18,8 +18,13 @@ export class ParseLocaleConfigCommand extends BaseAppCommand {
             let localeManager: LocaleManager = getInstance<LocaleManager>(LocaleManager);
 
             const appState = appStorage().getState<AppModuleState>();
-            localeManager.setCurrentLanguage(appState.app.config.locale);
-            localeManager.addLocale(localizationJson, appState.app.config.locale);
+            // localeManager.setCurrentLanguage(appState.app.config.locale);
+            // localeManager.addLocale(localizationJson, appState.app.config.locale);
+            let localeKeys: string[] = Object.keys(localizationJson);
+            for (let singleLocaleKey of localeKeys) {
+                const singleLocaleTexts = localizationJson[singleLocaleKey];
+                localeManager.addLocale(singleLocaleTexts, singleLocaleKey);
+            }
 
             this.notifyComplete();
 
