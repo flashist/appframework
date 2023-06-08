@@ -23,7 +23,7 @@ export class ParseLocaleConfigCommand extends BaseAppCommand {
             let localeKeys: string[] = Object.keys(localizationJson);
             for (let singleLocaleKey of localeKeys) {
                 const singleLocaleTexts = localizationJson[singleLocaleKey];
-                localeManager.addLocale(singleLocaleTexts, singleLocaleKey);
+                localeManager.addLocaleTexts(singleLocaleTexts, singleLocaleKey);
             }
 
             this.notifyComplete();
