@@ -11,6 +11,6 @@ export class SetAppLocaleCommand extends BaseAppCommand {
     protected executeInternal(): void {
         const deviceState = appStorage().getState<DeviceModuleState>();
         let localeManager: LocaleManager = getInstance<LocaleManager>(LocaleManager);
-        localeManager.setCurrentLocale(deviceState.device.mainLocale);
+        localeManager.setCurrentLocaleId(deviceState.device.mainLocale);
     }
 }
