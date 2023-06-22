@@ -103,6 +103,8 @@ export class ECSManager extends BaseAppManager {
                 }
                 this.queriesToTypesMap[includeTypesSortedKey][excludeTypesSortedKey] = result;
                 this.queriesList.push(result);
+
+                this.updateAllEntitiesForQuery(result);
             }
 
             return result;
