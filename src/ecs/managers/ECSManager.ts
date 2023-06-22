@@ -88,9 +88,12 @@ export class ECSManager extends BaseAppManager {
     };
 
     public queries = {
-        get: <EntityType extends IEntity>(includeTypes: string[], excludeTypes: string[]): EntitiesQuery<EntityType> => {
+        get: <EntityType extends IEntity>(includeTypes: string[], excludeTypes: string[] = null): EntitiesQuery<EntityType> => {
             const includeTypesSortedKey: string = includeTypes.concat().sort().join();
-            const excludeTypesSortedKey: string = excludeTypes.concat().sort().join();
+            let excludeTypesSortedKey: string = "";
+            if (excludeTypes) {
+                excludeTypesSortedKey = excludeTypes.concat().sort().join();
+            }
 
             let result: EntitiesQuery<EntityType> = this.queriesToTypesMap[includeTypesSortedKey]?.[excludeTypesSortedKey] as any;
             if (!result) {
