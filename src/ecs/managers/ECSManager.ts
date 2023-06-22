@@ -88,7 +88,7 @@ export class ECSManager extends BaseAppManager {
     };
 
     public queries = {
-        get: <EntityType extends IEntity>(includeTypes: string[], excludeTypes: string[] = null): EntitiesQuery<EntityType> => {
+        get: <EntityType extends IEntity>(includeTypes: string[], excludeTypes?: string[]): EntitiesQuery<EntityType> => {
             const includeTypesSortedKey: string = includeTypes.concat().sort().join();
             let excludeTypesSortedKey: string = "";
             if (excludeTypes) {
@@ -109,8 +109,13 @@ export class ECSManager extends BaseAppManager {
         }
     }
 
-    protected addEntityToQueries(entity: IEntity): void {
-        for (let singleQuery of this.queriesList) {
+    protected addEntityToQueries(entity: IEntity, queries?: EntitiesQuery[]): void {
+
+        if (!queries) {
+            queries = this.queriesList;
+        }
+
+        for (let singleQuery of queries) {
             if (singleQuery.entities.indexOf(entity) === -1) {
                 let hasAllIncludeTypes: boolean = true;
                 for (let singleQueryIncludeType of singleQuery.includeTypes) {
@@ -146,6 +151,12 @@ export class ECSManager extends BaseAppManager {
     protected updateAllQueriesForEntity(entity: IEntity): void {
         this.removeEntityFromAllQueries(entity);
         this.addEntityToQueries(entity);
+    }
+
+    protected updateAllEntitiesForQuery(query: EntitiesQuery): void {
+        for (let singleEntity of this.entitiesList) {
+            this.addEntityToQueries(singleEntity, [query]);
+        }
     }
 
     public systems = {
