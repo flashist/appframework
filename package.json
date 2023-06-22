@@ -1,6 +1,6 @@
 {
   "name": "@flashist/appframework",
-  "version": "0.0.181",
+  "version": "0.0.182",
   "scripts": {
     "build": "gulp",
     "publish:patch": "npm version patch && npm run build && cd ./dist && npm publish",
