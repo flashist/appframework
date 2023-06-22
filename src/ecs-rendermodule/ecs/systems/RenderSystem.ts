@@ -1,4 +1,4 @@
-import { DisplayObjectContainer, DisplayTools, FContainer, getInstance } from "@flashist/flibs";
+import { DisplayTools, FContainer, getInstance } from "@flashist/flibs";
 import { ContainersManager } from "../../../containers/managers/ContainersManager";
 import { IEntity } from "../../../ecs/ecs/entities/IEntity";
 import { System } from "../../../ecs/ecs/systems/System";
