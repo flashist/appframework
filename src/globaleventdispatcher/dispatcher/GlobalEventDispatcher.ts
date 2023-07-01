@@ -1,10 +1,11 @@
-import {BaseObject, IEventListenerCallback} from "@flashist/fcore";
+import { BaseObject, IEventListenerCallback } from "@flashist/fcore";
 
-import {GlobalEventDispatcherEvent} from "./GlobalEventDispatcherEvent";
+import { GlobalEventDispatcherEvent } from "./GlobalEventDispatcherEvent";
+import { GlobalEventDispatcherAgumentsType } from "./GlobalEventDispatcherAgumentsType";
 
 export class GlobalEventDispatcher extends BaseObject {
 
-    dispatchEvent(type: string, ...args): void {
+    dispatchEvent<ArgsType extends GlobalEventDispatcherAgumentsType = GlobalEventDispatcherAgumentsType>(type: string, ...args: ArgsType): void {
         super.dispatchEvent(
             this.getModifiedEventType(type, GlobalEventDispatcherEvent.PRE_DISPATCH_EVENT),
             ...args
