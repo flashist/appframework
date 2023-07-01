@@ -27,6 +27,7 @@ import { InitApplicationEvent } from "../init/events/InitApplicationEvent";
 import { DeviceModule } from "../device/DeviceModule";
 import { AppStateModule, appStorage } from "../state/AppStateModule";
 import { DeviceModuleState } from "../device/data/state/DeviceModuleState";
+import { DeepReadonly } from "../state";
 
 export class Facade extends BaseObject {
 
@@ -170,7 +171,7 @@ export class Facade extends BaseObject {
 
     protected onWindowResize(): void {
         const documentSize: Point = HtmlTools.getDocumentSize();
-        const appState: DeviceModuleState = appStorage().getState<DeviceModuleState>();
+        const appState: DeepReadonly<DeviceModuleState> = appStorage().getState<DeviceModuleState>();
         this.rendererManager.resize(documentSize.x, documentSize.y, appState.device.pixelRatio);
     }
 
