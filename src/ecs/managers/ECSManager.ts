@@ -10,6 +10,8 @@ import { System } from "../ecs/systems/System";
 
 export class ECSManager extends BaseAppManager {
 
+    private entityIdsPoolName: string = "ecsManagerEntitiesIdPool";
+
     protected entitiesList: IEntity[] = [];
 
     protected queriesToTypesMap: {
@@ -60,6 +62,10 @@ export class ECSManager extends BaseAppManager {
         add: (entity: IEntity) => {
             if (this.entitiesList.indexOf(entity) !== -1) {
                 return;
+            }
+
+            if (!entity.id) {
+                entity.id = UniqueTools.getObjectUniqueId(this.entityIdsPoolName);
             }
 
             this.entitiesList.push(entity);
