@@ -47,8 +47,8 @@ export class ECSManager extends BaseAppManager {
     }
 
     public entities = {
-        create: (entity: IEntity): IEntity => {
-            const result: IEntity = {
+        create: <EntityType extends IEntity>(entity: EntityType): EntityType => {
+            const result: EntityType = {
                 ...entity,
                 id: UniqueTools.getUniqueIdForPool(this.entitiesUniquePoolId)
             }
@@ -57,7 +57,7 @@ export class ECSManager extends BaseAppManager {
 
             return result;
         },
-        add: (entity: IEntity) => {
+        add: (entity: IEntity): void => {
             if (this.entitiesList.indexOf(entity) !== -1) {
                 return;
             }
@@ -66,19 +66,19 @@ export class ECSManager extends BaseAppManager {
 
             this.addEntityToQueries(entity);
         },
-        remove: (entity: IEntity) => {
+        remove: (entity: IEntity): void => {
             ArrayTools.removeItem(this.entitiesList, entity);
 
             this.removeEntityFromAllQueries(entity);
         },
-        addComponents: (entity: IEntity, ...components: IComponent[]) => {
+        addComponents: (entity: IEntity, ...components: IComponent[]): void => {
             for (let singleComponent of components) {
                 entity.components[singleComponent.type] = singleComponent;
             }
 
             this.updateAllQueriesForEntity(entity);
         },
-        removeComponents: (entity: IEntity, ...componentTypes: string[]) => {
+        removeComponents: (entity: IEntity, ...componentTypes: string[]): void => {
             for (let singleComponentType of componentTypes) {
                 delete entity.components[singleComponentType];
             }
