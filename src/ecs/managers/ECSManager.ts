@@ -11,6 +11,7 @@ import { System } from "../ecs/systems/System";
 export class ECSManager extends BaseAppManager {
 
     protected entitiesList: IEntity[] = [];
+    protected entitiesToIdMap: Record<string, IEntity> = {};
 
     protected queriesToTypesMap: {
         [includeTypesSortedKey: string]: {
@@ -47,6 +48,9 @@ export class ECSManager extends BaseAppManager {
     }
 
     public entities = {
+        get: <EntityType extends IEntity>(id: string): EntityType => {
+            return this.entitiesToIdMap[id] as EntityType;
+        },
         create: <EntityType extends IEntity>(entity: EntityType): EntityType => {
             const result: EntityType = {
                 ...entity,
@@ -63,11 +67,13 @@ export class ECSManager extends BaseAppManager {
             }
 
             this.entitiesList.push(entity);
+            this.entitiesToIdMap[entity.id] = entity;
 
             this.addEntityToQueries(entity);
         },
         remove: (entity: IEntity): void => {
             ArrayTools.removeItem(this.entitiesList, entity);
+            delete this.entitiesToIdMap[entity.id];
 
             this.removeEntityFromAllQueries(entity);
         },
