@@ -51,6 +51,9 @@ export class ECSManager extends BaseAppManager {
         get: <EntityType extends IEntity>(id: string): EntityType => {
             return this.entitiesToIdMap[id] as EntityType;
         },
+        getAll: (): IEntity[] => {
+            return this.entitiesList.concat();
+        },
         create: <EntityType extends IEntity>(entity: EntityType): EntityType => {
             const result: EntityType = {
                 ...entity,
