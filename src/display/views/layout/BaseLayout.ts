@@ -11,7 +11,7 @@ import { GetSizeTools } from "../../tools/GetSizeTools";
  * @author Mark (ruFlashist@gmail.com)
  */
 export abstract class BaseLayout {
-    protected settings: LayoutConfig;
+    public settings: LayoutConfig;
     protected _totalSize: Point = new Point();
 
     constructor(settings?: Partial<LayoutConfig>) {
