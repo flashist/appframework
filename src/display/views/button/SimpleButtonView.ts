@@ -49,7 +49,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     protected contentCont: FContainer;
     protected icon: Sprite;
     // protected bg: Graphics | Sprite;
-    protected label: FLabel;
+    public label: FLabel;
     protected viewCont: FContainer;
 
     constructor(config: SimpleButtonConfig) {
