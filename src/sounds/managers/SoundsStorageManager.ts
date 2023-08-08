@@ -1,8 +1,8 @@
-import {BaseObject} from "@flashist/fcore";
-import {getInstance, SoundsManager, SoundsManagerEvent} from "@flashist/flibs";
+import { BaseObject } from "@flashist/fcore";
+import { getInstance, SoundsManager, SoundsManagerEvent } from "@flashist/flibs";
 
-import {LocalStorageManager} from "../../local-storage/managers/LocalStorageManager";
-import {SoundsSettings} from "../SoundsSettings";
+import { LocalStorageManager } from "../../local-storage/managers/LocalStorageManager";
+import { SoundsSettings } from "../SoundsSettings";
 
 export class SoundsStorageManager extends BaseObject {
 
@@ -36,10 +36,18 @@ export class SoundsStorageManager extends BaseObject {
             this.soundsManager.isMuted = isMuted;
         }
 
+        const mutedTags: string[] = this.storageManager.getParam<string[]>(SoundsSettings.storage.mutedTags);
+        if (mutedTags) {
+            for (let singleTag of mutedTags) {
+                this.soundsManager.setTagIsMuted(singleTag, true);
+            }
+        }
+
         this.commitSoundsData();
     }
 
     protected commitSoundsData(): void {
         this.storageManager.setParam(SoundsSettings.storage.isMutedParamId, this.soundsManager.isMuted);
+        this.storageManager.setParam(SoundsSettings.storage.mutedTags, this.soundsManager.getMutedTags());
     }
 }

@@ -1,5 +1,6 @@
 export const SoundsSettings = {
     storage: {
-        isMutedParamId: "SoundsSettings.isMutedParamId"
+        isMutedParamId: "SoundsSettings.isMutedParamId",
+        mutedTags: "SoundsSettings.mutedTags"
     }
 };
