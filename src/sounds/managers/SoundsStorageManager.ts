@@ -24,6 +24,12 @@ export class SoundsStorageManager extends BaseObject {
             SoundsManagerEvent.IS_MUTED_CHANGE,
             this.onSoundsDataChange
         );
+
+        this.eventListenerHelper.addEventListener(
+            this.soundsManager,
+            SoundsManagerEvent.IS_MUTED_CHANGE,
+            this.onSoundsDataChange
+        );
     }
 
     protected onSoundsDataChange(): void {
@@ -48,6 +54,6 @@ export class SoundsStorageManager extends BaseObject {
 
     protected commitSoundsData(): void {
         this.storageManager.setParam(SoundsSettings.storage.isMutedParamId, this.soundsManager.isMuted);
-        this.storageManager.setParam(SoundsSettings.storage.mutedTags, this.soundsManager.getMutedTags());
+        this.storageManager.setParam(SoundsSettings.storage.mutedTags, this.soundsManager.getTagsMuted());
     }
 }
