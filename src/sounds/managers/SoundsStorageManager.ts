@@ -27,7 +27,7 @@ export class SoundsStorageManager extends BaseObject {
 
         this.eventListenerHelper.addEventListener(
             this.soundsManager,
-            SoundsManagerEvent.IS_MUTED_CHANGE,
+            SoundsManagerEvent.TAGS_IS_MUTED_CHANGE,
             this.onSoundsDataChange
         );
     }
