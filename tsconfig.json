@@ -15,5 +15,5 @@
   },
   "include": [
     "src/**/*"
-, "../flibs/src/sounds/data", "../flibs/src/sounds/abstract/SoundTags.ts"  ]
+  ]
 }
