@@ -54,6 +54,7 @@ export class AppManager extends BaseAppManager {
         appStorage().change<AppModuleState>()(
             "app",
             {
+                sessionDuration: sessionTimeDelta,
                 totalUsageDuration: this.appState.app.previousSessionTotalUsageTime + sessionTimeDelta
             }
         );

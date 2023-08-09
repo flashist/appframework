@@ -5,9 +5,11 @@ export const AppModuleInitialState = {
         debug: false,
 
         appLaunchesCount: 0,
-        totalUsageDuration: 0,
 
         sessionStartTime: 0,
+        sessionDuration: 0,
+
+        totalUsageDuration: 0,
         previousSessionTotalUsageTime: 0,
 
         config: {
