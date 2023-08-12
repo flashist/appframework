@@ -13,6 +13,7 @@ export class AppManager extends BaseAppManager {
     protected appState: DeepReadonly<AppModuleState>;
     protected storageManager: LocalStorageManager;
 
+    protected updateStorageInterval: any;
     protected updateTimeInterval: any;
 
     protected construction(...args): void {
@@ -37,10 +38,19 @@ export class AppManager extends BaseAppManager {
             }
         );
 
-        this.updateStorageData();
+        this.updateUsageTime();
         this.updateTimeInterval = setInterval(
             () => {
                 this.updateUsageTime();
+            },
+            // 60 times per second
+            1000 / 60
+        );
+
+        this.updateStorageData();
+        this.updateStorageInterval = setInterval(
+            () => {
+                this.updateStorageData();
             },
             // 1 min
             1000 * 60
