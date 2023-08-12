@@ -19,7 +19,7 @@ export class AppModulesManager {
         ArrayTools.removeItem(this.modules, module);
     }
 
-    initModules(): void {
+    async initModules() {
         let modulesCount: number = this.modules.length;
         // Init all modules
         for (let moduleIndex: number = 0; moduleIndex < modulesCount; moduleIndex++) {
@@ -29,16 +29,16 @@ export class AppModulesManager {
         // Go through all modules and call the hook after completion,
         // to add a way to do something, when everything is prepared
         for (let moduleIndex: number = 0; moduleIndex < modulesCount; moduleIndex++) {
-            this.modules[moduleIndex].initCompleteHook();
+            await this.modules[moduleIndex].initCompleteHook();
         }
     }
 
-    activateModules(): void {
+    async activateModules() {
         let modulesCount: number = this.modules.length;
         // Go through all modules and call the hook after completion,
         // to add a way to do something, when everything is prepared
         for (let moduleIndex: number = 0; moduleIndex < modulesCount; moduleIndex++) {
-            this.modules[moduleIndex].activateCompleteHook();
+            await this.modules[moduleIndex].activateCompleteHook();
         }
     }
 }
