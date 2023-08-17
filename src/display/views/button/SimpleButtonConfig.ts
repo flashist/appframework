@@ -2,6 +2,11 @@ import { IFLabelConfig } from "@flashist/flibs";
 import { SimpleButtonState } from "./SimpleButtonState";
 
 export const SimpleButtonDefaultConfig = {
+    // We need this param in both states and root,
+    // because we need a correct label config
+    // at the moment of creationg of the FLabel instance
+    labelConfig: null as IFLabelConfig,
+
     bgConfig: {
         // 0.001 to make sure the bg is drawn, but is almost invisible
         bgAlpha: 0.001,
