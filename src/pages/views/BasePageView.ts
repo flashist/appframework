@@ -1,4 +1,4 @@
-import { DisplayResizeTools, FContainer, getInstance, Graphics, Point, Rectangle } from "@flashist/flibs";
+import { DisplayResizeTools, FContainer, getInstance, Graphics, Point, Rectangle, IResizeConfig } from "@flashist/flibs";
 import { AppModuleState } from "../../app/data/state/AppModuleState";
 
 import { BaseAppView } from "../../base/views/BaseAppView";
@@ -20,10 +20,16 @@ export class BasePageView extends BaseAppView {
     // protected reversedScaleContentLocalPosCached: Point;
     // protected reversedScaleContentGlobalPosCached: Point;
 
+    protected resizeConfig: IResizeConfig;
+
     protected construction(...args): void {
         super.construction(args);
 
         // appState.app.config = getInstance(AppConfigModel);
+
+        this.resizeConfig = {
+            upscaleAllowed: false
+        };
 
         this.contentContReversedResizeSize = new Rectangle();
         this.contentContLocalPosOfGlobalZero = new Point();
@@ -96,7 +102,8 @@ export class BasePageView extends BaseAppView {
             this.sizeArea.width,
             this.sizeArea.height,
             this.resizeSize.x,
-            this.resizeSize.y
+            this.resizeSize.y,
+            this.resizeConfig
         );
         this.contentCont.scale.set(tempScale);
         /*this.contentCont.x = this.sizeArea.x + Math.floor((this.resizeSize.x - this.contentCont.width) / 2);
