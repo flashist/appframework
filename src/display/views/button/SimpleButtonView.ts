@@ -93,7 +93,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         this.icon = new Sprite();
         this.layoutableCont.addChild(this.icon);
 
-        this.label = new FLabel();
+        this.label = new FLabel(this.config.labelConfig);
         this.layoutableCont.addChild(this.label);
         //
         // this.label.interactive = true;
