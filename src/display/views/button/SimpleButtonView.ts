@@ -54,7 +54,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     public label: FLabel;
     protected viewCont: FContainer;
 
-    protected contentLayout: BaseLayout;
+    protected _contentLayout: BaseLayout;
 
     constructor(config: SimpleButtonConfig) {
         super(config);
@@ -313,6 +313,16 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         this.bg.drawRoundedRect(0, 0, this.contentCont.width + this.config.bgConfig.contentToBgPaddingX * 2, this.contentCont.height + this.config.bgConfig.contentToBgPaddingY * 2, this.config.bgConfig.bgCornerRadius);
 
         this.bg.endFill();
+    }
+
+
+    public get contentLayout(): BaseLayout {
+        return this._contentLayout;
+    }
+    public set contentLayout(value: BaseLayout) {
+        this._contentLayout = value;
+
+        this.arrange();
     }
 
     // public get bgLineWidth(): number {
