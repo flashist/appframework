@@ -1,33 +1,33 @@
-import { BaseObject, Command, IEventListenerCallback } from "@flashist/fcore";
+import { BaseObject, Command } from "@flashist/fcore";
 
-import { DeviceType, FApp, getInstance, HtmlTools, Point, ServiceLocator } from "@flashist/flibs";
+import { FApp, getInstance, HtmlTools, Point, ServiceLocator } from "@flashist/flibs";
 
-import { GlobalEventDispatcherModule } from "../globaleventdispatcher/GlobalEventDispatcherModule";
-import { AppModulesManager } from "../base/modules/AppModulesManager";
-import { PagesModule } from "../pages/PagesModule";
-import { RendererModule } from "../renderer/RendererModule";
-import { IFacadeOptions } from "./IFacadeOptions";
 import { AppModule } from "../app/AppModule";
-import { TimeModule } from "../time/TimeModule";
-import { DebugModule } from "../debug/DebugModule";
-import { LoadModule } from "../load/LoadModule";
+import { AppMainContainer } from "../app/views/AppMainContainer";
+import { AppModulesManager } from "../base/modules/AppModulesManager";
+import { BaseAppModule } from "../base/modules/BaseAppModule";
 import { ContainersModule } from "../containers/ContainersModule";
-import { ObjectsPoolModule } from "../pool/ObjectsPoolModule";
-import { LocalesModule } from "../locales/LocalesModule";
-import { LocalStorageModule } from "../local-storage/LocalStorageModule";
-import { SoundsModule } from "../sounds/SoundsModule";
+import { DebugModule } from "../debug/DebugModule";
+import { DeviceModuleState } from "../device/data/state/DeviceModuleState";
+import { DeviceModule } from "../device/DeviceModule";
+import { GlobalEventDispatcher } from "../globaleventdispatcher/dispatcher/GlobalEventDispatcher";
+import { GlobalEventDispatcherModule } from "../globaleventdispatcher/GlobalEventDispatcherModule";
 import { HTMLModule } from "../html/HTMLModule";
 import { InitApplicationCommand } from "../init/commands/InitApplicationCommand";
-import { RendererManager } from "../renderer/managers/RendererManager";
-import { GlobalEventDispatcher } from "../globaleventdispatcher/dispatcher/GlobalEventDispatcher";
-import { RendererManagerEvent } from "../renderer/events/RendererManagerEvent";
-import { AppMainContainer } from "../app/views/AppMainContainer";
-import { BaseAppModule } from "../base/modules/BaseAppModule";
 import { InitApplicationEvent } from "../init/events/InitApplicationEvent";
-import { DeviceModule } from "../device/DeviceModule";
-import { AppStateModule, appStorage } from "../state/AppStateModule";
-import { DeviceModuleState } from "../device/data/state/DeviceModuleState";
+import { LoadModule } from "../load/LoadModule";
+import { LocalStorageModule } from "../local-storage/LocalStorageModule";
+import { LocalesModule } from "../locales/LocalesModule";
+import { PagesModule } from "../pages/PagesModule";
+import { ObjectsPoolModule } from "../pool/ObjectsPoolModule";
+import { RendererManagerEvent } from "../renderer/events/RendererManagerEvent";
+import { RendererManager } from "../renderer/managers/RendererManager";
+import { RendererModule } from "../renderer/RendererModule";
+import { SoundsModule } from "../sounds/SoundsModule";
 import { DeepReadonly } from "../state";
+import { AppStateModule, appStorage } from "../state/AppStateModule";
+import { TimeModule } from "../time/TimeModule";
+import { IFacadeOptions } from "./IFacadeOptions";
 
 export class Facade extends BaseObject {
 

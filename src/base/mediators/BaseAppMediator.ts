@@ -1,4 +1,4 @@
-import { IDefaultEventDispatcher, IEventListenerCallback } from "@flashist/fcore";
+import { IDefaultEventDispatcher, IEventListener } from "@flashist/fcore";
 import { IActivatee } from "@flashist/flibs";
 
 import { BaseObjectWithGlobalDispatcher } from "../BaseObjectWithGlobalDispatcher";
@@ -14,7 +14,7 @@ export class BaseAppMediator<ActivatorType extends IDefaultEventDispatcher<any> 
         this.destruction();
     }
 
-    public addActivatorListener(type: string, listener: IEventListenerCallback): void {
+    public addActivatorListener(type: string, listener: IEventListener): void {
         this.eventListenerHelper.addEventListener(
             this.activator,
             type,

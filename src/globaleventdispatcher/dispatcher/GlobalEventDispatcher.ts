@@ -1,4 +1,4 @@
-import { BaseObject, IEventListenerCallback } from "@flashist/fcore";
+import { BaseObject, IEventListener } from "@flashist/fcore";
 
 import { GlobalEventDispatcherEvent } from "./GlobalEventDispatcherEvent";
 import { GlobalEventDispatcherAgumentsType } from "./GlobalEventDispatcherAgumentsType";
@@ -20,28 +20,28 @@ export class GlobalEventDispatcher extends BaseObject {
         );
     }
 
-    public addPreEventListener(type: string, listener: IEventListenerCallback): void {
+    public addPreEventListener(type: string, listener: IEventListener): void {
         this.addEventListener(
             this.getModifiedEventType(type, GlobalEventDispatcherEvent.PRE_DISPATCH_EVENT),
             listener
         );
     }
 
-    public addPostEventListener(type: string, listener: IEventListenerCallback): void {
+    public addPostEventListener(type: string, listener: IEventListener): void {
         this.addEventListener(
             this.getModifiedEventType(type, GlobalEventDispatcherEvent.POST_DISPATCH_EVENT),
             listener
         );
     }
 
-    public removePreEventListener(type: string, listener: IEventListenerCallback): void {
+    public removePreEventListener(type: string, listener: IEventListener): void {
         this.removeEventListener(
             this.getModifiedEventType(type, GlobalEventDispatcherEvent.PRE_DISPATCH_EVENT),
             listener
         );
     }
 
-    public removePostEventListener(type: string, listener: IEventListenerCallback): void {
+    public removePostEventListener(type: string, listener: IEventListener): void {
         this.removeEventListener(
             this.getModifiedEventType(type, GlobalEventDispatcherEvent.POST_DISPATCH_EVENT),
             listener
