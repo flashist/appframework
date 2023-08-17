@@ -5,6 +5,7 @@ import { SimpleButtonState } from "./SimpleButtonState";
 import { AppResizableContainer } from "../resize/AppResizableContainer";
 import { IToggableItem } from "../togglegroup/IToggableItem";
 import { ObjectTools } from '@flashist/fcore';
+import { BaseLayout, BaseLayoutableContainer } from "../layout";
 
 export class SimpleButtonView<DataType extends object = object> extends AppResizableContainer<DataType> implements IToggableItem {
 
@@ -47,10 +48,13 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
 
     protected bg: Graphics;
     protected contentCont: FContainer;
+    protected layoutableCont: BaseLayoutableContainer;
     protected icon: Sprite;
     // protected bg: Graphics | Sprite;
     public label: FLabel;
     protected viewCont: FContainer;
+
+    protected contentLayout: BaseLayout;
 
     constructor(config: SimpleButtonConfig) {
         super(config);
@@ -83,11 +87,14 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         this.viewCont = new FContainer();
         this.contentCont.addChild(this.viewCont);
 
+        this.layoutableCont = new BaseLayoutableContainer();
+        this.contentCont.addChild(this.layoutableCont);
+
         this.icon = new Sprite();
-        this.contentCont.addChild(this.icon);
+        this.layoutableCont.addChild(this.icon);
 
         this.label = new FLabel(this.config.labelConfig);
-        this.contentCont.addChild(this.label);
+        this.layoutableCont.addChild(this.label);
         //
         // this.label.interactive = true;
         // this.label.interactiveChildren = true;
@@ -167,6 +174,10 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     protected arrange(): void {
         super.arrange();
 
+        if (this.contentLayout) {
+            this.contentLayout.arrange(this.layoutableCont);
+        }
+
         if (this.resizeSize.x && this.resizeSize.y) {
             this.contentCont.scale.set(1);
             const tempScale: number = DisplayResizeTools.getScale(
@@ -181,24 +192,8 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
 
         this.updateBg();
 
-        this.label.x = this.bg.x + Math.floor((this.bg.width - this.label.width) / 2) + this.config.bgConfig.contentToBgShiftX;
-        this.label.y = this.bg.y + Math.floor((this.bg.height - this.label.height) / 2) + this.config.bgConfig.contentToBgShiftY;
-
-        // this.bg.width = this.contentCont.width;
-        // this.bg.height = this.contentCont.height;
-
-        // if (this.config.bgConfig?.resizeBg) {
-        //     if (this.bg.width !== this.resizeSize.x ||
-        //         this.bg.height !== this.resizeSize.y) {
-
-        //         this.updateBg();
-        //     }
-        // }
-
-        // this.label.width = this.bg.width;
-        // this.label.height = this.bg.height;
-        // this.label.x = this.bg.x + Math.floor((this.bg.width - this.label.width) / 2);
-        // this.label.y = this.bg.y + Math.floor((this.bg.height - this.label.height) / 2);
+        this.contentCont.x = this.bg.x + Math.floor((this.bg.width - this.contentCont.width) / 2) + this.config.bgConfig.contentToBgShiftX;
+        this.contentCont.y = this.bg.y + Math.floor((this.bg.height - this.contentCont.height) / 2) + this.config.bgConfig.contentToBgShiftY;
     }
 
     get enabled(): boolean {

@@ -16,6 +16,7 @@ export const SimpleButtonDefaultConfig = {
         contentToBgShiftY: 0
     } as Partial<ISimpleButtonBgConfig>,
     labelConfig: {} as IFLabelConfig,
+
     states: {
         normal: {
             alpha: 0.75
