@@ -15,7 +15,6 @@ export const SimpleButtonDefaultConfig = {
         contentToBgShiftX: 0,
         contentToBgShiftY: 0
     } as Partial<ISimpleButtonBgConfig>,
-    labelConfig: {} as IFLabelConfig,
 
     states: {
         normal: {
@@ -49,6 +48,7 @@ export interface ISimpleButtonBgConfig {
 export interface ISingleButtonStateConfig {
     alpha?: number;
     icon?: string;
+    labelConfig?: IFLabelConfig;
 }
 
 export type ISimpleButtonStatesConfig = {

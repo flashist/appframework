@@ -93,7 +93,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         this.icon = new Sprite();
         this.layoutableCont.addChild(this.icon);
 
-        this.label = new FLabel(this.config.labelConfig);
+        this.label = new FLabel();
         this.layoutableCont.addChild(this.label);
         //
         // this.label.interactive = true;
@@ -257,6 +257,10 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
 
         if (tempConfig.icon) {
             this.icon.texture = Texture.from(tempConfig.icon);
+        }
+
+        if (tempConfig.labelConfig) {
+            this.label.changeConfig(tempConfig.labelConfig);
         }
 
         if (this.enabled) {
