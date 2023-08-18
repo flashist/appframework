@@ -2,7 +2,7 @@ import { Point } from "@flashist/flibs";
 import { AppContainer } from "../AppContainer";
 import { IResizable } from "./IResizable";
 
-export class AppResizableContainer<DataType extends object = object> extends AppContainer<DataType> implements IResizable {
+export class AppResizableContainer<DataType extends any = any> extends AppContainer<DataType> implements IResizable {
 
     private _resizeSize: Point;
     private _maxSize: Point;

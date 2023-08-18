@@ -4,7 +4,7 @@ import { getInstance } from "@flashist/flibs";
 import { AppResizableContainer } from "../../display/views/resize/AppResizableContainer";
 import { GlobalEventDispatcher } from "../../globaleventdispatcher/dispatcher/GlobalEventDispatcher";
 
-export class BaseAppView<DataType extends object = object> extends AppResizableContainer<DataType> {
+export class BaseAppView<DataType extends any = any> extends AppResizableContainer<DataType> {
 
     protected globalDispatcher: GlobalEventDispatcher;
 
