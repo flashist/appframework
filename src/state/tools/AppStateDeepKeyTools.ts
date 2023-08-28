@@ -1,7 +1,7 @@
 import { ObjectTools } from "@flashist/fcore";
 import { AppStateChangeType } from "../data/AppStateChangeType";
-import { IAppStateChangeConfigVO } from "../data/IappStateChangeConfigVO";
 import { IDeepKeyHelperVO } from "./INestedPathHelperVO";
+import { IAppStateChangeConfigVO } from "../data";
 
 export class AppStateDeepKeyTools {
     static prepareDeepKeyHelperData(deepKey: string, config: IAppStateChangeConfigVO = null): IDeepKeyHelperVO {
@@ -24,7 +24,8 @@ export class AppStateDeepKeyTools {
             result.dispatchingChangePathsMap[tempTotalPath] = true;
         }
 
-        if (config && config.changeType === AppStateChangeType.CHANGE) {
+        if (config &&
+            (config.changeType === AppStateChangeType.CHANGE || config.changeType === AppStateChangeType.SUBSTITUTE)) {
             if (!ObjectTools.isSimpleType(config.value)) {
                 const getComplexValueKeyPaths = (value: any, valueDeepKey: string): string[] => {
                     let result: string[] = [valueDeepKey];
