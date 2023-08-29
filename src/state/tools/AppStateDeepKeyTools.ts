@@ -24,8 +24,7 @@ export class AppStateDeepKeyTools {
             result.dispatchingChangePathsMap[tempTotalPath] = true;
         }
 
-        if (config &&
-            (config.changeType === AppStateChangeType.CHANGE || config.changeType === AppStateChangeType.SUBSTITUTE)) {
+        if (config) {
             if (!ObjectTools.isSimpleType(config.value)) {
                 const getComplexValueKeyPaths = (value: any, valueDeepKey: string): string[] => {
                     let result: string[] = [valueDeepKey];
