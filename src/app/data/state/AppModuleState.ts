@@ -16,7 +16,7 @@ export const AppModuleInitialState = {
             appName: null,
             appVersion: null,
             files: null,
-            locale: null,
+            // locale: null,
             targetFps: null,
             sizeArea: {
                 x: 0,

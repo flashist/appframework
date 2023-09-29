@@ -10,6 +10,7 @@ import { BaseAppCommand } from "../../base/commands/BaseAppCommand";
 import { AppSettings } from "../AppSettings";
 import { appStorage } from "../../state/AppStateModule";
 import { AppModuleState } from "../data/state/AppModuleState";
+import { DeviceModuleState } from "../../device";
 
 export class LoadAppConfigCommand extends BaseAppCommand {
     BasePageView
@@ -32,11 +33,13 @@ export class LoadAppConfigCommand extends BaseAppCommand {
                     );
 
                     //
+                    const deviceState = appStorage().getMutableState<DeviceModuleState>();
+                    //
                     const appState = appStorage().getState<AppModuleState>();
                     const loadManager: LoadManager = getInstance(LoadManager);
                     loadManager.addSubstituteParams(
                         {
-                            locale: appState.app.config.locale
+                            locale: deviceState.device.mainLocale
                         }
                     );
 
