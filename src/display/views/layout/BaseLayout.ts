@@ -50,7 +50,8 @@ export abstract class BaseLayout {
         return result;
     }
 
-    protected arrangeChild(child: ILayoutableChild,
+    protected arrangeChild(
+        child: ILayoutableChild,
         prevChild: ILayoutableChild,
         align: String,
         valign: String,

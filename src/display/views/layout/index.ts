@@ -1,3 +1,4 @@
+export * from './AlignWithMaxSizeLayout';
 export * from './BaseLayout';
 export * from './ColumnLayout';
 export * from './container';
