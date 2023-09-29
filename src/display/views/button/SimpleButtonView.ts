@@ -52,7 +52,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     protected icon: Sprite;
     // protected bg: Graphics | Sprite;
     public label: FLabel;
-    protected viewCont: FContainer;
+    // protected viewCont: FContainer;
 
     protected _contentLayout: BaseLayout;
 
@@ -84,8 +84,8 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         this.contentCont = new FContainer();
         this.addChild(this.contentCont);
 
-        this.viewCont = new FContainer();
-        this.contentCont.addChild(this.viewCont);
+        // this.viewCont = new FContainer();
+        // this.contentCont.addChild(this.viewCont);
 
         this.layoutableCont = new BaseLayoutableContainer();
         this.contentCont.addChild(this.layoutableCont);
@@ -304,7 +304,8 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     }
 
     public addExternalView(view: DisplayObjectContainer): void {
-        this.viewCont.addChild(view);
+        // this.viewCont.addChild(view);
+        this.layoutableCont.addChild(view);
 
         this.arrange();
     }
