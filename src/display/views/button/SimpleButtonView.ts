@@ -303,7 +303,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         return result;
     }
 
-    public addExternalView(view: DisplayObjectContainer, addAtIndex: number): void {
+    public addExternalView(view: DisplayObjectContainer, addAtIndex?: number): void {
         // this.viewCont.addChild(view);
         if (addAtIndex || addAtIndex === 0) {
             this.layoutableCont.addChildAt(view, addAtIndex);
