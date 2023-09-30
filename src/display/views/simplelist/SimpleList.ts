@@ -283,6 +283,14 @@ export class SimpleList
         return this.items.concat();
     }
 
+    public itemsForceCommitData(): void {
+        for (let singleItem of this.items) {
+            if ((singleItem as any as FContainer).forceCommitData) {
+                (singleItem as any as FContainer).forceCommitData();
+            }
+        }
+    }
+
     protected childrenResizeSize: Point;
     public resizeItems(childrenWidth: number, childrenHeight: number): void {
         if (!this.childrenResizeSize) {
