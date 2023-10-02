@@ -8,6 +8,7 @@ import { DeepReadonly } from "./DeepReadableTypings";
 import { IPreChangeHook } from "./IPreChangeHook";
 import { IAppStateChangeConfigVO } from "./IappStateChangeConfigVO";
 import { AppStateChangeType } from "./AppStateChangeType";
+import { DeepPartial } from "./DeepPartialTypings";
 
 export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
 
@@ -34,7 +35,7 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
      */
     public changePropertyWrapper<StateType extends object>() {
         return <WrapperStateType extends Partial<Flatten<StateType>[DeepKeyType]>, DeepKeyType extends keyof Flatten<StateType>>(key: DeepKeyType) => {
-            return <WrapperDeepKeyType extends keyof Flatten<WrapperStateType>>(wrapperKey: WrapperDeepKeyType, value: Partial<Flatten<WrapperStateType>[WrapperDeepKeyType]>): void => {
+            return <WrapperDeepKeyType extends keyof Flatten<WrapperStateType>>(wrapperKey: WrapperDeepKeyType, value: DeepPartial<Flatten<WrapperStateType>[WrapperDeepKeyType]>): void => {
                 this.innerChange({} as StateType, (`${key as string}.${wrapperKey as string}`) as any, value);
             }
         }
@@ -184,12 +185,12 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
 
     // SUBSTITUTE: START
     public substitute<StateType extends object>() {
-        return <DeepKeyType extends keyof Flatten<StateType>>(key: DeepKeyType, value: Partial<Flatten<StateType>[DeepKeyType]>): void => {
+        return <DeepKeyType extends keyof Flatten<StateType>>(key: DeepKeyType, value: DeepPartial<Flatten<StateType>[DeepKeyType]>): void => {
             this.innerSubstitute({} as StateType, key, value);
         }
     }
 
-    protected innerSubstitute<StateType, DeepKeyType extends keyof Flatten<StateType>, ValueType extends Flatten<StateType>[DeepKeyType]>(stateForTypings: StateType, deepKey: DeepKeyType, value: Partial<ValueType>): void {
+    protected innerSubstitute<StateType, DeepKeyType extends keyof Flatten<StateType>, ValueType extends Flatten<StateType>[DeepKeyType]>(stateForTypings: StateType, deepKey: DeepKeyType, value: DeepPartial<ValueType>): void {
         const config: IAppStateChangeConfigVO = {
             changeType: AppStateChangeType.SUBSTITUTE,
             value: value
@@ -206,12 +207,12 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
     // CHANGE: START
 
     public change<StateType extends object>() {
-        return <DeepKeyType extends keyof Flatten<StateType>>(key: DeepKeyType, value: Partial<Flatten<StateType>[DeepKeyType]>): void => {
+        return <DeepKeyType extends keyof Flatten<StateType>>(key: DeepKeyType, value: DeepPartial<Flatten<StateType>[DeepKeyType]>): void => {
             this.innerChange({} as StateType, key, value);
         }
     }
 
-    protected innerChange<StateType, DeepKeyType extends keyof Flatten<StateType>, ValueType extends Flatten<StateType>[DeepKeyType]>(stateForTypings: StateType, deepKey: DeepKeyType, value: Partial<ValueType>): void {
+    protected innerChange<StateType, DeepKeyType extends keyof Flatten<StateType>, ValueType extends Flatten<StateType>[DeepKeyType]>(stateForTypings: StateType, deepKey: DeepKeyType, value: DeepPartial<ValueType>): void {
         const config: IAppStateChangeConfigVO = {
             changeType: AppStateChangeType.CHANGE,
             value: value
