@@ -1,13 +1,13 @@
-import {NumberTools, ObjectTools} from "@flashist/fcore";
-import {DisplayObject, FContainer, getInstance} from "@flashist/flibs";
+import { NumberTools, ObjectTools } from "@flashist/fcore";
+import { DisplayObject, FContainer, getInstance } from "@flashist/flibs";
 
-import {Back, Sine, TweenLite} from "gsap";
+import { Back, Sine, TweenLite } from "gsap";
 
-import {BaseAppCommand} from "../../base/commands/BaseAppCommand";
-import {ContainersManager} from "../../containers/managers/ContainersManager";
-import {HintContainerId} from "../data/HintContainerId";
-import {IHintConfig} from "../data/IHintConfig";
-import {DefaultHintConfig} from "../data/DefaultHintConfig";
+import { BaseAppCommand } from "../../base/commands/BaseAppCommand";
+import { ContainersManager } from "../../containers/managers/ContainersManager";
+import { HintContainerId } from "../data/HintContainerId";
+import { IHintConfig } from "../data/IHintConfig";
+import { DefaultHintConfig } from "../data/DefaultHintConfig";
 
 export class AnimateHintCommand extends BaseAppCommand {
 
@@ -35,10 +35,10 @@ export class AnimateHintCommand extends BaseAppCommand {
     protected executeInternal(): void {
 
         const containersManager: ContainersManager = getInstance(ContainersManager);
-        const effectsCont: FContainer = containersManager.getContainer(HintContainerId);
-        effectsCont.addChild(this.hint);
+        const hintsCont: FContainer = containersManager.getContainer(HintContainerId);
+        hintsCont.addChild(this.hint);
 
-        const localPos = effectsCont.toLocal(this.config.startGlobalPos);
+        const localPos = hintsCont.toLocal(this.config.startGlobalPos);
         this.hint.x = localPos.x;
         this.hint.y = localPos.y;
 
