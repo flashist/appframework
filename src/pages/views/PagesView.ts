@@ -35,7 +35,7 @@ export class PagesView extends AppResizableContainer {
         //     this.viewStack.addViewClass(tempPageClass, singlePageId);
         // }
 
-        const appState: PagesModuleState = appStorage().getState<PagesModuleState>();
+        const appState: PagesModuleState = appStorage().getMutableState<PagesModuleState>();
         let pageIds: string[] = Object.keys(appState.pages.pageIdToViewClassMap);
         for (let singlePageId of pageIds) {
             let tempPageClass = appState.pages.pageIdToViewClassMap[singlePageId];
