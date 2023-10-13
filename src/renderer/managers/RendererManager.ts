@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 
-import { AppProperties, FApp, getInstance, Point } from "@flashist/flibs";
+import { AppProperties, FApp, getInstance, Point, Rectangle } from "@flashist/flibs";
 
 import { BaseAppManager } from "../../base/managers/BaseAppManager";
 import { Facade } from "../../facade/Facade";
@@ -11,10 +11,19 @@ export class RendererManager extends BaseAppManager {
 
     protected config: RendererManagerConfigVO;
 
+    protected padding: {
+        top?: number;
+        bottom?: number;
+        left?: number;
+        right?: number;
+    };
+
     protected construction(): void {
         super.construction();
 
         this.config = getInstance(RendererManagerConfigVO);
+
+        this.padding = new Rectangle();
 
         if (this.config.targetFps) {
             PIXI.settings.TARGET_FPMS = this.config.targetFps / 1000;
@@ -48,12 +57,45 @@ export class RendererManager extends BaseAppManager {
         canvasParentElement.appendChild(Facade.instance.app.view as any);
     }
 
-    public resize(width: number, height: number, pixelRatio: number): void {
-        this.dispatchEvent(RendererManagerEvent.PRE_RESIZE_HOOK, new Point(width, height));
+    public resize(htmlWidth: number, htmlHeight: number, pixelRatio: number): void {
 
-        Facade.instance.app.renderer.resize(width * pixelRatio, height * pixelRatio);
-        Facade.instance.app.renderer.view.style.width = width + "px";
-        Facade.instance.app.renderer.view.style.height = height + "px";
+        let horizontalPadding: number = 0;
+        if (this.padding.left) {
+            horizontalPadding += this.padding.left;
+        }
+        if (this.padding.right) {
+            horizontalPadding += this.padding.right;
+        }
+
+        let verticalPaddig: number = 0;
+        if (this.padding.top) {
+            verticalPaddig += this.padding.top;
+        }
+        if (this.padding.bottom) {
+            verticalPaddig += this.padding.bottom;
+        }
+
+        let canvasWidth: number = htmlWidth - horizontalPadding;
+        let canvasHeight: number = htmlHeight - verticalPaddig;
+
+        this.dispatchEvent(RendererManagerEvent.PRE_RESIZE_HOOK, new Point(canvasWidth, canvasHeight));
+
+        Facade.instance.app.renderer.resize(canvasWidth * pixelRatio, canvasHeight * pixelRatio);
+        Facade.instance.app.renderer.view.style.width = canvasWidth + "px";
+        Facade.instance.app.renderer.view.style.height = canvasHeight + "px";
+
+        if (this.padding.top) {
+            (Facade.instance.app.renderer.view.style as any).top = this.padding.top + "px";
+        }
+        if (this.padding.bottom) {
+            (Facade.instance.app.renderer.view.style as any).bottom = this.padding.bottom + "px";
+        }
+        if (this.padding.left) {
+            (Facade.instance.app.renderer.view.style as any).left = this.padding.left + "px";
+        }
+        if (this.padding.right) {
+            (Facade.instance.app.renderer.view.style as any).right = this.padding.right + "px";
+        }
 
         this.dispatchEvent(RendererManagerEvent.RESIZE);
     }
