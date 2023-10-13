@@ -23,7 +23,12 @@ export class RendererManager extends BaseAppManager {
 
         this.config = getInstance(RendererManagerConfigVO);
 
-        this.padding = new Rectangle();
+        this.padding = {
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0
+        };
 
         if (this.config.targetFps) {
             PIXI.settings.TARGET_FPMS = this.config.targetFps / 1000;
