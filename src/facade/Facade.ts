@@ -97,13 +97,13 @@ export class Facade extends BaseObject {
         }
     }
 
-    public activateModules(): void {
+    protected async activateModules() {
         // First: configure all injections
         this.modulesManager.initModules();
         // Second: activate the service locator object
         ServiceLocator.activate();
         // Activate modules (after Service Locator activation)
-        this.modulesManager.activateModules();
+        await this.modulesManager.activateModules();
     }
 
     public addSingleModule(module: BaseAppModule): void {
