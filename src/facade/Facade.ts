@@ -44,7 +44,7 @@ export class Facade extends BaseObject {
         super(options);
     }
 
-    protected construction(options: IFacadeOptions): void {
+    protected async construction(options: IFacadeOptions) {
         super.construction(options);
 
         this.options = options;
@@ -57,7 +57,7 @@ export class Facade extends BaseObject {
         ServiceLocator.startInit({ debug: this.options.debug });
 
         this.addModules();
-        this.activateModules();
+        await this.activateModules();
 
         //
         this.rendererManager = getInstance(RendererManager);

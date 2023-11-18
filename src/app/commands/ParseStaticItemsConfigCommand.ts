@@ -30,7 +30,7 @@ export class ParseStaticItemsConfigCommand extends BaseAppCommand {
                 }
 
                 if (staticItemsConfigFileItem.data.state) {
-                    // Do this strange hack to initialize AppStorageState data from the loaded config,
+                    // Do this strange hack to initialize AppStorageState data from the loaded config,´
                     // we can't change ths state from the root, because the code doesn't allow it,
                     // also we need to provide a type to check, so we provide the type with all possible keys
                     const topLevelStateKeys: string[] = Object.keys(staticItemsConfigFileItem.data.state);
