@@ -65,8 +65,9 @@ export class Facade extends BaseObject {
         // this.initView();
 
         // Start the init process
-        const initCmd: Command = getInstance(InitApplicationCommand);
-        initCmd.execute();
+        // const initCmd: Command = getInstance(InitApplicationCommand);
+        // initCmd.execute();
+        this.initApp();
     }
 
     protected addModules(): void {
@@ -176,6 +177,11 @@ export class Facade extends BaseObject {
 
     protected onRendererResize(): void {
         this.arrange();
+    }
+
+    protected async initApp() {
+        await getInstance(InitApplicationCommand)
+            .execute();
     }
 
     protected readyToInitView(): void {
