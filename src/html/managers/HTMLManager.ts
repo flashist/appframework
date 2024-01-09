@@ -1,15 +1,16 @@
 import { getInstance, SoundsManager } from "@flashist/flibs";
 
 import { BaseAppManager } from "../../base/managers/BaseAppManager";
+import { HTMLManagerEvent } from "./HTMLManagerEvent";
 
 export class HTMLManager extends BaseAppManager {
 
-    protected soundsManager: SoundsManager= getInstance(SoundsManager);
+    protected soundsManager: SoundsManager = getInstance(SoundsManager);
 
     protected isFirstClickComplete: boolean = false;
 
-    protected blurLocker: any = {id: "HTMLManager.blurLocker"};
-    protected visibilityLocker: any = {id:"HTMLManager.visibilityLocker"};
+    protected blurLocker: any = { id: "HTMLManager.blurLocker" };
+    protected visibilityLocker: any = { id: "HTMLManager.visibilityLocker" };
 
     protected addListeners(): void {
         super.addListeners();
@@ -69,10 +70,14 @@ export class HTMLManager extends BaseAppManager {
     protected onFocus(): void {
         console.log("HTML MANAGER | onFocus");
         this.soundsManager.removeDisableLock(this.blurLocker);
+
+        this.dispatchEvent(HTMLManagerEvent.FOCUS_RECEIVED);
     }
 
     protected onBlur(): void {
         console.log("HTML MANAGER | onBlur");
         this.soundsManager.addDisableLock(this.blurLocker);
+
+        this.dispatchEvent(HTMLManagerEvent.FOCUS_LOST);
     }
 }
