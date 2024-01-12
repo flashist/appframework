@@ -17,6 +17,7 @@ export const AppModuleInitialState = {
             appVersion: null,
             files: null,
             // locale: null,
+            supportedLocales: null,
             targetFps: null,
             sizeArea: {
                 x: 0,
@@ -24,8 +25,23 @@ export const AppModuleInitialState = {
                 width: 1280,
                 height: 1920
             } as Rectangle
-        }
+        } as IAppConfigVO
     }
 };
 
 export type AppModuleState = typeof AppModuleInitialState;
+
+export interface IAppConfigVO {
+    appName: string;
+    appVersion: number;
+    files: any[];
+    // locale: null,
+    supportedLocales?: string[];
+    targetFps?: number;
+    sizeArea: {
+        x: number,
+        y: number,
+        width: number,
+        height: number
+    }
+}

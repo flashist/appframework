@@ -6,7 +6,7 @@ import { AppStateDeepKeyTools } from "../tools/AppStateDeepKeyTools";
 import { IDeepKeyHelperVO } from "../tools/INestedPathHelperVO";
 import { DeepReadonly } from "./DeepReadableTypings";
 import { IPreChangeHook } from "./IPreChangeHook";
-import { IAppStateChangeConfigVO } from "./IappStateChangeConfigVO";
+import { IAppStateChangeConfigVO } from "./IAppStateChangeConfigVO";
 import { AppStateChangeType } from "./AppStateChangeType";
 import { DeepPartial } from "./DeepPartialTypings";
 
