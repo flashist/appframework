@@ -112,4 +112,12 @@ export class RendererManager extends BaseAppManager {
     public get rendererHeight(): number {
         return Facade.instance.app.renderer.height;
     }
+
+    public showView(): void {
+        (Facade.instance.app.renderer.view.style as any).display = "none";
+    }
+
+    public hideView(): void {
+        delete (Facade.instance.app.renderer.view.style as any).display;
+    }
 }
