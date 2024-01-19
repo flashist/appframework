@@ -114,10 +114,10 @@ export class RendererManager extends BaseAppManager {
     }
 
     public showView(): void {
-        (Facade.instance.app.renderer.view.style as any).display = "none";
+        delete (Facade.instance.app.renderer.view.style as any).display;
     }
 
     public hideView(): void {
-        delete (Facade.instance.app.renderer.view.style as any).display;
+        (Facade.instance.app.renderer.view.style as any).display = "none";
     }
 }
