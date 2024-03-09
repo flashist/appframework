@@ -29,6 +29,13 @@ export class AppManager extends BaseAppManager {
         // this.appState.app.sessionStartTime = Date.now();
         // // Increase app launch counter
         // this.appState.app.appLaunchesCount++;
+        let sessionStartTimeFirstValue: number = Date.now();
+        // If there is globally defined flashist-vars
+        // and there is information about the time of openning of the app,
+        // then use it
+        if (flashistGlobalVars?.openTime) {
+            sessionStartTimeFirstValue = flashistGlobalVars?.openTime;
+        }
         appStorage().change<AppModuleState>()(
             "app",
             {
