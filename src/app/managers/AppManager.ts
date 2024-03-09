@@ -40,7 +40,7 @@ export class AppManager extends BaseAppManager {
             "app",
             {
                 previousSessionTotalUsageTime: this.appState.app.totalUsageDuration,
-                sessionStartTime: Date.now(),
+                sessionStartTime: sessionStartTimeFirstValue,
                 appLaunchesCount: this.appState.app.appLaunchesCount + 1
             }
         );
