@@ -182,6 +182,7 @@ export class Facade extends BaseObject {
     protected async initApp() {
         await getInstance(InitApplicationCommand)
             .execute();
+            
     }
 
     protected readyToInitView(): void {

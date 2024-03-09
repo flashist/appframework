@@ -67,14 +67,14 @@ export class HTMLManager extends BaseAppManager {
         }
     }
 
-    protected onFocus(): void {
+    protected onFocus(event?: any): void {
         console.log("HTML MANAGER | onFocus");
         this.soundsManager.removeDisableLock(this.blurLocker);
 
         this.dispatchEvent(HTMLManagerEvent.FOCUS_RECEIVED);
     }
 
-    protected onBlur(): void {
+    protected onBlur(event?: any): void {
         console.log("HTML MANAGER | onBlur");
         this.soundsManager.addDisableLock(this.blurLocker);
 
