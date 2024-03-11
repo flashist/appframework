@@ -172,7 +172,9 @@ export class Facade extends BaseObject {
     protected onWindowResize(): void {
         const documentSize: Point = HtmlTools.getDocumentSize();
         const appState: DeepReadonly<DeviceModuleState> = appStorage().getState<DeviceModuleState>();
-        this.rendererManager.resize(documentSize.x, documentSize.y, appState.device.pixelRatio);
+        if (this.rendererManager) {
+            this.rendererManager.resize(documentSize.x, documentSize.y, appState.device.pixelRatio);
+        }
     }
 
     protected onRendererResize(): void {
@@ -182,7 +184,7 @@ export class Facade extends BaseObject {
     protected async initApp() {
         await getInstance(InitApplicationCommand)
             .execute();
-            
+
     }
 
     protected readyToInitView(): void {
