@@ -168,7 +168,7 @@ export class Facade extends BaseObject {
             this.resizeListener
         );
     }
-
+´
     protected onWindowResize(): void {
         const documentSize: Point = HtmlTools.getDocumentSize();
         const appState: DeepReadonly<DeviceModuleState> = appStorage().getState<DeviceModuleState>();
@@ -192,12 +192,14 @@ export class Facade extends BaseObject {
     }
 
     protected arrange(): void {
-        if (this.mainContainer) {
-            this.mainContainer.resize(
-                this.rendererManager.rendererWidth,
-                this.rendererManager.rendererHeight
-            );
+        if (!this.mainContainer || !this.rendererManager) {
+            return
         }
+        
+        this.mainContainer.resize(
+            this.rendererManager.rendererWidth,
+            this.rendererManager.rendererHeight
+        );
     }
 
     // - - - - -

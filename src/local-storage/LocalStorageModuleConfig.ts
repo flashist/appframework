@@ -1,3 +1,3 @@
 export const LocalStorageModuleConfig = {
-    storageId: "defaultStorageId"
+    storageId: "flashist__defaultStorageId"
 };
