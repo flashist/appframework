@@ -15,6 +15,10 @@ export class LocalStorageManager extends BaseObject {
         this.createStorage();
     }
 
+    public getStorageId(): string {
+        return this.storageId;
+    }
+
     protected getWindowStorageObject(): any {
         let rawData: string = localStorage.getItem(this.storageId);
         if (!rawData) {
