@@ -12,6 +12,8 @@ export class HTMLManager extends BaseAppManager {
     protected blurLocker: any = { id: "HTMLManager.blurLocker" };
     protected visibilityLocker: any = { id: "HTMLManager.visibilityLocker" };
 
+    protected documentHiddenPropertyName: string;
+
     protected addListeners(): void {
         super.addListeners();
 
@@ -44,6 +46,18 @@ export class HTMLManager extends BaseAppManager {
         //     "visibilitychange",
         //     this.onVisibilityChange
         // );
+
+        //
+        if (document.hidden !== false) {
+            this.documentHiddenPropertyName = "hidden";
+        } else if ((document as any).mozHidden !== false) {
+            this.documentHiddenPropertyName = "mozHidden";
+        } else if ((document as any).msHidden !== false) {
+            this.documentHiddenPropertyName = "msHidden";
+        } else if ((document as any).webkitHidden !== false) {
+            this.documentHiddenPropertyName = "webkitHidden";
+        }
+        //
         const visibilityChangeEventNames = ["visibilitychange", "mozvisibilitychange", "msvisibilitychange", "webkitvisibilitychange", "qbrowserVisibilityChange"];
         // for (, o = 0; o < s.length; o++) {
         for (let singleVisibilityChangeEventName of visibilityChangeEventNames) {
@@ -52,12 +66,6 @@ export class HTMLManager extends BaseAppManager {
                 singleVisibilityChangeEventName,
                 this.onVisibilityChange
             );
-
-            // document.addEventListener(s[o], (function (e) {
-            //     var i = document[t];
-            //     (i = i || e.hidden) ? n() : r()
-            // }
-            // ));
         }
     }
 
@@ -72,17 +80,21 @@ export class HTMLManager extends BaseAppManager {
         this.onFocus();
     }
 
-    protected onVisibilityChange(): void {
-        console.log("HTML MANAGER | onVisibilityChange __ document.visibilityState: " + document.visibilityState);
-        if (document.visibilityState === "visible") {
-            this.soundsManager.removeDisableLock(this.visibilityLocker);
+    protected onVisibilityChange(event): void {
+        console.log("HTML MANAGER | onVisibilityChange __ this.documentHiddenPropertyName: " + this.documentHiddenPropertyName
+            , " | document[this.documentHiddenPropertyName]: ", document[this.documentHiddenPropertyName]
+            , " | event.hidden: ", event.hidden
+        );
 
-            this.onFocus();
+        if (this.documentHiddenPropertyName) {
+            if (document[this.documentHiddenPropertyName] || event.hidden) {
+                this.soundsManager.addDisableLock(this.visibilityLocker);
+                this.onBlur();
 
-        } else {
-            this.soundsManager.addDisableLock(this.visibilityLocker);
-
-            this.onBlur();
+            } else {
+                this.soundsManager.removeDisableLock(this.visibilityLocker);
+                this.onFocus();
+            };
         }
     }
 
