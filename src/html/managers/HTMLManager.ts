@@ -48,13 +48,13 @@ export class HTMLManager extends BaseAppManager {
         // );
 
         //
-        if (document.hidden !== false) {
+        if (document.hidden !== undefined) {
             this.documentHiddenPropertyName = "hidden";
-        } else if ((document as any).mozHidden !== false) {
+        } else if ((document as any).mozHidden !== undefined) {
             this.documentHiddenPropertyName = "mozHidden";
-        } else if ((document as any).msHidden !== false) {
+        } else if ((document as any).msHidden !== undefined) {
             this.documentHiddenPropertyName = "msHidden";
-        } else if ((document as any).webkitHidden !== false) {
+        } else if ((document as any).webkitHidden !== undefined) {
             this.documentHiddenPropertyName = "webkitHidden";
         }
         //
