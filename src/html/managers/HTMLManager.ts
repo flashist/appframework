@@ -39,11 +39,26 @@ export class HTMLManager extends BaseAppManager {
             this.onBlur
         );
 
-        this.eventListenerHelper.addEventListener(
-            document,
-            "visibilitychange",
-            this.onVisibilityChange
-        );
+        // this.eventListenerHelper.addEventListener(
+        //     document,
+        //     "visibilitychange",
+        //     this.onVisibilityChange
+        // );
+        const visibilityChangeEventNames = ["visibilitychange", "mozvisibilitychange", "msvisibilitychange", "webkitvisibilitychange", "qbrowserVisibilityChange"];
+        // for (, o = 0; o < s.length; o++) {
+        for (let singleVisibilityChangeEventName of visibilityChangeEventNames) {
+            this.eventListenerHelper.addEventListener(
+                document,
+                singleVisibilityChangeEventName,
+                this.onVisibilityChange
+            );
+
+            // document.addEventListener(s[o], (function (e) {
+            //     var i = document[t];
+            //     (i = i || e.hidden) ? n() : r()
+            // }
+            // ));
+        }
     }
 
     protected onInteraction(): void {
@@ -62,8 +77,12 @@ export class HTMLManager extends BaseAppManager {
         if (document.visibilityState === "visible") {
             this.soundsManager.removeDisableLock(this.visibilityLocker);
 
+            this.onFocus();
+
         } else {
             this.soundsManager.addDisableLock(this.visibilityLocker);
+
+            this.onBlur();
         }
     }
 
