@@ -29,18 +29,6 @@ export class HTMLManager extends BaseAppManager {
             this.onInteraction
         );
 
-        this.eventListenerHelper.addEventListener(
-            window as any,
-            "focus",
-            this.onFocus
-        );
-
-        this.eventListenerHelper.addEventListener(
-            window as any,
-            "blur",
-            this.onBlur
-        );
-
         // this.eventListenerHelper.addEventListener(
         //     document,
         //     "visibilitychange",
@@ -57,14 +45,28 @@ export class HTMLManager extends BaseAppManager {
         } else if ((document as any).webkitHidden !== undefined) {
             this.documentHiddenPropertyName = "webkitHidden";
         }
-        //
-        const visibilityChangeEventNames = ["visibilitychange", "mozvisibilitychange", "msvisibilitychange", "webkitvisibilitychange", "qbrowserVisibilityChange"];
-        // for (, o = 0; o < s.length; o++) {
-        for (let singleVisibilityChangeEventName of visibilityChangeEventNames) {
+        if (this.documentHiddenPropertyName) {
+            const visibilityChangeEventNames = ["visibilitychange", "mozvisibilitychange", "msvisibilitychange", "webkitvisibilitychange", "qbrowserVisibilityChange"];
+            // for (, o = 0; o < s.length; o++) {
+            for (let singleVisibilityChangeEventName of visibilityChangeEventNames) {
+                this.eventListenerHelper.addEventListener(
+                    document,
+                    singleVisibilityChangeEventName,
+                    this.onVisibilityChange
+                );
+            }
+
+        } else {
             this.eventListenerHelper.addEventListener(
-                document,
-                singleVisibilityChangeEventName,
-                this.onVisibilityChange
+                window as any,
+                "focus",
+                this.onFocus
+            );
+
+            this.eventListenerHelper.addEventListener(
+                window as any,
+                "blur",
+                this.onBlur
             );
         }
     }
