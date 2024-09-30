@@ -1,3 +1,5 @@
+export const LocalStorageIdAppFrameworkPrefix = "__flashistAppFramework__";
+
 export const LocalStorageModuleConfig = {
-    storageId: "flashist__defaultStorageId"
+    storageId: `${LocalStorageIdAppFrameworkPrefix}defaultStorageId`
 };
