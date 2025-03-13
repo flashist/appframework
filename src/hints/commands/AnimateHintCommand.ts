@@ -1,7 +1,7 @@
 import { NumberTools, ObjectTools } from "@flashist/fcore";
 import { Container, FContainer, getInstance } from "@flashist/flibs";
 
-import { Back, Sine, TweenLite } from "gsap";
+import { gsap, Back, Sine } from "gsap";
 
 import { BaseAppCommand } from "../../base/commands/BaseAppCommand";
 import { ContainersManager } from "../../containers/managers/ContainersManager";
@@ -46,12 +46,13 @@ export class AnimateHintCommand extends BaseAppCommand {
             this.config.finalGlobalPosMinChange.y,
             this.config.finalGlobalPosMaxChange.y
         );
-        TweenLite.to(
+        gsap.to(
             this.hint,
-            this.config.positionTweenDuration,
             {
+                duration: this.config.positionTweenDuration,
+
                 y: tempFinalY,
-                ease: Sine.easeOut
+                ease: "sine.out"
             }
         );
 
@@ -59,29 +60,32 @@ export class AnimateHintCommand extends BaseAppCommand {
             this.config.finalGlobalPosMinChange.x,
             this.config.finalGlobalPosMaxChange.x
         );
-        TweenLite.to(
+        gsap.to(
             this.hint,
-            this.config.positionTweenDuration,
             {
+                duration: this.config.positionTweenDuration,
+
                 x: tempFinalX,
-                ease: Back.easeOut
+                ease: "back.out"
             }
         );
 
         this.hint.alpha = this.config.startAlpha;
-        TweenLite.to(
+        gsap.to(
             this.hint,
-            this.config.startAlphaTweenDuration,
             {
+                duration: this.config.startAlphaTweenDuration,
+
                 delay: this.config.startAlphaTweenDelay,
 
                 alpha: this.config.mainAlpha
             }
         );
-        TweenLite.to(
+        gsap.to(
             this.hint,
-            this.config.startAlphaTweenDuration,
             {
+                duration: this.config.startAlphaTweenDuration,
+
                 delay: this.config.finalAlphaTweenDelay,
                 alpha: this.config.finalAlpha,
                 onComplete: () => {

@@ -4,7 +4,7 @@ export * from './BaseBtnState';
 export * from './BaseBtnView';
 export * from './DefaultButtonViewConfig';
 export * from './IButtonViewConfig';
-export * from './simple-image-button';
 export * from './SimpleButtonConfig';
 export * from './SimpleButtonState';
 export * from './SimpleButtonView';
+export * from './simple-image-button';

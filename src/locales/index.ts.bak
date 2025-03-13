@@ -1,2 +1,2 @@
-export * from './commands';
 export * from './LocalesModule';
+export * from './commands';

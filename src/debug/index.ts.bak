@@ -1,2 +1,2 @@
-export * from './data/state';
 export * from './DebugModule';
+export * from './data/state';
