@@ -35,7 +35,8 @@ export class RendererManager extends BaseAppManager {
         // }
 
         const appConfig: AppProperties = Object.assign({}, this.config);
-        Facade.instance.app = new FApp(appConfig);
+        Facade.instance.app = new FApp();
+        Facade.instance.app.init(appConfig);
 
         // Stage
         Facade.instance.app.stage.interactive = true;
