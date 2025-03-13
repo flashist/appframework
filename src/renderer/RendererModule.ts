@@ -1,4 +1,4 @@
-import { serviceLocatorAdd } from "@flashist/flibs";
+import { getInstance, serviceLocatorAdd } from "@flashist/flibs";
 
 import { BaseAppModule } from "../base/modules/BaseAppModule";
 import { RendererManagerConfigVO } from "./data/RendererManagerConfigVO";
@@ -13,4 +13,11 @@ export class RendererModule extends BaseAppModule {
         serviceLocatorAdd(RendererManager, { isSingleton: true, forceCreation: true });
     }
 
+    async activateCompleteHook() {
+        super.activateCompleteHook();
+
+        //
+        const rendererManager = getInstance(RendererManager);
+        await rendererManager.activateAppPromise;
+    }
 }

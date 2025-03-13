@@ -18,6 +18,8 @@ export class RendererManager extends BaseAppManager {
         right?: number;
     };
 
+    protected _activateAppPromise: Promise<void>;
+
     protected construction(): void {
         super.construction();
 
@@ -34,9 +36,15 @@ export class RendererManager extends BaseAppManager {
         //     PIXI.settings.TARGET_FPMS = this.config.targetFps / 1000;
         // }
 
+        this.activateApp();
+    }
+
+    protected async activateApp() {
         const appConfig: AppProperties = Object.assign({}, this.config);
         Facade.instance.app = new FApp();
-        Facade.instance.app.init(appConfig);
+        this._activateAppPromise = Facade.instance.app.init(appConfig);
+        //
+        await this.activateAppPromise;
 
         // Stage
         Facade.instance.app.stage.interactive = true;
@@ -61,6 +69,10 @@ export class RendererManager extends BaseAppManager {
 
         // Append the renderer canvas to DOM
         canvasParentElement.appendChild(Facade.instance.app.view as any);
+    }
+
+    public get activateAppPromise(): Promise<void> {
+        return this._activateAppPromise;
     }
 
     public resize(htmlWidth: number, htmlHeight: number, pixelRatio: number): void {
