@@ -10,8 +10,8 @@ export class BasePageView extends BaseAppView {
 
     private _sizeArea: Rectangle;
     protected sizeAreaView: Graphics;
-    protected sizeAreaColor: number = 0x0000FF;
-    protected sizeAreaColorAlpha: number = 0.5;
+    protected sizeAreaColor: number;
+    protected sizeAreaColorAlpha: number;
 
     protected contentCont: FContainer;
     protected contentContReversedResizeSize: Rectangle;
@@ -24,6 +24,9 @@ export class BasePageView extends BaseAppView {
 
     protected construction(...args): void {
         super.construction(args);
+
+        this.sizeAreaColor = 0x0000FF;
+        this.sizeAreaColorAlpha = 0.5;
 
         // appState.app.config = getInstance(AppConfigModel);
 
