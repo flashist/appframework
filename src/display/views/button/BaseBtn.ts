@@ -1,6 +1,6 @@
 ﻿import { BaseObject, EventListenerHelper, IDefaultEventDispatcher } from "@flashist/fcore";
 
-import { DisplayObject, InteractiveEvent } from "@flashist/flibs";
+import { Container, InteractiveEvent } from "@flashist/flibs";
 
 import { BaseBtnState } from "./BaseBtnState";
 import { BaseBtnEvent } from "./BaseBtnEvent";
@@ -16,7 +16,7 @@ export class BaseBtn extends BaseObject {
      protected static HIT_AREA_CLIP_NAME:string = "customHitArea";
      protected static LABEL_FIELD_NAME:string = "labelField";*/
 
-    protected _hitArea: DisplayObject;
+    protected _hitArea: Container;
 
     // protected label:BaseLabel;
 
@@ -230,10 +230,10 @@ export class BaseBtn extends BaseObject {
     }
 
 
-    public get hitArea(): DisplayObject {
+    public get hitArea(): Container {
         return this._hitArea;
     }
-    public set hitArea(value: DisplayObject) {
+    public set hitArea(value: Container) {
         if (value == this.hitArea) {
             return;
         }

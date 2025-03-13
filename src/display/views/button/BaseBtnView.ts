@@ -48,8 +48,10 @@ export class BaseBtnView<DataType extends object = object> extends AppResizableC
 
         this.bg = new Graphics();
         this.contentCont.addChild(this.bg);
-        this.bg.beginFill(0x000000);
-        this.bg.drawRect(0, 0, 10, 10);
+
+        this.bg.rect(0, 0, 10, 10);
+        this.bg.fill({ color: 0x000000 });
+
         this.bg.alpha = 0;
 
         this.pressView = new Sprite();

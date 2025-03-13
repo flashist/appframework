@@ -30,9 +30,9 @@ export class RendererManager extends BaseAppManager {
             right: 0
         };
 
-        if (this.config.targetFps) {
-            PIXI.settings.TARGET_FPMS = this.config.targetFps / 1000;
-        }
+        // if (this.config.targetFps) {
+        //     PIXI.settings.TARGET_FPMS = this.config.targetFps / 1000;
+        // }
 
         const appConfig: AppProperties = Object.assign({}, this.config);
         Facade.instance.app = new FApp(appConfig);
@@ -49,7 +49,7 @@ export class RendererManager extends BaseAppManager {
         if (this.config.canvasCss) {
             const canvasKeys: string[] = Object.keys(this.config.canvasCss);
             for (let singleCssKey of canvasKeys) {
-                (Facade.instance.app.renderer.view.style as any)[singleCssKey] = this.config.canvasCss[singleCssKey];
+                (Facade.instance.app.renderer.view.canvas.style as any)[singleCssKey] = this.config.canvasCss[singleCssKey];
             }
         }
 
@@ -86,20 +86,20 @@ export class RendererManager extends BaseAppManager {
         this.dispatchEvent(RendererManagerEvent.PRE_RESIZE_HOOK, new Point(canvasWidth, canvasHeight));
 
         Facade.instance.app.renderer.resize(canvasWidth * pixelRatio, canvasHeight * pixelRatio);
-        Facade.instance.app.renderer.view.style.width = canvasWidth + "px";
-        Facade.instance.app.renderer.view.style.height = canvasHeight + "px";
+        Facade.instance.app.renderer.view.canvas.style.width = canvasWidth + "px";
+        Facade.instance.app.renderer.view.canvas.style.height = canvasHeight + "px";
 
         if (this.padding.top) {
-            (Facade.instance.app.renderer.view.style as any).top = this.padding.top + "px";
+            (Facade.instance.app.renderer.view.canvas.style as any).top = this.padding.top + "px";
         }
         if (this.padding.bottom) {
-            (Facade.instance.app.renderer.view.style as any).bottom = this.padding.bottom + "px";
+            (Facade.instance.app.renderer.view.canvas.style as any).bottom = this.padding.bottom + "px";
         }
         if (this.padding.left) {
-            (Facade.instance.app.renderer.view.style as any).left = this.padding.left + "px";
+            (Facade.instance.app.renderer.view.canvas.style as any).left = this.padding.left + "px";
         }
         if (this.padding.right) {
-            (Facade.instance.app.renderer.view.style as any).right = this.padding.right + "px";
+            (Facade.instance.app.renderer.view.canvas.style as any).right = this.padding.right + "px";
         }
 
         this.dispatchEvent(RendererManagerEvent.RESIZE);
@@ -114,10 +114,10 @@ export class RendererManager extends BaseAppManager {
     }
 
     public showView(): void {
-        delete (Facade.instance.app.renderer.view.style as any).display;
+        delete (Facade.instance.app.renderer.view.canvas.style as any).display;
     }
 
     public hideView(): void {
-        (Facade.instance.app.renderer.view.style as any).display = "none";
+        (Facade.instance.app.renderer.view.canvas.style as any).display = "none";
     }
 }

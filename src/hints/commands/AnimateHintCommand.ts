@@ -1,5 +1,5 @@
 import { NumberTools, ObjectTools } from "@flashist/fcore";
-import { DisplayObject, FContainer, getInstance } from "@flashist/flibs";
+import { Container, FContainer, getInstance } from "@flashist/flibs";
 
 import { Back, Sine, TweenLite } from "gsap";
 
@@ -13,7 +13,7 @@ export class AnimateHintCommand extends BaseAppCommand {
 
     protected config: IHintConfig;
 
-    constructor(protected hint: DisplayObject, config: Partial<IHintConfig>) {
+    constructor(protected hint: Container, config: Partial<IHintConfig>) {
         super();
 
         this.config = {} as any;

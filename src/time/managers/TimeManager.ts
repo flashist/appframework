@@ -51,7 +51,7 @@ export class TimeManager extends BaseAppManager {
             "time.lastTimeDelta",
             timeDelta
         );
-´
+
         this.appStateStorage.change<TimeModuleAppState>()(
             "time.lastTimeDeltaSec",
             timeDelta / 1000

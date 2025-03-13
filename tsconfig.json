@@ -3,13 +3,15 @@
     "target": "es6",
     "module": "es2015",
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
     "lib": [
       "es2015",
       "dom"
     ],
     "sourceMap": true,
     "declaration": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+
     "outDir": "dist/",
     "declarationDir": "dist/"
   },

@@ -1,13 +1,13 @@
-import { Rectangle } from "pixi.js";
+import { Bounds } from "pixi.js";
 import { IViewWithSizeArea } from "../views/IViewWithSizeArea";
 
 export class ViewWithSizeAreaTools {
-    static getSizeAreaBounds(view: IViewWithSizeArea, result?: Rectangle): Rectangle {
+    static getSizeAreaBounds(view: IViewWithSizeArea, result?: Bounds): Bounds {
 
         if (!result) {
-            result = new Rectangle();
+            result = new Bounds();
         }
-        
+
         if (view.sizeArea) {
             result.x = view.x + view.sizeArea.x * view.scale.x;
             result.y = view.y + view.sizeArea.y * view.scale.y;

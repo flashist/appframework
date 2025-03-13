@@ -18,7 +18,7 @@ export const AppModuleInitialState = {
             files: null,
             // locale: null,
             supportedLocales: null,
-            targetFps: null,
+            // targetFps: null,
             sizeArea: {
                 x: 0,
                 y: 0,
@@ -37,7 +37,7 @@ export interface IAppConfigVO {
     files: any[];
     // locale: null,
     supportedLocales?: string[];
-    targetFps?: number;
+    // targetFps?: number;
     sizeArea: {
         x: number,
         y: number,

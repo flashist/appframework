@@ -1,8 +1,8 @@
-import {AssociativeArray, IConstructor} from "@flashist/fcore";
+import { AssociativeArray, IConstructor } from "@flashist/fcore";
 
-import {DisplayObject, DisplayObjectContainer} from "@flashist/flibs";
+import { Container, DisplayObjectContainer } from "@flashist/flibs";
 
-import {ViewStack} from "./ViewStack";
+import { ViewStack } from "./ViewStack";
 
 export class ViewStackLazyCreation
     <
@@ -11,12 +11,12 @@ export class ViewStackLazyCreation
     >
     extends ViewStack<StackViewType, DataType> {
 
-    protected viewClassToIdMap: AssociativeArray<IConstructor<DisplayObject>>;
+    protected viewClassToIdMap: AssociativeArray<IConstructor<Container>>;
 
     construction(...args: any[]): void {
         super.construction(...args);
 
-        this.viewClassToIdMap = new AssociativeArray<IConstructor<DisplayObject>>();
+        this.viewClassToIdMap = new AssociativeArray<IConstructor<Container>>();
     }
 
     public addViewClass(ViewClass: IConstructor<StackViewType>, id: string): void {

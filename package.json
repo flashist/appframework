@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@flashist/fbuildscripts": "0.x",
-    "pixi.js": "7.x",
-    "typescript": "^4.0.2"
+    "pixi.js": "^8.8.1",
+    "typescript": "^5.8.2"
   }
 }

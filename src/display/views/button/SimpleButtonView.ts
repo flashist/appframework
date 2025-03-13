@@ -51,7 +51,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     protected layoutableCont: BaseLayoutableContainer;
     protected icon: Sprite;
     // protected bg: Graphics | Sprite;
-    public label: FLabel;
+    public fLabel: FLabel;
     // protected viewCont: FContainer;
 
     protected _contentLayout: BaseLayout;
@@ -93,11 +93,11 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         this.icon = new Sprite();
         this.layoutableCont.addChild(this.icon);
 
-        this.label = new FLabel(this.config.labelConfig);
-        this.layoutableCont.addChild(this.label);
+        this.fLabel = new FLabel(this.config.labelConfig);
+        this.layoutableCont.addChild(this.fLabel);
         //
-        // this.label.interactive = true;
-        // this.label.interactiveChildren = true;
+        // this.fLabel.interactive = true;
+        // this.fLabel.interactiveChildren = true;
 
         this.state = SimpleButtonState.NORMAL;
         this.enabled = true;
@@ -216,10 +216,10 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     }
 
     public get text(): string {
-        return this.label.text;
+        return this.fLabel.text;
     }
     public set text(value: string) {
-        this.label.text = value;
+        this.fLabel.text = value;
         this.arrange();
     }
 
@@ -260,7 +260,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         }
 
         if (tempConfig.labelConfig) {
-            this.label.changeConfig(tempConfig.labelConfig);
+            this.fLabel.changeConfig(tempConfig.labelConfig);
         }
 
         if (this.enabled) {
@@ -316,12 +316,12 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
 
     private updateBg(): void {
         this.bg.clear();
-        this.bg.beginFill(this.config.bgConfig.bgColor, this.config.bgConfig.bgAlpha);
-        this.bg.lineStyle(this.config.bgConfig.bgLineWidth, this.config.bgConfig.bgLineColor, this.config.bgConfig.bgLineAlpha, 0);
 
-        this.bg.drawRoundedRect(0, 0, this.contentCont.width + this.config.bgConfig.contentToBgPaddingX * 2, this.contentCont.height + this.config.bgConfig.contentToBgPaddingY * 2, this.config.bgConfig.bgCornerRadius);
+        this.bg.roundRect(0, 0, this.contentCont.width + this.config.bgConfig.contentToBgPaddingX * 2, this.contentCont.height + this.config.bgConfig.contentToBgPaddingY * 2, this.config.bgConfig.bgCornerRadius);
+        this.bg.setStrokeStyle({ width: this.config.bgConfig.bgLineWidth, color: this.config.bgConfig.bgLineColor, alpha: this.config.bgConfig.bgLineAlpha, alignment: 0 });
+        this.bg.fill({ color: this.config.bgConfig.bgColor, alpha: this.config.bgConfig.bgAlpha });
 
-        this.bg.endFill();
+        // this.bg.endFill();
     }
 
 

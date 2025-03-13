@@ -168,7 +168,7 @@ export class Facade extends BaseObject {
             this.resizeListener
         );
     }
-´
+
     protected onWindowResize(): void {
         const documentSize: Point = HtmlTools.getDocumentSize();
         const appState: DeepReadonly<DeviceModuleState> = appStorage().getState<DeviceModuleState>();

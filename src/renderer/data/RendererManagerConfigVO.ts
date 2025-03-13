@@ -2,7 +2,7 @@ export class RendererManagerConfigVO {
     antialias: boolean = true;
     backgroundAlpha: number = 0
 
-    targetFps?: number;
+    // targetFps?: number;
 
     canvasCss: any = {
         position: "absolute",

@@ -81,14 +81,14 @@ export class BasePageView extends BaseAppView {
     protected updateSizeAreaView(): void {
         this.sizeAreaView.clear();
         //
-        this.sizeAreaView.beginFill(this.sizeAreaColor, this.sizeAreaColorAlpha);
-        this.sizeAreaView.drawRect(
+        this.sizeAreaView.rect(
             this.sizeArea.x,
             this.sizeArea.y,
             this.sizeArea.width,
             this.sizeArea.height
         );
-        this.sizeAreaView.endFill();
+        this.sizeAreaView.fill({ color: this.sizeAreaColor, alpha: this.sizeAreaColorAlpha });
+        // this.sizeAreaView.endFill();
     }
 
     protected arrange(): void {

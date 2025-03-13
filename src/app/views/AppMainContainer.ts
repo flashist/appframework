@@ -37,9 +37,10 @@ export class AppMainContainer extends BaseAppView {
 
     protected createBg(): DisplayObjectContainer {
         let result: Graphics = new Graphics();
-        // Very small alpha is needed to be sure the grpahics is still interactive
-        result.beginFill(0xFFFFFF, 0.0000001);
-        result.drawRect(0, 0, 10, 10);
+
+        result.rect(0, 0, 10, 10);
+        // Very small alpha is needed to be sure the grpahics is still interactive (clickable)
+        result.fill({ color: 0xFFFFFF, alpha: 0.0000001 });
 
         return result;
     }
