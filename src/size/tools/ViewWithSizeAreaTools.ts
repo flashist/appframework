@@ -3,12 +3,11 @@ import { IViewWithSizeArea } from "../views/IViewWithSizeArea";
 
 export class ViewWithSizeAreaTools {
     static getSizeAreaBounds(view: IViewWithSizeArea, result?: Bounds): Bounds {
-
-        if (!result) {
-            result = new Bounds();
-        }
-
         if (view.sizeArea) {
+            if (!result) {
+                result = new Bounds();
+            }
+
             result.x = view.x + view.sizeArea.x * view.scale.x;
             result.y = view.y + view.sizeArea.y * view.scale.y;
             //

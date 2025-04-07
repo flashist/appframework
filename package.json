@@ -16,7 +16,8 @@
   "main": "index.js",
   "typings": "index.d.ts",
   "dependencies": {
-    "@flashist/fconsole": "0.x"
+    "@flashist/fconsole": "0.x",
+    "@flashist/flibs": "0.x"
   },
   "devDependencies": {
     "@flashist/fbuildscripts": "0.x",
