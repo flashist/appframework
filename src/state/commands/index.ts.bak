@@ -1,1 +1,1 @@
-export * from './WaitAppStorageDataChangeCommand';
+export * from './WaitAppStateDataChangeCommand';

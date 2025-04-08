@@ -3,7 +3,7 @@ import { AbstractLoadItem, getInstance, ILocaleConfig, LoadManager, LocaleManage
 import { AppSettings } from "../../app/AppSettings";
 import { AppModuleState } from "../../app/data/state/AppModuleState";
 import { BaseAppCommand } from "../../base/commands/BaseAppCommand";
-import { appStorage } from "../../state/AppStateModule";
+import { appStateStorage } from "../../state/AppStateModule";
 
 export class ParseLocaleConfigCommand extends BaseAppCommand {
 
@@ -17,7 +17,7 @@ export class ParseLocaleConfigCommand extends BaseAppCommand {
 
             let localeManager: LocaleManager = getInstance<LocaleManager>(LocaleManager);
 
-            const appState = appStorage().getState<AppModuleState>();
+            const appState = appStateStorage().getState<AppModuleState>();
             // localeManager.setCurrentLanguage(appState.app.config.locale);
             // localeManager.addLocale(localizationJson, appState.app.config.locale);
             let localeKeys: string[] = Object.keys(localizationJson);

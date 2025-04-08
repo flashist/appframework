@@ -5,7 +5,7 @@ import { serviceLocatorAdd } from "@flashist/flibs";
 import { PagesView } from "./views/PagesView";
 import { PagesMediator } from "./views/PagesMediator";
 import { PagesModuleInitialState } from "./data/state/PagesModuleState";
-import { appStorage } from "../state/AppStateModule";
+import { appStateStorage } from "../state/AppStateModule";
 
 export class PagesModule extends BaseAppModule {
 
@@ -13,7 +13,7 @@ export class PagesModule extends BaseAppModule {
         super.init();
 
         // Init the app with initial state
-        appStorage().initializeWith(PagesModuleInitialState);
+        appStateStorage().initializeWith(PagesModuleInitialState);
 
         //
         serviceLocatorAdd(PagesView, { activateeConstructors: [PagesMediator] });

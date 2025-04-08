@@ -25,7 +25,7 @@ import { RendererManager } from "../renderer/managers/RendererManager";
 import { RendererModule } from "../renderer/RendererModule";
 import { SoundsModule } from "../sounds/SoundsModule";
 import { DeepReadonly } from "../state";
-import { AppStateModule, appStorage } from "../state/AppStateModule";
+import { AppStateModule, appStateStorage } from "../state/AppStateModule";
 import { TimeModule } from "../time/TimeModule";
 import { IFacadeOptions } from "./IFacadeOptions";
 
@@ -171,7 +171,7 @@ export class Facade extends BaseObject {
 
     protected onWindowResize(): void {
         const documentSize: Point = HtmlTools.getDocumentSize();
-        const appState: DeepReadonly<DeviceModuleState> = appStorage().getState<DeviceModuleState>();
+        const appState: DeepReadonly<DeviceModuleState> = appStateStorage().getState<DeviceModuleState>();
         if (this.rendererManager) {
             this.rendererManager.resize(documentSize.x, documentSize.y, appState.device.pixelRatio);
         }
@@ -195,7 +195,7 @@ export class Facade extends BaseObject {
         if (!this.mainContainer || !this.rendererManager) {
             return
         }
-        
+
         this.mainContainer.resize(
             this.rendererManager.rendererWidth,
             this.rendererManager.rendererHeight

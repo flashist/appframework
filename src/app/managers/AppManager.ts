@@ -2,7 +2,7 @@ import { getInstance } from "@flashist/flibs";
 
 import { BaseAppManager } from "../../base/managers/BaseAppManager";
 import { LocalStorageManager } from "../../local-storage/managers/LocalStorageManager";
-import { appStorage } from "../../state/AppStateModule";
+import { appStateStorage } from "../../state/AppStateModule";
 import { DeepReadonly } from "../../state/data/DeepReadableTypings";
 import { AppSettings } from "../AppSettings";
 import { IAppModelLocalStorageVO } from "../data/local-storage/IAppModelLocalStorageVO";
@@ -21,7 +21,7 @@ export class AppManager extends BaseAppManager {
 
         this.storageManager = getInstance(LocalStorageManager);
 
-        this.appState = appStorage().getState<AppModuleState>();
+        this.appState = appStateStorage().getState<AppModuleState>();
         const appModelStorageData: IAppModelLocalStorageVO = this.storageManager.getParam<IAppModelLocalStorageVO>(AppSettings.storageParamId);
         this.applyStorageData(appModelStorageData);
 
@@ -36,7 +36,7 @@ export class AppManager extends BaseAppManager {
         if (flashistGlobalVars?.openTime) {
             sessionStartTimeFirstValue = flashistGlobalVars?.openTime;
         }
-        appStorage().change<AppModuleState>()(
+        appStateStorage().change<AppModuleState>()(
             "app",
             {
                 previousSessionTotalUsageTime: this.appState.app.totalUsageDuration,
@@ -68,7 +68,7 @@ export class AppManager extends BaseAppManager {
         let sessionTimeDelta: number = Date.now() - this.appState.app.sessionStartTime;
 
         // this.appState.app.totalUsageDuration = this.appState.app.previousSessionTotalUsageTime + sessionTimeDelta;
-        appStorage().change<AppModuleState>()(
+        appStateStorage().change<AppModuleState>()(
             "app",
             {
                 sessionDuration: sessionTimeDelta,
@@ -86,7 +86,7 @@ export class AppManager extends BaseAppManager {
 
         // this.appState.app.appLaunchesCount = data.appLaunchesCount;
         // this.appState.app.totalUsageDuration = data.totalUsageTime;
-        appStorage().change<AppModuleState>()(
+        appStateStorage().change<AppModuleState>()(
             "app",
             {
                 appLaunchesCount: data.appLaunchesCount,

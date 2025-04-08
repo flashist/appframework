@@ -2,7 +2,7 @@ import { DisplayResizeTools, FContainer, getInstance, Graphics, Point, Rectangle
 import { AppModuleState } from "../../app/data/state/AppModuleState";
 
 import { BaseAppView } from "../../base/views/BaseAppView";
-import { appStorage } from "../../state/AppStateModule";
+import { appStateStorage } from "../../state/AppStateModule";
 
 export class BasePageView extends BaseAppView {
 
@@ -51,7 +51,7 @@ export class BasePageView extends BaseAppView {
 
         this._sizeArea = new Rectangle();
 
-        const appState = appStorage().getState<AppModuleState>();
+        const appState = appStateStorage().getState<AppModuleState>();
         if (appState.app.config.sizeArea) {
             this._sizeArea = new Rectangle(
                 appState.app.config.sizeArea.x || 0,

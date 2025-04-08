@@ -4,7 +4,7 @@ import { ObjectTools } from '@flashist/fcore';
 import { BaseAppModule } from "../base/modules/BaseAppModule";
 import { AppManager } from "./managers/AppManager";
 import { AppModuleInitialState, AppModuleState } from './data/state/AppModuleState';
-import { appStorage } from "../state/AppStateModule";
+import { appStateStorage } from "../state/AppStateModule";
 
 export class AppModule extends BaseAppModule {
 
@@ -19,7 +19,7 @@ export class AppModule extends BaseAppModule {
         const initState: AppModuleState = ObjectTools.clone(AppModuleInitialState);
         ObjectTools.copyProps(initState, { app: { debug: this.debug } })
         //
-        appStorage().initializeWith(initState);
+        appStateStorage().initializeWith(initState);
 
         serviceLocatorAdd(AppManager, { isSingleton: true, forceCreation: true });
     }

@@ -8,7 +8,7 @@ import {
 
 import { BaseAppCommand } from "../../base/commands/BaseAppCommand";
 import { AppSettings } from "../AppSettings";
-import { appStorage } from "../../state/AppStateModule";
+import { appStateStorage } from "../../state/AppStateModule";
 import { AppModuleState } from "../data/state/AppModuleState";
 import { DeviceModuleState } from "../../device";
 
@@ -27,15 +27,15 @@ export class LoadAppConfigCommand extends BaseAppCommand {
                 (data: any) => {
                     console.log("LoadAppConfigCommand | executeInternal __ data: ", data);
 
-                    appStorage().change<AppModuleState>()(
+                    appStateStorage().change<AppModuleState>()(
                         "app.config",
                         data
                     );
 
                     //
-                    const deviceState = appStorage().getMutableState<DeviceModuleState>();
+                    const deviceState = appStateStorage().getMutableState<DeviceModuleState>();
                     //
-                    const appState = appStorage().getState<AppModuleState>();
+                    const appState = appStateStorage().getState<AppModuleState>();
                     const loadManager: LoadManager = getInstance(LoadManager);
                     loadManager.addSubstituteParams(
                         {

@@ -1,7 +1,7 @@
 import { BaseAppCommand } from "../../base";
-import { appStateChangeEvent, appStorage } from "../AppStateModule";
+import { appStateStorageChangeEvent, appStateStorage } from "../AppStateModule";
 
-export class WaitAppStorageDataChageCommand extends BaseAppCommand {
+export class WaitAppStateDataChageCommand extends BaseAppCommand {
     constructor(protected deepKey: string, protected value: any) {
         super();
     }
@@ -9,7 +9,7 @@ export class WaitAppStorageDataChageCommand extends BaseAppCommand {
     guard(): boolean {
         let result: boolean = super.guard();
         if (result) {
-            if (this.value == this.getAppStorageValue()) {
+            if (this.value == this.getAppStateValue()) {
                 result = false;
             }
         }
@@ -17,16 +17,16 @@ export class WaitAppStorageDataChageCommand extends BaseAppCommand {
         return result;
     }
 
-    protected getAppStorageValue(): any {
-        return (appStorage().getValue<any>() as any)(this.deepKey);
+    protected getAppStateValue(): any {
+        return (appStateStorage().getValue<any>() as any)(this.deepKey);
     }
 
     protected executeInternal(): void {
         this.eventListenerHelper.addEventListener(
             this.globalDispatcher,
-            (appStateChangeEvent() as any)(this.deepKey),
+            (appStateStorageChangeEvent() as any)(this.deepKey),
             () => {
-                if (this.value == this.getAppStorageValue()) {
+                if (this.value == this.getAppStateValue()) {
                     this.notifyComplete();
                 }
             }

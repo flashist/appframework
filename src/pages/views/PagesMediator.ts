@@ -1,5 +1,5 @@
 import { BaseAppMediator } from "../../base/mediators/BaseAppMediator";
-import { appStateChangeEvent } from "../../state/AppStateModule";
+import { appStateStorageChangeEvent } from "../../state/AppStateModule";
 import { PagesModuleState } from "../data/state/PagesModuleState";
 import { PagesView } from "./PagesView";
 
@@ -10,7 +10,7 @@ export class PagesMediator extends BaseAppMediator<PagesView> {
 
         this.eventListenerHelper.addEventListener(
             this.globalDispatcher,
-            appStateChangeEvent<PagesModuleState>()("pages.pageId"),
+            appStateStorageChangeEvent<PagesModuleState>()("pages.pageId"),
             this.onPageIdChange
         );
     }

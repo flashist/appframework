@@ -19,19 +19,19 @@ export class AppStateModule extends BaseAppModule {
     }
 }
 
-export const appStorage = () => {
+export const appStateStorage = () => {
     return getInstance(AppStateStorage);
 }
 
-export const appStateChangeEvent = <StateType extends object>() => {
+export const appStateStorageChangeEvent = <StateType extends object>() => {
     return <DeepKeyType extends keyof Flatten<StateType>>(deepKey: DeepKeyType): string => {
         return AppStateEventChangeTools.getChangeEvent(deepKey)
     }
 }
 
 //
-window["appStorage"] = appStorage;
-window["appStateChangeEvent"] = appStateChangeEvent;
+window["appStateStorage"] = appStateStorage;
+window["appStateStorageChangeEvent"] = appStateStorageChangeEvent;
 
 /**
 //

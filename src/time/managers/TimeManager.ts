@@ -2,7 +2,7 @@ import { Ticker } from "pixi.js";
 
 import { BaseAppManager } from "../../base/managers/BaseAppManager";
 import { AppStateStorage } from "../../state/data/AppStateStorage";
-import { appStorage } from "../../state/AppStateModule";
+import { appStateStorage } from "../../state/AppStateModule";
 import { TimeModuleAppState } from "../data/state/TimeModuleAppState";
 import { TimeModule } from '../TimeModule';
 import { TimeManagerEvent } from "./TimeManagerEvent";
@@ -10,8 +10,8 @@ import { TimeManagerEvent } from "./TimeManagerEvent";
 
 export class TimeManager extends BaseAppManager {
 
-    protected appStateStorage: AppStateStorage = appStorage();
-    protected timeModuleState: TimeModuleAppState = appStorage().getState<TimeModuleAppState>();
+    protected appStateStorage: AppStateStorage = appStateStorage();
+    protected timeModuleState: TimeModuleAppState = appStateStorage().getState<TimeModuleAppState>();
 
     protected addListeners(): void {
         super.addListeners();

@@ -1,6 +1,6 @@
 import { ArrayTools, UniqueTools } from "@flashist/fcore";
 import { BaseAppManager } from "../../base/managers/BaseAppManager";
-import { appStorage } from "../../state/AppStateModule";
+import { appStateStorage } from "../../state/AppStateModule";
 import { TimeModuleAppState } from "../../time/data/state/TimeModuleAppState";
 import { TimeManagerEvent } from "../../time/managers/TimeManagerEvent";
 import { IComponent } from "../ecs/components/IComponent";
@@ -30,7 +30,7 @@ export class ECSManager extends BaseAppManager {
     protected construction(...args: any[]): void {
         super.construction(...args);
 
-        this.timeState = appStorage().getState<TimeModuleAppState>();
+        this.timeState = appStateStorage().getState<TimeModuleAppState>();
     }
 
     protected addListeners(): void {

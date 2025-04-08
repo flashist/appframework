@@ -5,7 +5,7 @@ import { BaseAppCommand } from "../../base/commands/BaseAppCommand";
 import { IEntity } from "../../ecs/ecs/entities/IEntity";
 import { ECSManager } from "../../ecs/managers/ECSManager";
 import { AppSettings } from "../AppSettings";
-import { appStorage } from "../../state";
+import { appStateStorage } from "../../state";
 // import {IItemsConfigVO} from "../data/IItemsConfigVO";
 
 export class ParseStaticItemsConfigCommand extends BaseAppCommand {
@@ -30,12 +30,12 @@ export class ParseStaticItemsConfigCommand extends BaseAppCommand {
                 }
 
                 if (staticItemsConfigFileItem.data.state) {
-                    // Do this strange hack to initialize AppStorageState data from the loaded config,´
+                    // Do this strange hack to initialize AppStateStorage data from the loaded config,´
                     // we can't change ths state from the root, because the code doesn't allow it,
                     // also we need to provide a type to check, so we provide the type with all possible keys
                     const topLevelStateKeys: string[] = Object.keys(staticItemsConfigFileItem.data.state);
                     for (let singleTopLevelKey of topLevelStateKeys) {
-                        appStorage().change<{ [key: string]: any }>()(singleTopLevelKey, staticItemsConfigFileItem.data.state[singleTopLevelKey]);
+                        appStateStorage().change<{ [key: string]: any }>()(singleTopLevelKey, staticItemsConfigFileItem.data.state[singleTopLevelKey]);
                     }
                 }
             }
