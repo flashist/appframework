@@ -1,4 +1,4 @@
-import { FContainer, FLabel, Texture, InteractiveEvent, Sprite, DisplayResizeTools, Graphics, DisplayObjectContainer } from "@flashist/flibs";
+import { FContainer, FLabel, Texture, InteractiveEvent, Sprite, DisplayResizeTools, Graphics, DisplayObjectContainer, DisplayTools } from "@flashist/flibs";
 
 import { SimpleButtonConfig, ISingleButtonStateConfig, SimpleButtonDefaultConfig } from "./SimpleButtonConfig";
 import { SimpleButtonState } from "./SimpleButtonState";
@@ -49,6 +49,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     protected bg: Graphics;
     protected contentCont: FContainer;
     protected layoutableCont: BaseLayoutableContainer;
+    protected curStateExternalView: DisplayObjectContainer;
     protected icon: Sprite;
     // protected bg: Graphics | Sprite;
     public fLabel: FLabel;
@@ -261,6 +262,13 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
 
         if (tempConfig.labelConfig) {
             this.fLabel.changeConfig(tempConfig.labelConfig);
+        }
+
+        if (tempConfig.externalView !== this.curStateExternalView) {
+            DisplayTools.childRemoveItselfFromParent(this.curStateExternalView);
+        }
+        if (tempConfig.externalView) {
+            this.layoutableCont.addChild(tempConfig.externalView);
         }
 
         if (this.enabled) {
