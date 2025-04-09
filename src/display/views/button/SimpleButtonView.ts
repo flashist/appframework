@@ -35,7 +35,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     protected _state: string;
     protected _selected: boolean;
 
-    protected config: SimpleButtonConfig;
+    protected curConfig: SimpleButtonConfig;
 
     // protected _bgAlpha: number;
     // protected _bgColor: number;
@@ -64,36 +64,36 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     protected construction(config: SimpleButtonConfig): void {
         super.construction();
         // First "write" default values
-        this.config = ObjectTools.clone(SimpleButtonDefaultConfig);
+        this.curConfig = ObjectTools.clone(SimpleButtonDefaultConfig);
 
         // Make sure we don't try to deep-copy some "complex" type properties
         const linkCopyData: SimpleButtonConfig = {
             states: {}
         };
-        const configStateIds: string[] = Object.keys(this.config.states);
+        const configStateIds: string[] = Object.keys(config.states);
         for (let singleStateId of configStateIds) {
-            if (this.config.states[singleStateId].externalView) {
+            if (config.states[singleStateId].externalView) {
                 // Save the "complex" type data, to be able to use it later
                 linkCopyData[singleStateId] = {
-                    externalView: this.config.states[singleStateId].externalView
+                    externalView: config.states[singleStateId].externalView
                 };
 
                 // Temporarily remove the "complex" type data from the config
                 // to correctly apply deep-copy algorythm
-                delete this.config.states[singleStateId].externalView;
+                delete config.states[singleStateId].externalView;
             }
         }
 
         //
         // Then override them with passed config
-        ObjectTools.copyProps(this.config, config);
+        ObjectTools.copyProps(this.curConfig, config);
 
         // Return back all the deleted "complex" type properties to the original config
         // And use them in the final config
         for (let singleStateId of configStateIds) {
             if (linkCopyData[singleStateId]?.externalView) {
                 // Set the link-based data of the "complex" link
-                this.config[singleStateId].externalView = linkCopyData[singleStateId].externalView;
+                this.curConfig[singleStateId].externalView = linkCopyData[singleStateId].externalView;
                 // Return the data into the original config
                 config[singleStateId].externalView = linkCopyData[singleStateId].externalView;
             }
@@ -125,7 +125,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         this.icon = new Sprite();
         this.layoutableCont.addChild(this.icon);
 
-        this.fLabel = new FLabel(this.config.labelConfig);
+        this.fLabel = new FLabel(this.curConfig.labelConfig);
         this.layoutableCont.addChild(this.fLabel);
         //
         // this.fLabel.interactive = true;
@@ -224,8 +224,8 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
 
         this.updateBg();
 
-        this.contentCont.x = this.bg.x + Math.floor((this.bg.width - this.contentCont.width) / 2) + this.config.bgConfig.contentToBgShiftX;
-        this.contentCont.y = this.bg.y + Math.floor((this.bg.height - this.contentCont.height) / 2) + this.config.bgConfig.contentToBgShiftY;
+        this.contentCont.x = this.bg.x + Math.floor((this.bg.width - this.contentCont.width) / 2) + this.curConfig.bgConfig.contentToBgShiftX;
+        this.contentCont.y = this.bg.y + Math.floor((this.bg.height - this.contentCont.height) / 2) + this.curConfig.bgConfig.contentToBgShiftY;
     }
 
     get enabled(): boolean {
@@ -272,17 +272,17 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         super.commitData();
 
         let tempConfigState: string = this.state;
-        if (!this.config.states[tempConfigState]) {
+        if (!this.curConfig.states[tempConfigState]) {
             if (this.selected) {
                 tempConfigState = SimpleButtonView.SELECTED_TO_NORMAL_MAP[this.state];
             }
         }
 
-        if (!this.config.states[tempConfigState]) {
+        if (!this.curConfig.states[tempConfigState]) {
             tempConfigState = SimpleButtonState.NORMAL;
         }
 
-        let tempConfig: ISingleButtonStateConfig = this.config.states[tempConfigState];
+        let tempConfig: ISingleButtonStateConfig = this.curConfig.states[tempConfigState];
         if (tempConfig.alpha || tempConfig.alpha === 0) {
             this.alpha = tempConfig.alpha;
         }
@@ -356,9 +356,9 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     private updateBg(): void {
         this.bg.clear();
 
-        this.bg.roundRect(0, 0, this.contentCont.width + this.config.bgConfig.contentToBgPaddingX * 2, this.contentCont.height + this.config.bgConfig.contentToBgPaddingY * 2, this.config.bgConfig.bgCornerRadius);
-        this.bg.setStrokeStyle({ width: this.config.bgConfig.bgLineWidth, color: this.config.bgConfig.bgLineColor, alpha: this.config.bgConfig.bgLineAlpha, alignment: 0 });
-        this.bg.fill({ color: this.config.bgConfig.bgColor, alpha: this.config.bgConfig.bgAlpha });
+        this.bg.roundRect(0, 0, this.contentCont.width + this.curConfig.bgConfig.contentToBgPaddingX * 2, this.contentCont.height + this.curConfig.bgConfig.contentToBgPaddingY * 2, this.curConfig.bgConfig.bgCornerRadius);
+        this.bg.setStrokeStyle({ width: this.curConfig.bgConfig.bgLineWidth, color: this.curConfig.bgConfig.bgLineColor, alpha: this.curConfig.bgConfig.bgLineAlpha, alignment: 0 });
+        this.bg.fill({ color: this.curConfig.bgConfig.bgColor, alpha: this.curConfig.bgConfig.bgAlpha });
 
         // this.bg.endFill();
     }
