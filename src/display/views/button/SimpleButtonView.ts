@@ -74,7 +74,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         for (let singleStateId of configStateIds) {
             if (config.states[singleStateId].externalView) {
                 // Save the "complex" type data, to be able to use it later
-                linkCopyConfig[singleStateId] = {
+                linkCopyConfig.states[singleStateId] = {
                     externalView: config.states[singleStateId].externalView
                 };
 
@@ -92,11 +92,11 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         // And use them in the final config
         const linkCopyConfigStateIds: string[] = Object.keys(config.states);
         for (let singleCopyStateId of linkCopyConfigStateIds) {
-            if (linkCopyConfig[singleCopyStateId]?.externalView) {
+            if (linkCopyConfig.states[singleCopyStateId]?.externalView) {
                 // Set the link-based data of the "complex" link
-                this.curConfig[singleCopyStateId].externalView = linkCopyConfig[singleCopyStateId].externalView;
+                this.curConfig.states[singleCopyStateId].externalView = linkCopyConfig.states[singleCopyStateId].externalView;
                 // Return the data into the original config
-                config[singleCopyStateId].externalView = linkCopyConfig[singleCopyStateId].externalView;
+                config.states[singleCopyStateId].externalView = linkCopyConfig.states[singleCopyStateId].externalView;
             }
         }
 
