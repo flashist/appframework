@@ -67,14 +67,14 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         this.curConfig = ObjectTools.clone(SimpleButtonDefaultConfig);
 
         // Make sure we don't try to deep-copy some "complex" type properties
-        const linkCopyData: SimpleButtonConfig = {
+        const linkCopyConfig: SimpleButtonConfig = {
             states: {}
         };
         const configStateIds: string[] = Object.keys(config.states);
         for (let singleStateId of configStateIds) {
             if (config.states[singleStateId].externalView) {
                 // Save the "complex" type data, to be able to use it later
-                linkCopyData[singleStateId] = {
+                linkCopyConfig[singleStateId] = {
                     externalView: config.states[singleStateId].externalView
                 };
 
@@ -90,12 +90,13 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
 
         // Return back all the deleted "complex" type properties to the original config
         // And use them in the final config
-        for (let singleStateId of configStateIds) {
-            if (linkCopyData[singleStateId]?.externalView) {
+        const linkCopyConfigStateIds: string[] = Object.keys(config.states);
+        for (let singleCopyStateId of linkCopyConfigStateIds) {
+            if (linkCopyConfig[singleCopyStateId]?.externalView) {
                 // Set the link-based data of the "complex" link
-                this.curConfig[singleStateId].externalView = linkCopyData[singleStateId].externalView;
+                this.curConfig[singleCopyStateId].externalView = linkCopyConfig[singleCopyStateId].externalView;
                 // Return the data into the original config
-                config[singleStateId].externalView = linkCopyData[singleStateId].externalView;
+                config[singleCopyStateId].externalView = linkCopyConfig[singleCopyStateId].externalView;
             }
         }
 
