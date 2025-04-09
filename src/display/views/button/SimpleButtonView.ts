@@ -65,8 +65,39 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         super.construction();
         // First "write" default values
         this.config = ObjectTools.clone(SimpleButtonDefaultConfig);
+
+        // Make sure we don't try to deep-copy some "complex" type properties
+        const linkCopyData: SimpleButtonConfig = {
+            states: {}
+        };
+        const configStateIds: string[] = Object.keys(this.config.states);
+        for (let singleStateId of configStateIds) {
+            if (this.config.states[singleStateId].externalView) {
+                // Save the "complex" type data, to be able to use it later
+                linkCopyData[singleStateId] = {
+                    externalView: this.config.states[singleStateId].externalView
+                };
+
+                // Temporarily remove the "complex" type data from the config
+                // to correctly apply deep-copy algorythm
+                delete this.config.states[singleStateId].externalView;
+            }
+        }
+
+        //
         // Then override them with passed config
         ObjectTools.copyProps(this.config, config);
+
+        // Return back all the deleted "complex" type properties to the original config
+        // And use them in the final config
+        for (let singleStateId of configStateIds) {
+            if (linkCopyData[singleStateId]?.externalView) {
+                // Set the link-based data of the "complex" link
+                this.config[singleStateId].externalView = linkCopyData[singleStateId].externalView;
+                // Return the data into the original config
+                config[singleStateId].externalView = linkCopyData[singleStateId].externalView;
+            }
+        }
 
         // this._bgAlpha = 0;
         // this._bgColor = 0x000000;
