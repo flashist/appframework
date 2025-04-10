@@ -5,7 +5,10 @@ export const SimpleButtonDefaultConfig = {
     // We need this param in both states and root,
     // because we need a correct label config
     // at the moment of creationg of the FLabel instance
-    labelConfig: null as IFLabelConfig,
+    // labelConfig: null as IFLabelConfig,
+    labelConfig: {
+        autosize: true
+    } as IFLabelConfig,
 
     bgConfig: {
         // 0.001 to make sure the bg is drawn, but is almost invisible

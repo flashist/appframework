@@ -129,6 +129,8 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         this.fLabel = new FLabel(this.curConfig.labelConfig);
         this.layoutableCont.addChild(this.fLabel);
         //
+        this.fLabel.text = "";
+        //
         // this.fLabel.interactive = true;
         // this.fLabel.interactiveChildren = true;
 
