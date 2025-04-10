@@ -227,8 +227,8 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
 
         this.updateBg();
 
-        this.contentCont.x = this.bg.x + Math.floor((this.bg.width - this.contentCont.width) / 2) + this.curConfig.bgConfig.contentToBgShiftX;
-        this.contentCont.y = this.bg.y + Math.floor((this.bg.height - this.contentCont.height) / 2) + this.curConfig.bgConfig.contentToBgShiftY;
+        // this.contentCont.x = this.bg.x + Math.floor((this.bg.width - this.contentCont.width) / 2) + this.curConfig.bgConfig.contentToBgShiftX;
+        // this.contentCont.y = this.bg.y + Math.floor((this.bg.height - this.contentCont.height) / 2) + this.curConfig.bgConfig.contentToBgShiftY;
     }
 
     get enabled(): boolean {
@@ -358,6 +358,9 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     }
 
     private updateBg(): void {
+        // Temporarily disable (stopped working properly in pixi.js v8)
+        return;
+
         this.bg.clear();
 
         this.bg.roundRect(0, 0, this.contentCont.width + this.curConfig.bgConfig.contentToBgPaddingX * 2, this.contentCont.height + this.curConfig.bgConfig.contentToBgPaddingY * 2, this.curConfig.bgConfig.bgCornerRadius);
