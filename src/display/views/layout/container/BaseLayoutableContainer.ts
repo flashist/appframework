@@ -7,14 +7,14 @@ export class BaseLayoutableContainer<ChildType extends ILayoutableChild = ILayou
     extends FContainer<DataType>
     implements ILayoutableContainer<ChildType> {
 
-    public children: ChildType[];
+    public layoutableChildren: ChildType[];
 
     layoutGetChildrenNum(): number {
-        return this.children.length;
+        return this.layoutableChildren.length;
     }
 
     layoutGetChildAt(index: number): ChildType {
-        return this.children[index];
+        return this.layoutableChildren[index];
     }
 
 }

@@ -302,7 +302,8 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
             DisplayTools.childRemoveItselfFromParent(this.curStateExternalView);
         }
         if (tempConfig.externalView) {
-            this.layoutableCont.addChild(tempConfig.externalView);
+            // this.layoutableCont.addChild(tempConfig.externalView);
+            this.contentCont.addChild(tempConfig.externalView);
         }
 
         if (this.enabled) {
