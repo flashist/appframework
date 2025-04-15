@@ -6,11 +6,11 @@ import {
     LoadManager
 } from "@flashist/flibs";
 
+import { DeviceModuleState } from "../../../index";
 import { BaseAppCommand } from "../../base/commands/BaseAppCommand";
-import { AppSettings } from "../AppSettings";
 import { appStateStorage } from "../../state/AppStateModule";
+import { AppSettings } from "../AppSettings";
 import { AppModuleState } from "../data/state/AppModuleState";
-import { DeviceModuleState } from "../../device";
 
 export class LoadAppConfigCommand extends BaseAppCommand {
     BasePageView

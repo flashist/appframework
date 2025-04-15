@@ -1,4 +1,4 @@
-import { BaseAppCommand } from "../../base";
+import { BaseAppCommand } from "../../../index";
 import { appStateStorageChangeEvent, appStateStorage } from "../AppStateModule";
 
 export class WaitAppStateDataChageCommand extends BaseAppCommand {

@@ -24,7 +24,7 @@ import { RendererManagerEvent } from "../renderer/events/RendererManagerEvent";
 import { RendererManager } from "../renderer/managers/RendererManager";
 import { RendererModule } from "../renderer/RendererModule";
 import { SoundsModule } from "../sounds/SoundsModule";
-import { DeepReadonly } from "../state";
+import { DeepReadonly } from "../../index";
 import { AppStateModule, appStateStorage } from "../state/AppStateModule";
 import { TimeModule } from "../time/TimeModule";
 import { IFacadeOptions } from "./IFacadeOptions";

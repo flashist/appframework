@@ -2,7 +2,7 @@ import { Logger } from "@flashist/fcore";
 import { Point } from "@flashist/flibs";
 import { MultiColumnLayoutConfig } from "./MultiColumnLayoutConfig";
 import { BaseLayout } from "./BaseLayout";
-import { ILayoutableChild, ILayoutableContainer } from "./container";
+import { ILayoutableChild, ILayoutableContainer } from "../../../../index";
 
 /**
  * ...

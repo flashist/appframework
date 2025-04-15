@@ -3,7 +3,7 @@ import { getInstance, serviceLocatorAdd, SoundsManager, SoundsManagerEvent } fro
 import { BaseAppModule } from "../base/modules/BaseAppModule";
 import { BackgroundMusicManager } from "./managers/BackgroundMusicManager";
 import { SoundsStorageManager } from "./managers/SoundsStorageManager";
-import { GlobalEventDispatcher } from "../globaleventdispatcher";
+import { GlobalEventDispatcher } from "../../index";
 
 export class SoundsModule extends BaseAppModule {
 

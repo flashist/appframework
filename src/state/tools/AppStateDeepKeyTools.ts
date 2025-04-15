@@ -1,7 +1,6 @@
 import { ObjectTools } from "@flashist/fcore";
-import { AppStateChangeType } from "../data/AppStateChangeType";
+import { IAppStateChangeConfigVO } from "../../../index";
 import { IDeepKeyHelperVO } from "./INestedPathHelperVO";
-import { IAppStateChangeConfigVO } from "../data";
 
 export class AppStateDeepKeyTools {
     static prepareDeepKeyHelperData(deepKey: string, config: IAppStateChangeConfigVO = null): IDeepKeyHelperVO {

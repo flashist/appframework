@@ -1,11 +1,10 @@
 import { CommandErrorCode } from "@flashist/fcore";
 import { AbstractLoadItem, GenericObjectsByTypeModel, getInstance, LoadManager } from "@flashist/flibs";
 
+import { appStateStorage } from "../../../index";
 import { BaseAppCommand } from "../../base/commands/BaseAppCommand";
-import { IEntity } from "../../ecs/ecs/entities/IEntity";
 import { ECSManager } from "../../ecs/managers/ECSManager";
 import { AppSettings } from "../AppSettings";
-import { appStateStorage } from "../../state";
 // import {IItemsConfigVO} from "../data/IItemsConfigVO";
 
 export class ParseStaticItemsConfigCommand extends BaseAppCommand {

@@ -5,7 +5,7 @@ import { SimpleButtonState } from "./SimpleButtonState";
 import { AppResizableContainer } from "../resize/AppResizableContainer";
 import { IToggableItem } from "../togglegroup/IToggableItem";
 import { ObjectTools } from '@flashist/fcore';
-import { BaseLayout, BaseLayoutableContainer } from "../layout";
+import { BaseLayout, BaseLayoutableContainer } from "../../../../index";
 
 export class SimpleButtonView<DataType extends object = object> extends AppResizableContainer<DataType> implements IToggableItem {
 
