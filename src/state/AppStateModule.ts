@@ -29,7 +29,8 @@ export const appStateStorageChangeEvent = <StateType extends object>() => {
     }
 }
 
-//
+// DEBUG ONLY
+// TODO: make sure is not left in the prod-builds
 window["appStateStorage"] = appStateStorage;
 window["appStateStorageChangeEvent"] = appStateStorageChangeEvent;
 

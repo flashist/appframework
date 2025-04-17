@@ -6,7 +6,7 @@ import {
     LoadManager
 } from "@flashist/flibs";
 
-import { DeviceModuleState } from "../../../index";
+import { DeviceModuleState } from "../../index";
 import { BaseAppCommand } from "../../base/commands/BaseAppCommand";
 import { appStateStorage } from "../../state/AppStateModule";
 import { AppSettings } from "../AppSettings";

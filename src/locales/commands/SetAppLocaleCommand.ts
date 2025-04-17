@@ -1,7 +1,7 @@
 import { getInstance, LocaleManager } from "@flashist/flibs";
 
 import { BaseAppCommand } from "../../base/commands/BaseAppCommand";
-import { DeviceModuleState } from "../../../index";
+import { DeviceModuleState } from "../../index";
 import { appStateStorage } from "../../state/AppStateModule";
 
 export class SetAppLocaleCommand extends BaseAppCommand {

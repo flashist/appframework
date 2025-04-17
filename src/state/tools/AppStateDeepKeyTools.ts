@@ -1,5 +1,5 @@
 import { ObjectTools } from "@flashist/fcore";
-import { IAppStateChangeConfigVO } from "../../../index";
+import { IAppStateChangeConfigVO } from "../../index";
 import { IDeepKeyHelperVO } from "./INestedPathHelperVO";
 
 export class AppStateDeepKeyTools {

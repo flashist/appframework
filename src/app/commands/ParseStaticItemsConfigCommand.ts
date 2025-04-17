@@ -1,7 +1,7 @@
 import { CommandErrorCode } from "@flashist/fcore";
 import { AbstractLoadItem, GenericObjectsByTypeModel, getInstance, LoadManager } from "@flashist/flibs";
 
-import { appStateStorage } from "../../../index";
+import { appStateStorage } from "../../index";
 import { BaseAppCommand } from "../../base/commands/BaseAppCommand";
 import { ECSManager } from "../../ecs/managers/ECSManager";
 import { AppSettings } from "../AppSettings";
