@@ -4,7 +4,8 @@ export const DebugModuleInitialState = {
     debug: {
         fconsole: {
             console: {
-                defaultVisible: true
+                // defaultVisible: true
+                defaultVisible: false
             }
         } as Partial<IFConsoleConfigVO>
     }
