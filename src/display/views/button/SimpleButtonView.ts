@@ -35,7 +35,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     protected _state: string;
     protected _selected: boolean;
 
-    protected curConfig: SimpleButtonConfig;
+    protected config: SimpleButtonConfig;
 
     // protected _bgAlpha: number;
     // protected _bgColor: number;
@@ -64,7 +64,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     protected construction(config: SimpleButtonConfig): void {
         super.construction();
         // First "write" default values
-        this.curConfig = ObjectTools.clone(SimpleButtonDefaultConfig);
+        this.config = ObjectTools.clone(SimpleButtonDefaultConfig);
 
         // Make sure we don't try to deep-copy some "complex" type properties
         const linkCopyConfig: SimpleButtonConfig = {
@@ -88,7 +88,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         }
 
         // Then override them with passed config
-        ObjectTools.copyProps(this.curConfig, config);
+        ObjectTools.copyProps(this.config, config);
 
         if (config.states) {
             // Return back all the deleted "complex" type properties to the original config
@@ -97,7 +97,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
             for (let singleCopyStateId of linkCopyConfigStateIds) {
                 if (linkCopyConfig.states[singleCopyStateId]?.externalView) {
                     // Set the link-based data of the "complex" link
-                    this.curConfig.states[singleCopyStateId].externalView = linkCopyConfig.states[singleCopyStateId].externalView;
+                    this.config.states[singleCopyStateId].externalView = linkCopyConfig.states[singleCopyStateId].externalView;
                     // Return the data into the original config
                     config.states[singleCopyStateId].externalView = linkCopyConfig.states[singleCopyStateId].externalView;
                 }
@@ -130,7 +130,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         this.icon = new Sprite();
         this.layoutableCont.addChild(this.icon);
 
-        this.fLabel = new FLabel(this.curConfig.labelConfig);
+        this.fLabel = new FLabel(this.config.labelConfig);
         this.layoutableCont.addChild(this.fLabel);
         //
         this.fLabel.text = "";
@@ -277,13 +277,13 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
 
     protected getCurrentActiveState(): string {
         let result: string = this.state;
-        if (!this.curConfig.states[result]) {
+        if (!this.config.states[result]) {
             if (this.selected) {
                 result = SimpleButtonView.SELECTED_TO_NORMAL_MAP[this.state];
             }
         }
 
-        if (!this.curConfig.states[result]) {
+        if (!this.config.states[result]) {
             result = SimpleButtonState.NORMAL;
         }
 
@@ -293,7 +293,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     protected getCurrentActiveStateConfig(): ISingleButtonStateConfig {
         let tempState: string = this.getCurrentActiveState();
 
-        let result: ISingleButtonStateConfig = this.curConfig.states[tempState];
+        let result: ISingleButtonStateConfig = this.config.states[tempState];
         return result;
     }
 
@@ -379,9 +379,9 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
 
         this.bg.clear();
 
-        this.bg.roundRect(0, 0, this.contentCont.width + this.curConfig.bgConfig.contentToBgPaddingX * 2, this.contentCont.height + this.curConfig.bgConfig.contentToBgPaddingY * 2, this.curConfig.bgConfig.bgCornerRadius);
-        this.bg.setStrokeStyle({ width: this.curConfig.bgConfig.bgLineWidth, color: this.curConfig.bgConfig.bgLineColor, alpha: this.curConfig.bgConfig.bgLineAlpha, alignment: 0 });
-        this.bg.fill({ color: this.curConfig.bgConfig.bgColor, alpha: this.curConfig.bgConfig.bgAlpha });
+        this.bg.roundRect(0, 0, this.contentCont.width + this.config.bgConfig.contentToBgPaddingX * 2, this.contentCont.height + this.config.bgConfig.contentToBgPaddingY * 2, this.config.bgConfig.bgCornerRadius);
+        this.bg.setStrokeStyle({ width: this.config.bgConfig.bgLineWidth, color: this.config.bgConfig.bgLineColor, alpha: this.config.bgConfig.bgLineAlpha, alignment: 0 });
+        this.bg.fill({ color: this.config.bgConfig.bgColor, alpha: this.config.bgConfig.bgAlpha });
 
         // this.bg.endFill();
     }
