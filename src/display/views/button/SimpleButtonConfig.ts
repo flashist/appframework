@@ -55,8 +55,11 @@ export interface ISimpleButtonBgConfig {
 
 export interface ISingleButtonStateConfig {
     alpha?: number;
+
     icon?: string;
+
     labelConfig?: IFLabelConfig;
+    bgConfig?: ISimpleButtonBgConfig;
     externalView?: DisplayObjectContainer;
 }
 

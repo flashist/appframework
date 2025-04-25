@@ -275,21 +275,33 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         this.commitData();
     }
 
-    protected commitData(): void {
-        super.commitData();
-
-        let tempConfigState: string = this.state;
-        if (!this.curConfig.states[tempConfigState]) {
+    protected getCurrentActiveState(): string {
+        let result: string = this.state;
+        if (!this.curConfig.states[result]) {
             if (this.selected) {
-                tempConfigState = SimpleButtonView.SELECTED_TO_NORMAL_MAP[this.state];
+                result = SimpleButtonView.SELECTED_TO_NORMAL_MAP[this.state];
             }
         }
 
-        if (!this.curConfig.states[tempConfigState]) {
-            tempConfigState = SimpleButtonState.NORMAL;
+        if (!this.curConfig.states[result]) {
+            result = SimpleButtonState.NORMAL;
         }
 
-        let tempConfig: ISingleButtonStateConfig = this.curConfig.states[tempConfigState];
+        return result;
+    }
+
+    protected getCurrentActiveStateConfig(): ISingleButtonStateConfig {
+        let tempState: string = this.getCurrentActiveState();
+
+        let result: ISingleButtonStateConfig = this.curConfig.states[tempState];
+        return result;
+    }
+
+    protected commitData(): void {
+        super.commitData();
+
+        let tempConfig: ISingleButtonStateConfig = this.getCurrentActiveStateConfig();
+
         if (tempConfig.alpha || tempConfig.alpha === 0) {
             this.alpha = tempConfig.alpha;
         }
