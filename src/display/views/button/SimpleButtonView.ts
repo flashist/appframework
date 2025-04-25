@@ -233,6 +233,9 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
 
         // this.contentCont.x = this.bg.x + Math.floor((this.bg.width - this.contentCont.width) / 2) + this.curConfig.bgConfig.contentToBgShiftX;
         // this.contentCont.y = this.bg.y + Math.floor((this.bg.height - this.contentCont.height) / 2) + this.curConfig.bgConfig.contentToBgShiftY;
+
+        this.contentCont.x = this.bg.x + Math.floor((this.bgCalculatedWidth - this.contentCont.width) / 2);
+        this.contentCont.y = this.bg.y + Math.floor((this.bgCalculatedHeight - this.contentCont.height) / 2);
     }
 
     get enabled(): boolean {
@@ -388,12 +391,20 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         return result;
     }
 
+    protected get bgCalculatedWidth(): number {
+        return this.resizeSize.x || this.contentCont.width;
+    }
+
+    protected get bgCalculatedHeight(): number {
+        return this.resizeSize.y || this.contentCont.height;
+    }
+
     protected updateBg(): void {
         let tempBgConfig: Partial<ISimpleButtonBgConfig> = this.getCurActiveCombinedBgConfig();
 
         this.bg.clear();
         //
-        this.bg.rect(0, 0, this.contentCont.width, this.contentCont.height);
+        this.bg.rect(0, 0, this.bgCalculatedWidth, this.bgCalculatedHeight);
         this.bg.stroke({ color: tempBgConfig.bgLineColor, alpha: tempBgConfig.bgLineAlpha, width: tempBgConfig.bgLineWidth, alignment: 1 })
         this.bg.fill({ color: tempBgConfig.bgColor, alpha: tempBgConfig.bgAlpha });
     }
