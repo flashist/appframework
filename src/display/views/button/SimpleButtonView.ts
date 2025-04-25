@@ -357,7 +357,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         this.arrange();
     }
 
-    private updateBg(): void {
+    protected updateBg(): void {
         // Temporarily disable (stopped working properly in pixi.js v8)
         return;
 
