@@ -70,17 +70,20 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         const linkCopyConfig: SimpleButtonConfig = {
             states: {}
         };
-        const configStateIds: string[] = Object.keys(config.states);
-        for (let singleStateId of configStateIds) {
-            if (config.states[singleStateId].externalView) {
-                // Save the "complex" type data, to be able to use it later
-                linkCopyConfig.states[singleStateId] = {
-                    externalView: config.states[singleStateId].externalView
-                };
 
-                // Temporarily remove the "complex" type data from the config
-                // to correctly apply deep-copy algorythm
-                delete config.states[singleStateId].externalView;
+        if (config.states) {
+            const configStateIds: string[] = Object.keys(config.states);
+            for (let singleStateId of configStateIds) {
+                if (config.states[singleStateId].externalView) {
+                    // Save the "complex" type data, to be able to use it later
+                    linkCopyConfig.states[singleStateId] = {
+                        externalView: config.states[singleStateId].externalView
+                    };
+
+                    // Temporarily remove the "complex" type data from the config
+                    // to correctly apply deep-copy algorythm
+                    delete config.states[singleStateId].externalView;
+                }
             }
         }
 
