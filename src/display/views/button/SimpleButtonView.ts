@@ -85,11 +85,12 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
                     delete config.states[singleStateId].externalView;
                 }
             }
+        }
 
-            //
-            // Then override them with passed config
-            ObjectTools.copyProps(this.curConfig, config);
+        // Then override them with passed config
+        ObjectTools.copyProps(this.curConfig, config);
 
+        if (config.states) {
             // Return back all the deleted "complex" type properties to the original config
             // And use them in the final config
             const linkCopyConfigStateIds: string[] = Object.keys(config.states);
