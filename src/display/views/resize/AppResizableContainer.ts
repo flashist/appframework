@@ -74,7 +74,7 @@ export class AppResizableContainer<DataType extends any = any> extends AppContai
     public get resizeSize(): Point {
         return this._resizeSize;
     }
-    public set resizeSize(value: Point) {
-        throw new Error("Resize size should be changed through the resize method!");
-    }
+    // public set resizeSize(value: Point) {
+    //     throw new Error("Resize size should be changed through the resize method!");
+    // }
 }
