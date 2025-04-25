@@ -1,6 +1,6 @@
 import { FContainer, FLabel, Texture, InteractiveEvent, Sprite, DisplayResizeTools, Graphics, DisplayObjectContainer, DisplayTools } from "@flashist/flibs";
 
-import { SimpleButtonConfig, ISingleButtonStateConfig, SimpleButtonDefaultConfig } from "./SimpleButtonConfig";
+import { SimpleButtonConfig, ISingleButtonStateConfig, SimpleButtonDefaultConfig, ISimpleButtonBgConfig } from "./SimpleButtonConfig";
 import { SimpleButtonState } from "./SimpleButtonState";
 import { AppResizableContainer } from "../resize/AppResizableContainer";
 import { IToggableItem } from "../togglegroup/IToggableItem";
@@ -373,18 +373,44 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         this.arrange();
     }
 
+    protected getCurActiveCombinedBgConfig(): Partial<ISimpleButtonBgConfig> {
+        let result: Partial<ISimpleButtonBgConfig> = {};
+
+        if (this.config.bgConfig) {
+            ObjectTools.copyProps(result, this.config.bgConfig);
+        }
+
+        let tempStateConfig: ISingleButtonStateConfig = this.getCurrentActiveStateConfig();
+        if (tempStateConfig.bgConfig) {
+            ObjectTools.copyProps(result, tempStateConfig.bgConfig);
+        }
+
+        return result;
+    }
+
     protected updateBg(): void {
-        // Temporarily disable (stopped working properly in pixi.js v8)
-        return;
+        let tempBgConfig: Partial<ISimpleButtonBgConfig> = this.getCurActiveCombinedBgConfig();
 
         this.bg.clear();
-
-        this.bg.roundRect(0, 0, this.contentCont.width + this.config.bgConfig.contentToBgPaddingX * 2, this.contentCont.height + this.config.bgConfig.contentToBgPaddingY * 2, this.config.bgConfig.bgCornerRadius);
-        this.bg.setStrokeStyle({ width: this.config.bgConfig.bgLineWidth, color: this.config.bgConfig.bgLineColor, alpha: this.config.bgConfig.bgLineAlpha, alignment: 0 });
-        this.bg.fill({ color: this.config.bgConfig.bgColor, alpha: this.config.bgConfig.bgAlpha });
-
-        // this.bg.endFill();
+        //
+        this.bg.rect(0, 0, this.contentCont.width, this.contentCont.height);
+        this.bg.stroke({ color: tempBgConfig.bgLineColor, alpha: tempBgConfig.bgLineAlpha, width: tempBgConfig.bgLineWidth, alignment: 1 })
+        this.bg.fill({ color: tempBgConfig.bgColor, alpha: tempBgConfig.bgAlpha });
     }
+
+    // OLD
+    // protected updateBg(): void {
+    //     // Temporarily disable (stopped working properly in pixi.js v8)
+    //     return;
+
+    //     this.bg.clear();
+
+    //     this.bg.roundRect(0, 0, this.contentCont.width + this.config.bgConfig.contentToBgPaddingX * 2, this.contentCont.height + this.config.bgConfig.contentToBgPaddingY * 2, this.config.bgConfig.bgCornerRadius);
+    //     this.bg.setStrokeStyle({ width: this.config.bgConfig.bgLineWidth, color: this.config.bgConfig.bgLineColor, alpha: this.config.bgConfig.bgLineAlpha, alignment: 0 });
+    //     this.bg.fill({ color: this.config.bgConfig.bgColor, alpha: this.config.bgConfig.bgAlpha });
+
+    //     // this.bg.endFill();
+    // }
 
 
     public get contentLayout(): BaseLayout {
