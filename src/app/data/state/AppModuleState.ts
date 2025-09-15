@@ -5,7 +5,8 @@ export const AppModuleInitialState = {
         debug: false,
 
         // The timestamp of the current launching date
-        curLaunchTimestamp: 0,
+        curLaunchStartTimestamp: 0,
+        // curLaunchTimestamp: 0,
         // The last previous timestamp of the current launching date
         prevLaunchTimestamp: 0,
 
@@ -43,7 +44,6 @@ export const AppModuleInitialState = {
         // // if the streak is broken, starts from 1 again
         // appConsequentDay7RetentionLaunchesCount: 0,
 
-        sessionStartTime: 0,
         sessionDuration: 0,
 
         totalUsageDuration: 0,

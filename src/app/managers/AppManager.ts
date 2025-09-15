@@ -1,6 +1,3 @@
-import * as dayjs from 'dayjs'
-import * as dayOfYear from "dayjs/plugin/dayOfYear";
-
 import { getInstance } from "@flashist/flibs";
 
 import { BaseAppManager } from "../../base/managers/BaseAppManager";
@@ -10,6 +7,8 @@ import { DeepReadonly } from "../../state/data/DeepReadableTypings";
 import { AppSettings } from "../AppSettings";
 import { IAppModelLocalStorageVO } from "../data/local-storage/IAppModelLocalStorageVO";
 import { AppModuleState } from "../data/state/AppModuleState";
+import { DateSettings } from "../../date/DateSettings";
+import { NumberTools } from "@flashist/fcore";
 
 export class AppManager extends BaseAppManager {
 
@@ -28,39 +27,97 @@ export class AppManager extends BaseAppManager {
         const appModelStorageData: IAppModelLocalStorageVO = this.storageManager.getParam<IAppModelLocalStorageVO>(AppSettings.storageParamId);
         this.applyStorageData(appModelStorageData);
 
-        // this.appState.app.previousSessionTotalUsageTime = this.appState.app.totalUsageDuration;
-        // this.appState.app.sessionStartTime = Date.now();
+        // Make sure the prev session start time is updated
+        appStateStorage().change<AppModuleState>()(
+            "app",
+            {
+                prevLaunchTimestamp: this.appState.app.curLaunchStartTimestamp
+            }
+        );
+
         // // Increase app launch counter
         // this.appState.app.appLaunchesCount++;
-        let sessionStartTimeFirstValue: number = Date.now();
+        let curLaunchStartTimeFirstValue: number = Date.now();
         // If there is globally defined flashist-vars
         // and there is information about the time of openning of the app,
         // then use it
         if (flashistGlobalVars?.openTime) {
-            sessionStartTimeFirstValue = flashistGlobalVars?.openTime;
+            curLaunchStartTimeFirstValue = flashistGlobalVars?.openTime;
         }
         appStateStorage().change<AppModuleState>()(
             "app",
             {
                 prevSessionTotalUsageTime: this.appState.app.totalUsageDuration,
-                sessionStartTime: sessionStartTimeFirstValue,
+                curLaunchStartTimestamp: curLaunchStartTimeFirstValue,
                 appLaunchesCount: this.appState.app.appLaunchesCount + 1
             }
         );
 
         // Days Launches
-        let curDate = new Date();
-        let curDateTimestamp = curDate.getTime();
+        let curDateTimestamp: number = curLaunchStartTimeFirstValue;
         //
         if (this.appState.app.prevLaunchTimestamp) {
-            let prevDate = new Date(this.appState.app.prevLaunchTimestamp);
 
-            dayjs.extend(dayOfYear);
-            let dayjs_curDate = dayjs(curDateTimestamp);
-            let dayjs_prevDate = dayjs(prevDate.getTime());
             //
-            let dayjs_daysDiff = dayjs_curDate.diff(prevDate, "d");
-            console.log("dayjs_daysDiff: ", dayjs_daysDiff);
+            let curPrevDayNumberDelta: number = 0;
+            //
+            let curPrevDatesDelta: number = curDateTimestamp - this.appState.app.prevLaunchTimestamp;
+            let fullDaysDelta: number = Math.floor(curPrevDatesDelta / DateSettings.MS_IN_DAY);
+            let curPrevDatesDeltaLeftoverFromFullDay: number = curPrevDatesDelta % DateSettings.MS_IN_DAY;
+            //
+            curPrevDayNumberDelta = fullDaysDelta;
+            //
+            let prevDateTimestampTillNextDay: number = this.appState.app.prevLaunchTimestamp % DateSettings.MS_IN_DAY;
+            // If the leftover from the cur-prev dates is equal or greater,
+            // than the leftover 'till the next day for the prev date,
+            // it means, that there is 1 additional day difference between the dates
+            if (curPrevDatesDeltaLeftoverFromFullDay >= prevDateTimestampTillNextDay) {
+                curPrevDayNumberDelta += 1;
+            }
+
+            if (fullDaysDelta > 0) {
+                appStateStorage().change<AppModuleState>()(
+                    "app",
+                    {
+                        appDaysLaunchesCount: this.appState.app.appDaysLaunchesCount + 1
+                    }
+                );
+            }
+
+            // Consequent days
+            //
+            // Day1
+            let newStreakDay1: number = this.appState.app.appDaysLaunchesCount_consequent_withMaxBreaks_Day1;
+            if (0 < fullDaysDelta && fullDaysDelta <= 1) {
+                newStreakDay1 = this.appState.app.appDaysLaunchesCount_consequent_withMaxBreaks_Day1 + 1;
+            } else if (fullDaysDelta > 1) {
+                newStreakDay1 = 0;
+            }
+            //
+            // Day3
+            let newStreakDay3: number = this.appState.app.appDaysLaunchesCount_consequent_withMaxBreaks_Day3;
+            if (0 < fullDaysDelta && fullDaysDelta <= 3) {
+                newStreakDay3 = this.appState.app.appDaysLaunchesCount_consequent_withMaxBreaks_Day3 + 1;
+            } else if (fullDaysDelta > 3) {
+                newStreakDay3 = 0;
+            }
+            //
+            // Day7
+            let newStreakDay7: number = 0;
+            if (0 < fullDaysDelta && fullDaysDelta <= 7) {
+                newStreakDay7 = this.appState.app.appDaysLaunchesCount_consequent_withMaxBreaks_Day7 + 1;
+            } else if (fullDaysDelta > 7) {
+                newStreakDay7 = 0;
+            }
+            //
+            appStateStorage().change<AppModuleState>()(
+                "app",
+                {
+                    appDaysLaunchesCount_consequent_withMaxBreaks_Day1: newStreakDay1,
+                    appDaysLaunchesCount_consequent_withMaxBreaks_Day3: newStreakDay3,
+                    appDaysLaunchesCount_consequent_withMaxBreaks_Day7: newStreakDay7,
+                }
+            );
         }
 
         this.updateUsageTime();
@@ -83,7 +140,7 @@ export class AppManager extends BaseAppManager {
     }
 
     protected updateUsageTime(): void {
-        let sessionTimeDelta: number = Date.now() - this.appState.app.sessionStartTime;
+        let sessionTimeDelta: number = Date.now() - this.appState.app.curLaunchStartTimestamp;
 
         // this.appState.app.totalUsageDuration = this.appState.app.previousSessionTotalUsageTime + sessionTimeDelta;
         appStateStorage().change<AppModuleState>()(
