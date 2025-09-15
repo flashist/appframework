@@ -47,7 +47,7 @@ export class AppManager extends BaseAppManager {
         appStateStorage().change<AppModuleState>()(
             "app",
             {
-                prevSessionTotalUsageTime: this.appState.app.totalUsageDuration,
+                prevSessionTotalUsageDuration: this.appState.app.totalUsageDuration,
                 curLaunchStartTimestamp: curLaunchStartTimeFirstValue,
                 appLaunchesCount: this.appState.app.appLaunchesCount + 1
             }
@@ -142,12 +142,12 @@ export class AppManager extends BaseAppManager {
     protected updateUsageTime(): void {
         let sessionTimeDelta: number = Date.now() - this.appState.app.curLaunchStartTimestamp;
 
-        // this.appState.app.totalUsageDuration = this.appState.app.previousSessionTotalUsageTime + sessionTimeDelta;
+        // this.appState.app.totalUsageDuration = this.appState.app.prevSessionTotalUsageDuration + sessionTimeDelta;
         appStateStorage().change<AppModuleState>()(
             "app",
             {
                 sessionDuration: sessionTimeDelta,
-                totalUsageDuration: this.appState.app.prevSessionTotalUsageTime + sessionTimeDelta
+                totalUsageDuration: this.appState.app.prevSessionTotalUsageDuration + sessionTimeDelta
             }
         );
 
@@ -160,12 +160,12 @@ export class AppManager extends BaseAppManager {
         }
 
         // this.appState.app.appLaunchesCount = data.appLaunchesCount;
-        // this.appState.app.totalUsageDuration = data.totalUsageTime;
+        // this.appState.app.totalUsageDuration = data.totalUsageDuration;
         appStateStorage().change<AppModuleState>()(
             "app",
             {
                 appLaunchesCount: data.appLaunchesCount,
-                totalUsageDuration: data.totalUsageTime
+                totalUsageDuration: data.totalUsageDuration
             }
         );
     }
@@ -178,7 +178,14 @@ export class AppManager extends BaseAppManager {
     protected generateStorageData(): IAppModelLocalStorageVO {
         return {
             appLaunchesCount: this.appState.app.appLaunchesCount,
-            totalUsageTime: this.appState.app.totalUsageDuration
+            totalUsageDuration: this.appState.app.totalUsageDuration,
+
+            curLaunchStartTimestamp: this.appState.app.curLaunchStartTimestamp,
+            prevLaunchTimestamp: this.appState.app.prevLaunchTimestamp,
+            appDaysLaunchesCount: this.appState.app.appDaysLaunchesCount,
+            appDaysLaunchesCount_consequent_withMaxBreaks_Day1: this.appState.app.appDaysLaunchesCount_consequent_withMaxBreaks_Day1,
+            appDaysLaunchesCount_consequent_withMaxBreaks_Day3: this.appState.app.appDaysLaunchesCount_consequent_withMaxBreaks_Day3,
+            appDaysLaunchesCount_consequent_withMaxBreaks_Day7: this.appState.app.appDaysLaunchesCount_consequent_withMaxBreaks_Day7
         };
     }
 }

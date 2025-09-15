@@ -47,7 +47,7 @@ export const AppModuleInitialState = {
         sessionDuration: 0,
 
         totalUsageDuration: 0,
-        prevSessionTotalUsageTime: 0,
+        prevSessionTotalUsageDuration: 0,
 
         config: {
             appName: null,
