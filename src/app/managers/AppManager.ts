@@ -58,7 +58,6 @@ export class AppManager extends BaseAppManager {
         //
         if (this.appState.app.prevLaunchTimestamp) {
 
-            //
             let curPrevDaysNumberDelta: number = 0;
             //
             let curPrevDatesDelta: number = curDateTimestamp - this.appState.app.prevLaunchTimestamp;
@@ -67,7 +66,14 @@ export class AppManager extends BaseAppManager {
             //
             curPrevDaysNumberDelta = fullDaysDelta;
             //
-            let prevDateTimestampTillNextDay: number = this.appState.app.prevLaunchTimestamp % DateSettings.MS_IN_DAY;
+            // IMPORTANT: we can't use the prevLaunchTimestamp for calculating the leftover for the day,
+            // because the timestamp from the date object has internal shift connected to the timezone.
+            // But what we can do is to calculate the milliseconds that are left in a day manually
+            // and then use this for further calculations.
+            // let prevDateTimestampTillNextDay: number = this.appState.app.prevLaunchTimestamp % DateSettings.MS_IN_DAY;
+            let tempPrevLaunchDate: Date = new Date(this.appState.app.prevLaunchTimestamp);
+            let tempPrevLaunchDateMillisecondsInDay: number = (tempPrevLaunchDate.getHours() * 60 * 60 * 1000) + (tempPrevLaunchDate.getMinutes() * 60 * 1000) + (tempPrevLaunchDate.getSeconds() * 1000) + tempPrevLaunchDate.getMilliseconds()
+            let prevDateTimestampTillNextDay: number = DateSettings.MS_IN_DAY - tempPrevLaunchDateMillisecondsInDay;
             // If the leftover from the cur-prev dates is equal or greater,
             // than the leftover 'till the next day for the prev date,
             // it means, that there is 1 additional day difference between the dates
