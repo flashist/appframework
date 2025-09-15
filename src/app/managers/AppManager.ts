@@ -94,25 +94,25 @@ export class AppManager extends BaseAppManager {
             //
             // Day1
             let newStreakDay1: number = this.appState.app.appDaysLaunchesCount_consequent_withMaxBreaks_Day1;
-            if (0 < fullDaysDelta && fullDaysDelta <= 1) {
+            if (0 < curPrevDaysNumberDelta && curPrevDaysNumberDelta <= 1) {
                 newStreakDay1 = this.appState.app.appDaysLaunchesCount_consequent_withMaxBreaks_Day1 + 1;
-            } else if (fullDaysDelta > 1) {
+            } else if (curPrevDaysNumberDelta > 1) {
                 newStreakDay1 = 0;
             }
             //
             // Day3
             let newStreakDay3: number = this.appState.app.appDaysLaunchesCount_consequent_withMaxBreaks_Day3;
-            if (0 < fullDaysDelta && fullDaysDelta <= 3) {
+            if (0 < curPrevDaysNumberDelta && curPrevDaysNumberDelta <= 3) {
                 newStreakDay3 = this.appState.app.appDaysLaunchesCount_consequent_withMaxBreaks_Day3 + 1;
-            } else if (fullDaysDelta > 3) {
+            } else if (curPrevDaysNumberDelta > 3) {
                 newStreakDay3 = 0;
             }
             //
             // Day7
             let newStreakDay7: number = 0;
-            if (0 < fullDaysDelta && fullDaysDelta <= 7) {
+            if (0 < curPrevDaysNumberDelta && curPrevDaysNumberDelta <= 7) {
                 newStreakDay7 = this.appState.app.appDaysLaunchesCount_consequent_withMaxBreaks_Day7 + 1;
-            } else if (fullDaysDelta > 7) {
+            } else if (curPrevDaysNumberDelta > 7) {
                 newStreakDay7 = 0;
             }
             //
