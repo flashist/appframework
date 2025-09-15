@@ -59,23 +59,23 @@ export class AppManager extends BaseAppManager {
         if (this.appState.app.prevLaunchTimestamp) {
 
             //
-            let curPrevDayNumberDelta: number = 0;
+            let curPrevDaysNumberDelta: number = 0;
             //
             let curPrevDatesDelta: number = curDateTimestamp - this.appState.app.prevLaunchTimestamp;
             let fullDaysDelta: number = Math.floor(curPrevDatesDelta / DateSettings.MS_IN_DAY);
             let curPrevDatesDeltaLeftoverFromFullDay: number = curPrevDatesDelta % DateSettings.MS_IN_DAY;
             //
-            curPrevDayNumberDelta = fullDaysDelta;
+            curPrevDaysNumberDelta = fullDaysDelta;
             //
             let prevDateTimestampTillNextDay: number = this.appState.app.prevLaunchTimestamp % DateSettings.MS_IN_DAY;
             // If the leftover from the cur-prev dates is equal or greater,
             // than the leftover 'till the next day for the prev date,
             // it means, that there is 1 additional day difference between the dates
             if (curPrevDatesDeltaLeftoverFromFullDay >= prevDateTimestampTillNextDay) {
-                curPrevDayNumberDelta += 1;
+                curPrevDaysNumberDelta += 1;
             }
 
-            if (fullDaysDelta > 0) {
+            if (curPrevDaysNumberDelta > 0) {
                 appStateStorage().change<AppModuleState>()(
                     "app",
                     {
