@@ -1,4 +1,5 @@
 import * as dayjs from 'dayjs'
+import * as dayOfYear from "dayjs/plugin/dayOfYear";
 
 import { getInstance } from "@flashist/flibs";
 
@@ -54,6 +55,7 @@ export class AppManager extends BaseAppManager {
         if (this.appState.app.prevLaunchTimestamp) {
             let prevDate = new Date(this.appState.app.prevLaunchTimestamp);
 
+            dayjs.extend(dayOfYear);
             let dayjs_curDate = dayjs(curDateTimestamp);
             let dayjs_prevDate = dayjs(prevDate.getTime());
             //
