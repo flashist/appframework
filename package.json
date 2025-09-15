@@ -18,7 +18,8 @@
   "dependencies": {
     "@flashist/fconsole": "0.x",
     "@flashist/fcore": "0.x",
-    "@flashist/flibs": "0.x"
+    "@flashist/flibs": "0.x",
+    "dayjs": "^1.11.18"
   },
   "devDependencies": {
     "@flashist/fbuildscripts": "0.x",

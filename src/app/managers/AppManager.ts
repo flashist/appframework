@@ -1,3 +1,5 @@
+import * as dayjs from 'dayjs'
+
 import { getInstance } from "@flashist/flibs";
 
 import { BaseAppManager } from "../../base/managers/BaseAppManager";
@@ -39,11 +41,25 @@ export class AppManager extends BaseAppManager {
         appStateStorage().change<AppModuleState>()(
             "app",
             {
-                previousSessionTotalUsageTime: this.appState.app.totalUsageDuration,
+                prevSessionTotalUsageTime: this.appState.app.totalUsageDuration,
                 sessionStartTime: sessionStartTimeFirstValue,
                 appLaunchesCount: this.appState.app.appLaunchesCount + 1
             }
         );
+
+        // Days Launches
+        let curDate = new Date();
+        let curDateTimestamp = curDate.getTime();
+        //
+        if (this.appState.app.prevLaunchTimestamp) {
+            let prevDate = new Date(this.appState.app.prevLaunchTimestamp);
+
+            let dayjs_curDate = dayjs(curDateTimestamp);
+            let dayjs_prevDate = dayjs(prevDate.getTime());
+            //
+            let dayjs_daysDiff = dayjs_curDate.diff(prevDate, "d");
+            console.log("dayjs_daysDiff: ", dayjs_daysDiff);
+        }
 
         this.updateUsageTime();
         this.updateTimeInterval = setInterval(
@@ -72,7 +88,7 @@ export class AppManager extends BaseAppManager {
             "app",
             {
                 sessionDuration: sessionTimeDelta,
-                totalUsageDuration: this.appState.app.previousSessionTotalUsageTime + sessionTimeDelta
+                totalUsageDuration: this.appState.app.prevSessionTotalUsageTime + sessionTimeDelta
             }
         );
 
