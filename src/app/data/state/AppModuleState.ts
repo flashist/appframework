@@ -5,7 +5,7 @@ export const AppModuleInitialState = {
         debug: false,
 
         // The timestamp of the current launching date
-        curLaunchStartTimestamp: 0,
+        curLaunchTimestamp: 0,
         // curLaunchTimestamp: 0,
         // The last previous timestamp of the current launching date
         prevLaunchTimestamp: 0,

@@ -31,7 +31,7 @@ export class AppManager extends BaseAppManager {
         appStateStorage().change<AppModuleState>()(
             "app",
             {
-                prevLaunchTimestamp: this.appState.app.curLaunchStartTimestamp
+                prevLaunchTimestamp: this.appState.app.curLaunchTimestamp
             }
         );
 
@@ -48,7 +48,7 @@ export class AppManager extends BaseAppManager {
             "app",
             {
                 prevSessionTotalUsageDuration: this.appState.app.totalUsageDuration,
-                curLaunchStartTimestamp: curLaunchStartTimeFirstValue,
+                curLaunchTimestamp: curLaunchStartTimeFirstValue,
                 appLaunchesCount: this.appState.app.appLaunchesCount + 1
             }
         );
@@ -140,7 +140,7 @@ export class AppManager extends BaseAppManager {
     }
 
     protected updateUsageTime(): void {
-        let sessionTimeDelta: number = Date.now() - this.appState.app.curLaunchStartTimestamp;
+        let sessionTimeDelta: number = Date.now() - this.appState.app.curLaunchTimestamp;
 
         // this.appState.app.totalUsageDuration = this.appState.app.prevSessionTotalUsageDuration + sessionTimeDelta;
         appStateStorage().change<AppModuleState>()(
@@ -164,8 +164,7 @@ export class AppManager extends BaseAppManager {
         appStateStorage().change<AppModuleState>()(
             "app",
             {
-                appLaunchesCount: data.appLaunchesCount,
-                totalUsageDuration: data.totalUsageDuration
+                ...data
             }
         );
     }
@@ -180,7 +179,7 @@ export class AppManager extends BaseAppManager {
             appLaunchesCount: this.appState.app.appLaunchesCount,
             totalUsageDuration: this.appState.app.totalUsageDuration,
 
-            curLaunchStartTimestamp: this.appState.app.curLaunchStartTimestamp,
+            curLaunchTimestamp: this.appState.app.curLaunchTimestamp,
             prevLaunchTimestamp: this.appState.app.prevLaunchTimestamp,
             appDaysLaunchesCount: this.appState.app.appDaysLaunchesCount,
             appDaysLaunchesCount_consequent_withMaxBreaks_Day1: this.appState.app.appDaysLaunchesCount_consequent_withMaxBreaks_Day1,
