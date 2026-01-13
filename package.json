@@ -18,7 +18,7 @@
   "dependencies": {
     "@flashist/fconsole": "^0.0.47",
     "@flashist/fcore": "^0.0.182",
-    "@flashist/flibs": "^0.0.357"
+    "@flashist/flibs": "^0.0.359"
   },
   "devDependencies": {
     "@flashist/fbuildscripts": "^0.0.58",
