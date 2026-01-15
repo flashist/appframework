@@ -16,12 +16,12 @@
   "main": "index.js",
   "typings": "index.d.ts",
   "dependencies": {
-    "@flashist/fconsole": "^0.0.55",
-    "@flashist/fcore": "^0.0.182",
-    "@flashist/flibs": "^0.0.359"
+    "@flashist/fconsole": "^0.0.81",
+    "@flashist/fcore": "^0.0.184",
+    "@flashist/flibs": "^0.0.366"
   },
   "devDependencies": {
-    "@flashist/fbuildscripts": "^0.0.58",
+    "@flashist/fbuildscripts": "^0.0.60",
     "gsap": "^3.12.7",
     "pixi.js": "^8.8.1",
     "typescript": "^5.8.2"
