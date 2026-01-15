@@ -16,9 +16,9 @@
   "main": "index.js",
   "typings": "index.d.ts",
   "dependencies": {
-    "@flashist/fconsole": "^0.0.85",
+    "@flashist/fconsole": "^0.0.86",
     "@flashist/fcore": "^0.0.185",
-    "@flashist/flibs": "^0.0.368"
+    "@flashist/flibs": "^0.0.369"
   },
   "devDependencies": {
     "@flashist/fbuildscripts": "^0.0.60",
