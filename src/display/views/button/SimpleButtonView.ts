@@ -52,7 +52,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     protected curStateExternalView: DisplayObjectContainer;
 
     private _icon: Sprite;
-    protected get icon(): Sprite {
+    public get icon(): Sprite {
         return this._icon;
     }
 
