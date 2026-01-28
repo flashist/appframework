@@ -22,7 +22,7 @@ export class GetSizeTools {
         return result;
     }
 
-    public getMaxChildSize(container: DisplayObjectContainer): Point {
+    static getMaxChildSize(container: DisplayObjectContainer): Point {
         var result: Point = new Point();
 
 
