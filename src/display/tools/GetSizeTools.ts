@@ -7,8 +7,8 @@ export class GetSizeTools {
         let result: Point = new Point();
 
         let getSizeObject: IGetSizable = (sourceObject as any as IGetSizable);
-        if (getSizeObject.getSize) {
-            result = getSizeObject.getSize();
+        if (getSizeObject.flashistGetSize) {
+            result = getSizeObject.flashistGetSize();
 
         } else {
             if (sourceObject.width) {
