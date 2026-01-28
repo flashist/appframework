@@ -127,9 +127,6 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         this.layoutableCont = new BaseLayoutableContainer();
         this.contentCont.addChild(this.layoutableCont);
 
-        this.icon = new Sprite();
-        this.layoutableCont.addChild(this.icon);
-
         this.fLabel = new FLabel(this.config.labelConfig);
         this.layoutableCont.addChild(this.fLabel);
         //
@@ -137,6 +134,9 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         //
         // this.fLabel.interactive = true;
         // this.fLabel.interactiveChildren = true;
+
+        this.icon = new Sprite();
+        this.layoutableCont.addChild(this.icon);
 
         this.state = SimpleButtonState.NORMAL;
         this.enabled = true;
