@@ -9,6 +9,10 @@ export class BaseLayoutableContainer<ChildType extends ILayoutableChild = ILayou
 
     public layoutableChildren: ChildType[];
 
+    constructor(...args) {
+        super(...args)
+    }
+
     layoutGetChildrenNum(): number {
         return this.layoutableChildren.length;
     }
