@@ -409,7 +409,8 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
 
         this.bg.clear();
         //
-        this.bg.rect(0, 0, this.bgCalculatedWidth, this.bgCalculatedHeight);
+        // this.bg.rect(0, 0, this.bgCalculatedWidth, this.bgCalculatedHeight);
+        this.bg.roundRect(0, 0, this.bgCalculatedWidth, this.bgCalculatedHeight, tempBgConfig.bgCornerRadius);
         this.bg.stroke({ color: tempBgConfig.bgLineColor, alpha: tempBgConfig.bgLineAlpha, width: tempBgConfig.bgLineWidth, alignment: 1 })
         this.bg.fill({ color: tempBgConfig.bgColor, alpha: tempBgConfig.bgAlpha });
     }
