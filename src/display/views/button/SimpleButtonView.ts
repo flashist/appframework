@@ -50,7 +50,12 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     protected contentCont: FContainer;
     protected layoutableCont: BaseLayoutableContainer;
     protected curStateExternalView: DisplayObjectContainer;
-    protected icon: Sprite;
+
+    private _icon: Sprite;
+    protected get icon(): Sprite {
+        return this._icon;
+    }
+
     // protected bg: Graphics | Sprite;
     public fLabel: FLabel;
     // protected viewCont: FContainer;
@@ -135,7 +140,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         // this.fLabel.interactive = true;
         // this.fLabel.interactiveChildren = true;
 
-        this.icon = new Sprite();
+        this._icon = new Sprite();
         this.layoutableCont.addChild(this.icon);
 
         this.state = SimpleButtonState.NORMAL;
