@@ -1,4 +1,4 @@
-import { FContainer } from "@flashist/flibs";
+import { DisplayObjectContainer, FContainer } from "@flashist/flibs";
 
 import { ILayoutableContainer } from "./ILayoutableContainer";
 import { ILayoutableChild } from "./ILayoutableChild";
@@ -7,18 +7,20 @@ export class BaseLayoutableContainer<ChildType extends ILayoutableChild = ILayou
     extends FContainer<DataType>
     implements ILayoutableContainer<ChildType> {
 
-    public layoutableChildren: ChildType[];
+    // public layoutableChildren: ChildType[];
 
-    constructor(...args) {
-        super(...args)
+    constructor(...args: any[]) {
+        super(...args);
+
+        // this.layoutableChildren = this.children as DisplayObjectContainer[];
     }
 
     layoutGetChildrenNum(): number {
-        return this.layoutableChildren.length;
+        return this.children.length;
     }
 
     layoutGetChildAt(index: number): ChildType {
-        return this.layoutableChildren[index];
+        return this.children[index] as ChildType;
     }
 
 }
