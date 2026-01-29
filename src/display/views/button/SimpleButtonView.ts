@@ -237,7 +237,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     protected updateIcon(): void {
         let tempStateConfig: ISingleButtonSingleStateConfig = this.getCurrentActiveCombinedStateConfig();
 
-        this.icon.texture = null;
+        // this.icon.texture = null;
 
         if (tempStateConfig.iconConfig) {
             //
