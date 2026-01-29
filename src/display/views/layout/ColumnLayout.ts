@@ -36,7 +36,7 @@ export class ColumnLayout extends BaseLayout {
         //
         var childrenCount: number = container.layoutGetChildrenNum();
         for (var childIndex: number = 0; childIndex < childrenCount; childIndex++) {
-            tempChild = container.layoutGetChildAt(childIndex);
+            tempChild = this.getChildAt(container, childIndex);
 
             tempChildSize = GetSizeTools.getObjectSize(tempChild);
 
@@ -91,7 +91,7 @@ export class ColumnLayout extends BaseLayout {
         // не на основе максимального размера, а на положения и размера последнего элемента
         var childrenCount: number = container.layoutGetChildrenNum();
         if (childrenCount > 0) {
-            var lastChild: ILayoutableChild = container.layoutGetChildAt(childrenCount - 1);
+            var lastChild: ILayoutableChild = this.getChildAt(container, childrenCount - 1);
             if (lastChild) {
                 var lastChildSize: Point = GetSizeTools.getObjectSize(lastChild);
                 this._totalSize.y = lastChild.y + lastChildSize.y + this.settings.paddingY;

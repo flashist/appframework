@@ -29,7 +29,7 @@ export class MultiColumnLayout extends BaseLayout {
         var prevChild: ILayoutableChild;
         var childrenCount: number = container.layoutGetChildrenNum();
         for (var childIndex: number = 0; childIndex < childrenCount; childIndex++) {
-            tempChild = container.layoutGetChildAt(childIndex);
+            tempChild = this.getChildAt(container, childIndex);
 
             let colIndex: number = childIndex % this.settings.columnsCount;
             let rowIndex: number = Math.floor(childIndex / this.settings.columnsCount);

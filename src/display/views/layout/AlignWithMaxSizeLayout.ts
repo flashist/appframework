@@ -23,7 +23,7 @@ export class AlignWithMaxSizeLayout extends BaseLayout {
         //
         let childrenCount: number = container.layoutGetChildrenNum();
         for (let childIndex: number = 0; childIndex < childrenCount; childIndex++) {
-            tempChild = container.layoutGetChildAt(childIndex);
+            tempChild = this.getChildAt(container, childIndex);
 
             tempChildSize = GetSizeTools.getObjectSize(tempChild);
 

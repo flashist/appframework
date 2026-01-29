@@ -1,9 +1,9 @@
-import {BaseLayout} from "./BaseLayout";
-import {Logger} from "@flashist/fcore";
-import {Point} from "@flashist/flibs";
-import {ILayoutableContainer} from "./container/ILayoutableContainer";
-import {ILayoutableChild} from "./container/ILayoutableChild";
-import {GetSizeTools} from "../../tools/GetSizeTools";
+import { BaseLayout } from "./BaseLayout";
+import { Logger } from "@flashist/fcore";
+import { Point } from "@flashist/flibs";
+import { ILayoutableContainer } from "./container/ILayoutableContainer";
+import { ILayoutableChild } from "./container/ILayoutableChild";
+import { GetSizeTools } from "../../tools/GetSizeTools";
 
 export class RowLayout extends BaseLayout {
 
@@ -31,7 +31,7 @@ export class RowLayout extends BaseLayout {
         //
         var childrenCount: number = container.layoutGetChildrenNum();
         for (var childIndex: number = 0; childIndex < childrenCount; childIndex++) {
-            tempChild = container.layoutGetChildAt(childIndex);
+            tempChild = this.getChildAt(container, childIndex);
 
             tempChildSize = GetSizeTools.getObjectSize(tempChild);
 
@@ -86,7 +86,7 @@ export class RowLayout extends BaseLayout {
         // не на основе максимального размера, а на положения и размера последнего элемента
         var childrenCount: number = container.layoutGetChildrenNum();
         if (childrenCount > 0) {
-            var lastChild: ILayoutableChild = container.layoutGetChildAt(childrenCount - 1);
+            var lastChild: ILayoutableChild = this.getChildAt(container, childrenCount - 1);
             if (lastChild) {
                 var lastChildSize: Point = GetSizeTools.getObjectSize(lastChild);
                 this._totalSize.x = lastChild.x + lastChildSize.x + this.settings.paddingX;
