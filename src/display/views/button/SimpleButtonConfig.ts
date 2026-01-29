@@ -47,7 +47,7 @@ export interface ISimpleButtonIconConfig {
     textureId?: string;
     maxWidth?: number;
     scaleByWidth?: boolean;
-    maxHeight: number;
+    maxHeight?: number;
     scaleByHeight?: boolean;
     alpha?: number;
 }
