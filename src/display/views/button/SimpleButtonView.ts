@@ -416,25 +416,16 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     protected commitData(): void {
         super.commitData();
 
-        let tempConfig: ISingleButtonSingleStateConfig = this.getCurrentActiveStateConfig();
+        let tempConfig: ISingleButtonSingleStateConfig = this.getCurrentActiveCombinedStateConfig();
 
-        if (tempConfig.alpha || tempConfig.alpha === 0) {
-            this.alpha = tempConfig.alpha;
-        }
+        this.alpha = tempConfig.alpha;
 
-        // if (tempConfig.iconConfig) {
-        //     this.icon.texture = Texture.from(tempConfig.icon);
-        // }
-
-        if (tempConfig.labelConfig) {
-            this.fLabel.changeConfig(tempConfig.labelConfig);
-        }
+        this.fLabel.changeConfig(tempConfig.labelConfig);
 
         if (tempConfig.externalView !== this.curStateExternalView) {
             DisplayTools.childRemoveItselfFromParent(this.curStateExternalView);
         }
         if (tempConfig.externalView) {
-            // this.layoutableCont.addChild(tempConfig.externalView);
             this.contentCont.addChild(tempConfig.externalView);
         }
 
