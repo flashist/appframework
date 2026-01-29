@@ -1,6 +1,6 @@
 import { FContainer, FLabel, Texture, InteractiveEvent, Sprite, DisplayResizeTools, Graphics, DisplayObjectContainer, DisplayTools } from "@flashist/flibs";
 
-import { SimpleButtonConfig, ISingleButtonStateConfig, SimpleButtonDefaultConfig, ISimpleButtonBgConfig } from "./SimpleButtonConfig";
+import { SimpleButtonConfig, ISingleButtonSingleStateConfig, SimpleButtonDefaultConfig, ISimpleButtonBgConfig, ISimpleButtonStatesConfig } from "./SimpleButtonConfig";
 import { SimpleButtonState } from "./SimpleButtonState";
 import { AppResizableContainer } from "../resize/AppResizableContainer";
 import { IToggableItem } from "../togglegroup/IToggableItem";
@@ -73,8 +73,20 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
 
         // Make sure we don't try to deep-copy some "complex" type properties
         const linkCopyConfig: SimpleButtonConfig = {
+            defaultState: {},
             states: {}
         };
+
+        if (config.defaultState) {
+            if (config.defaultState.externalView) {
+                // Save the "complex" type data, to be able to use it later
+                linkCopyConfig.defaultState.externalView = config.defaultState.externalView
+
+                // Temporarily remove the "complex" type data from the config
+                // to correctly apply deep-copy algorythm
+                delete config.defaultState.externalView;
+            }
+        }
 
         if (config.states) {
             const configStateIds: string[] = Object.keys(config.states);
@@ -94,6 +106,13 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
 
         // Then override them with passed config
         ObjectTools.copyProps(this.config, config);
+
+        if (config.defaultState) {
+            // Set the link-based data of the "complex" link
+            this.config.defaultState.externalView = linkCopyConfig.defaultState.externalView;
+            // Return the data into the original config
+            config.defaultState.externalView = linkCopyConfig.defaultState.externalView;
+        }
 
         if (config.states) {
             // Return back all the deleted "complex" type properties to the original config
@@ -132,7 +151,7 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         this.layoutableCont = new BaseLayoutableContainer();
         this.contentCont.addChild(this.layoutableCont);
 
-        this.fLabel = new FLabel(this.config.labelConfig);
+        this.fLabel = new FLabel(this.config.defaultState.labelConfig);
         this.layoutableCont.addChild(this.fLabel);
         //
         this.fLabel.text = "";
@@ -215,8 +234,39 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         this.onOut();
     }
 
+    protected updateIcon(): void {
+        let tempStateConfig: ISingleButtonSingleStateConfig = this.getCurrentActiveCombinedStateConfig();
+
+        this.icon.texture = null;
+        //
+        if (tempStateConfig.iconConfig) {
+            this.icon.texture = Texture.from(tempStateConfig.iconConfig.textureId);
+
+            // Reset possible prev transformations
+            this.icon.scale.x = 1;
+            this.icon.scale.y = 1;
+
+            //
+            if (tempStateConfig.iconConfig.maxWidth) {
+                this.icon.width = Math.max(this.icon.width, tempStateConfig.iconConfig.maxWidth)
+            }
+            if (tempStateConfig.iconConfig.maxHeight) {
+                this.icon.height = Math.max(this.icon.height, tempStateConfig.iconConfig.maxHeight)
+            }
+            //
+            if (tempStateConfig.iconConfig.scaleByWidth) {
+                this.icon.scale.y = this.icon.scale.x;
+            }
+            if (tempStateConfig.iconConfig.scaleByHeight) {
+                this.icon.scale.x = this.icon.scale.y;
+            }
+        }
+    }
+
     protected arrange(): void {
         super.arrange();
+
+        this.updateIcon();
 
         if (this.contentLayout) {
             this.contentLayout.arrange(this.layoutableCont);
@@ -298,25 +348,83 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         return result;
     }
 
-    protected getCurrentActiveStateConfig(): ISingleButtonStateConfig {
+    protected getCurrentActiveStateConfig(): ISingleButtonSingleStateConfig {
         let tempState: string = this.getCurrentActiveState();
 
-        let result: ISingleButtonStateConfig = this.config.states[tempState];
+        let result: ISingleButtonSingleStateConfig = this.config.states[tempState];
         return result;
     }
+
+    protected getCurrentActiveCombinedStateConfig(): ISingleButtonSingleStateConfig {
+        let result: ISingleButtonSingleStateConfig = {};
+
+        // Make sure we don't try to deep-copy some "complex" type properties
+        const linkCopyConfig: ISingleButtonSingleStateConfig = {
+        };
+
+        let curActiveStateConfig: ISingleButtonSingleStateConfig = this.getCurrentActiveStateConfig();
+        if (curActiveStateConfig.externalView) {
+            // Save the "complex" type data, to be able to use it later
+            linkCopyConfig.externalView = curActiveStateConfig.externalView
+
+            // Temporarily remove the "complex" type data from the config
+            // to correctly apply deep-copy algorythm
+            delete curActiveStateConfig.externalView;
+        }
+
+        // Then override them with passed config
+        ObjectTools.copyProps(result, curActiveStateConfig);
+
+        if (linkCopyConfig.externalView) {
+            // Return the data into the original config
+            curActiveStateConfig.externalView = linkCopyConfig.externalView;
+        }
+
+        return result;
+    }
+
+    // protected getCurActiveCombinedBgConfig(): Partial<ISimpleButtonBgConfig> {
+    //     let result: Partial<ISimpleButtonBgConfig> = {};
+
+    //     if (this.config.bgConfig) {
+    //         ObjectTools.copyProps(result, this.config.bgConfig);
+    //     }
+
+    //     let tempStateConfig: ISingleButtonStateConfig = this.getCurrentActiveStateConfig();
+    //     if (tempStateConfig.bgConfig) {
+    //         ObjectTools.copyProps(result, tempStateConfig.bgConfig);
+    //     }
+
+    //     return result;
+    // }
+
+    // protected getCurActiveCombinedIconConfig(): Partial<ISimpleButtonBgConfig> {
+    //     let result: Partial<ISimpleButtonBgConfig> = {};
+
+    //     if (this.config.bgConfig) {
+    //         ObjectTools.copyProps(result, this.config.bgConfig);
+    //     }
+
+    //     let tempStateConfig: ISingleButtonStateConfig = this.getCurrentActiveStateConfig();
+    //     if (tempStateConfig.bgConfig) {
+    //         ObjectTools.copyProps(result, tempStateConfig.bgConfig);
+    //     }
+
+    //     return result;
+    // }
 
     protected commitData(): void {
         super.commitData();
 
-        let tempConfig: ISingleButtonStateConfig = this.getCurrentActiveStateConfig();
+        let tempConfig: ISingleButtonSingleStateConfig = this.getCurrentActiveStateConfig();
 
         if (tempConfig.alpha || tempConfig.alpha === 0) {
             this.alpha = tempConfig.alpha;
         }
 
-        if (tempConfig.icon) {
-            this.icon.texture = Texture.from(tempConfig.icon);
-        }
+        // if (tempConfig.iconConfig) {
+        //     this.icon.texture = Texture.from(tempConfig.icon);
+        // }
 
         if (tempConfig.labelConfig) {
             this.fLabel.changeConfig(tempConfig.labelConfig);
@@ -381,20 +489,6 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         this.arrange();
     }
 
-    protected getCurActiveCombinedBgConfig(): Partial<ISimpleButtonBgConfig> {
-        let result: Partial<ISimpleButtonBgConfig> = {};
-
-        if (this.config.bgConfig) {
-            ObjectTools.copyProps(result, this.config.bgConfig);
-        }
-
-        let tempStateConfig: ISingleButtonStateConfig = this.getCurrentActiveStateConfig();
-        if (tempStateConfig.bgConfig) {
-            ObjectTools.copyProps(result, tempStateConfig.bgConfig);
-        }
-
-        return result;
-    }
 
     protected get bgCalculatedWidth(): number {
         return this.resizeSize.x || this.contentCont.width;
@@ -405,14 +499,16 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     }
 
     protected updateBg(): void {
-        let tempBgConfig: Partial<ISimpleButtonBgConfig> = this.getCurActiveCombinedBgConfig();
+        let tempStateConfig: ISingleButtonSingleStateConfig = this.getCurrentActiveCombinedStateConfig();
 
         this.bg.clear();
         //
         // this.bg.rect(0, 0, this.bgCalculatedWidth, this.bgCalculatedHeight);
-        this.bg.roundRect(0, 0, this.bgCalculatedWidth, this.bgCalculatedHeight, tempBgConfig.bgCornerRadius);
-        this.bg.fill({ color: tempBgConfig.bgColor, alpha: tempBgConfig.bgAlpha });
-        this.bg.stroke({ color: tempBgConfig.bgLineColor, alpha: tempBgConfig.bgLineAlpha, width: tempBgConfig.bgLineWidth, alignment: 1 })
+        if (tempStateConfig.bgConfig) {
+            this.bg.roundRect(0, 0, this.bgCalculatedWidth, this.bgCalculatedHeight, tempStateConfig.bgConfig.bgCornerRadius);
+            this.bg.fill({ color: tempStateConfig.bgConfig.bgColor, alpha: tempStateConfig.bgConfig.bgAlpha });
+            this.bg.stroke({ color: tempStateConfig.bgConfig.bgLineColor, alpha: tempStateConfig.bgConfig.bgLineAlpha, width: tempStateConfig.bgConfig.bgLineWidth, alignment: 1 })
+        }
     }
 
     // OLD
