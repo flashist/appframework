@@ -358,26 +358,47 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
     protected getCurrentActiveCombinedStateConfig(): ISingleButtonSingleStateConfig {
         let result: ISingleButtonSingleStateConfig = {};
 
+        let tempDefaultWithoutExternalConfig: ISingleButtonSingleStateConfig = this.getCopyOfStateWithoutExternalView(this.config.defaultState);
+        //
+        ObjectTools.copyProps(result, tempDefaultWithoutExternalConfig);
+        if (this.config.defaultState.externalView) {
+            result.externalView = this.config.defaultState.externalView;
+        }
+
+        //
+        let tempCurStateConfig: ISingleButtonSingleStateConfig = this.getCurrentActiveStateConfig();
+        let tempCurStateWithoutExternal: ISingleButtonSingleStateConfig = this.getCopyOfStateWithoutExternalView(tempCurStateConfig);
+        //
+        ObjectTools.copyProps(result, tempCurStateWithoutExternal);
+        if (tempCurStateWithoutExternal.externalView) {
+            result.externalView = tempCurStateWithoutExternal.externalView;
+        }
+
+        return result;
+    }
+
+    protected getCopyOfStateWithoutExternalView(state: ISingleButtonSingleStateConfig): ISingleButtonSingleStateConfig {
+        let result: ISingleButtonSingleStateConfig = {};
+
         // Make sure we don't try to deep-copy some "complex" type properties
         const linkCopyConfig: ISingleButtonSingleStateConfig = {
         };
 
-        let curActiveStateConfig: ISingleButtonSingleStateConfig = this.getCurrentActiveStateConfig();
-        if (curActiveStateConfig.externalView) {
+        if (state.externalView) {
             // Save the "complex" type data, to be able to use it later
-            linkCopyConfig.externalView = curActiveStateConfig.externalView
+            linkCopyConfig.externalView = state.externalView
 
             // Temporarily remove the "complex" type data from the config
             // to correctly apply deep-copy algorythm
-            delete curActiveStateConfig.externalView;
+            delete state.externalView;
         }
 
         // Then override them with passed config
-        ObjectTools.copyProps(result, curActiveStateConfig);
+        ObjectTools.copyProps(result, state);
 
         if (linkCopyConfig.externalView) {
             // Return the data into the original config
-            curActiveStateConfig.externalView = linkCopyConfig.externalView;
+            state.externalView = linkCopyConfig.externalView;
         }
 
         return result;
@@ -496,9 +517,9 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         //
         // this.bg.rect(0, 0, this.bgCalculatedWidth, this.bgCalculatedHeight);
         if (tempStateConfig.bgConfig) {
-            this.bg.roundRect(0, 0, this.bgCalculatedWidth, this.bgCalculatedHeight, tempStateConfig.bgConfig.bgCornerRadius);
-            this.bg.fill({ color: tempStateConfig.bgConfig.bgColor, alpha: tempStateConfig.bgConfig.bgAlpha });
-            this.bg.stroke({ color: tempStateConfig.bgConfig.bgLineColor, alpha: tempStateConfig.bgConfig.bgLineAlpha, width: tempStateConfig.bgConfig.bgLineWidth, alignment: 1 })
+            this.bg.roundRect(0, 0, this.bgCalculatedWidth, this.bgCalculatedHeight, tempStateConfig.bgConfig.cornerRadius);
+            this.bg.fill({ color: tempStateConfig.bgConfig.color, alpha: tempStateConfig.bgConfig.alpha });
+            this.bg.stroke({ color: tempStateConfig.bgConfig.lineColor, alpha: tempStateConfig.bgConfig.lineAlpha, width: tempStateConfig.bgConfig.lineWidth, alignment: 1 })
         }
     }
 

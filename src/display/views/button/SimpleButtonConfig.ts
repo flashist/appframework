@@ -14,12 +14,12 @@ export const SimpleButtonDefaultConfig = {
 
         bgConfig: {
             // 0.001 to make sure the bg is drawn, but is almost invisible
-            bgAlpha: 0.001,
-            bgColor: 0x000000,
-            bgLineWidth: 0,
-            bgLineColor: 0x000000,
-            bgLineAlpha: 0,
-            bgCornerRadius: 0,
+            alpha: 0.001,
+            color: 0x000000,
+            lineWidth: 0,
+            lineColor: 0x000000,
+            lineAlpha: 0,
+            cornerRadius: 0,
             contentToBgPaddingX: 0,
             contentToBgPaddingY: 0,
             contentToBgShiftX: 0,
@@ -53,12 +53,12 @@ export interface ISimpleButtonIconConfig {
 }
 
 export interface ISimpleButtonBgConfig {
-    bgAlpha?: number,
-    bgColor?: number,
-    bgLineWidth?: number,
-    bgLineColor?: number,
-    bgLineAlpha?: number,
-    bgCornerRadius?: number,
+    alpha?: number,
+    color?: number,
+    lineWidth?: number,
+    lineColor?: number,
+    lineAlpha?: number,
+    cornerRadius?: number,
     contentToBgPaddingX?: number,
     contentToBgPaddingY?: number,
     contentToBgShiftX?: number,
