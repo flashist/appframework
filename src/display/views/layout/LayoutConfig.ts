@@ -12,4 +12,6 @@ export class LayoutConfig {
 
     isNeedFloorCoordinates: boolean = true;
 
+    reverseOrder: boolean = false;
+
 }

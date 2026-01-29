@@ -3,8 +3,8 @@ import { Align, Point, VAlign } from "@flashist/flibs";
 import { LayoutConfig } from "./LayoutConfig";
 import { ILayoutableContainer } from "./container/ILayoutableContainer";
 
-import { ILayoutableChild } from "./container/ILayoutableChild";
 import { GetSizeTools } from "../../tools/GetSizeTools";
+import { ILayoutableChild } from "./container/ILayoutableChild";
 
 /**
  * ...
@@ -34,7 +34,7 @@ export abstract class BaseLayout {
         var tempChildSize: Point;
 
         for (var childIndex: number = 0; childIndex < childrenCount; childIndex++) {
-            tempChild = container.layoutGetChildAt(childIndex);
+            tempChild = this.getChildAt(container, childIndex);
 
             tempChildSize = GetSizeTools.getObjectSize(tempChild);
 
@@ -48,6 +48,14 @@ export abstract class BaseLayout {
 
 
         return result;
+    }
+
+    protected getChildAt(container: ILayoutableContainer, childIndex: number): ILayoutableChild {
+        if (this.settings.reverseOrder) {
+            childIndex = container.layoutGetChildrenNum() - childIndex - 1;
+        }
+
+        return container.layoutGetChildAt(childIndex);
     }
 
     protected arrangeChild(
