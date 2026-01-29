@@ -442,9 +442,13 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
 
         let tempConfig: ISingleButtonSingleStateConfig = this.getCurrentActiveCombinedStateConfig();
 
-        this.alpha = tempConfig.alpha;
+        if (tempConfig.alpha || tempConfig.alpha === 0) {
+            this.alpha = tempConfig.alpha;
+        }
 
-        this.fLabel.changeConfig(tempConfig.labelConfig);
+        if (tempConfig.labelConfig) {
+            this.fLabel.changeConfig(tempConfig.labelConfig);
+        }
 
         if (tempConfig.externalView !== this.curStateExternalView) {
             DisplayTools.childRemoveItselfFromParent(this.curStateExternalView);
