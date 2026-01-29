@@ -238,9 +238,12 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
         let tempStateConfig: ISingleButtonSingleStateConfig = this.getCurrentActiveCombinedStateConfig();
 
         this.icon.texture = null;
-        //
+
         if (tempStateConfig.iconConfig) {
-            this.icon.texture = Texture.from(tempStateConfig.iconConfig.textureId);
+            //
+            if (tempStateConfig.iconConfig.textureId) {
+                this.icon.texture = Texture.from(tempStateConfig.iconConfig.textureId);
+            }
 
             // Reset possible prev transformations
             this.icon.scale.x = 1;
@@ -248,10 +251,10 @@ export class SimpleButtonView<DataType extends object = object> extends AppResiz
 
             //
             if (tempStateConfig.iconConfig.maxWidth) {
-                this.icon.width = Math.max(this.icon.width, tempStateConfig.iconConfig.maxWidth)
+                this.icon.width = Math.min(this.icon.width, tempStateConfig.iconConfig.maxWidth)
             }
             if (tempStateConfig.iconConfig.maxHeight) {
-                this.icon.height = Math.max(this.icon.height, tempStateConfig.iconConfig.maxHeight)
+                this.icon.height = Math.min(this.icon.height, tempStateConfig.iconConfig.maxHeight)
             }
             //
             if (tempStateConfig.iconConfig.scaleByWidth) {

@@ -8,10 +8,6 @@ export const SimpleButtonDefaultConfig = {
             autosize: true
         } as IFLabelConfig,
 
-        icon: {
-            // none by default
-        } as ISimpleButtonIconConfig,
-
         bgConfig: {
             // 0.001 to make sure the bg is drawn, but is almost invisible
             alpha: 0.001,
