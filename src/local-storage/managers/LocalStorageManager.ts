@@ -13,10 +13,10 @@ export class LocalStorageManager extends BaseObject {
 
         this.storageId = LocalStorageModuleConfig.storageId;
 
+        this.localStorage = this.createLocalStorage();
+
         // this.prepareLocalStorage();
         this.createStorage();
-
-        this.localStorage = this.createLocalStorage();
     }
 
     protected createLocalStorage(): Storage {
