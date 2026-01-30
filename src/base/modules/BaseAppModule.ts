@@ -6,11 +6,11 @@ export abstract class BaseAppModule extends BaseObject {
         // Should be overridden in subclasses, if needed
     }
 
-    preInitHook(): void {
+    preInitHook(): void | Promise<void> {
         // Should be overridden in subclasses, if needed
     }
 
-    postInitHook(): void {
+    postInitHook() {
         // Should be overridden in subclasses, if needed
     }
 

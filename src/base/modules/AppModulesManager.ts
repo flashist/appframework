@@ -22,9 +22,9 @@ export class AppModulesManager {
     async initModules() {
         let modulesCount: number = this.modules.length;
 
-        for (let moduleIndex: number = 0; moduleIndex < modulesCount; moduleIndex++) {
-            await this.modules[moduleIndex].preInitHook();
-        }
+        // for (let moduleIndex: number = 0; moduleIndex < modulesCount; moduleIndex++) {
+        //     await this.modules[moduleIndex].preInitHook();
+        // }
 
         // Init all modules
         for (let moduleIndex: number = 0; moduleIndex < modulesCount; moduleIndex++) {
