@@ -16,8 +16,8 @@ export class SoundsModule extends BaseAppModule {
         serviceLocatorAdd(SoundsStorageManager, { isSingleton: true, forceCreation: true });
     }
 
-    activateCompleteHook(): void {
-        super.activateCompleteHook();
+    postCompleteHook(): void {
+        super.postCompleteHook();
 
         const soundsStorageModule: SoundsStorageManager = getInstance(SoundsStorageManager);
         soundsStorageModule.activateCompleteHook();

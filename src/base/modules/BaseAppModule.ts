@@ -1,4 +1,4 @@
-import {BaseObject} from "@flashist/fcore";
+import { BaseObject } from "@flashist/fcore";
 
 export abstract class BaseAppModule extends BaseObject {
 
@@ -6,11 +6,15 @@ export abstract class BaseAppModule extends BaseObject {
         // Should be overridden in subclasses, if needed
     }
 
-    initCompleteHook(): void {
+    preInitHook(): void {
         // Should be overridden in subclasses, if needed
     }
-    
-    activateCompleteHook(): void {
+
+    postInitHook(): void {
+        // Should be overridden in subclasses, if needed
+    }
+
+    postCompleteHook(): void {
         // Should be overridden in subclasses, if needed
     }
 

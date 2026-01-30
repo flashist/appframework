@@ -13,8 +13,8 @@ export class RendererModule extends BaseAppModule {
         serviceLocatorAdd(RendererManager, { isSingleton: true, forceCreation: true });
     }
 
-    async activateCompleteHook() {
-        super.activateCompleteHook();
+    async postCompleteHook() {
+        super.postCompleteHook();
 
         //
         const rendererManager = getInstance(RendererManager);

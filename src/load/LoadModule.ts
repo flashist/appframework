@@ -1,6 +1,6 @@
-import {LoadFactory, LoadManager, serviceLocatorAdd} from "@flashist/flibs";
+import { LoadFactory, LoadManager, serviceLocatorAdd } from "@flashist/flibs";
 
-import {BaseAppModule} from "../base/modules/BaseAppModule";
+import { BaseAppModule } from "../base/modules/BaseAppModule";
 
 export class LoadModule extends BaseAppModule {
 
@@ -12,11 +12,11 @@ export class LoadModule extends BaseAppModule {
         super.init();
 
         // Load
-        serviceLocatorAdd(LoadManager, {isSingleton: true, forceCreation: true});
+        serviceLocatorAdd(LoadManager, { isSingleton: true, forceCreation: true });
     }
 
-    activateCompleteHook(): void {
-        super.activateCompleteHook();
+    postCompleteHook(): void {
+        super.postCompleteHook();
 
         LoadFactory.instance.basePath = this.basePath;
     }

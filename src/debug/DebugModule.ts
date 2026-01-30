@@ -18,8 +18,8 @@ export class DebugModule extends BaseAppModule {
         // serviceLocatorAdd(DefaultDebugModuleConfigVO, { isSingleton: true });
     }
 
-    activateCompleteHook(): void {
-        super.activateCompleteHook();
+    postCompleteHook(): void {
+        super.postCompleteHook();
 
         // const fConsoleConfig: IDebugModuleConfigVO = getInstance(DefaultDebugModuleConfigVO);
         const appState = appStateStorage().getState<DebugModuleState>()

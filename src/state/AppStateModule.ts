@@ -12,8 +12,8 @@ export class AppStateModule extends BaseAppModule {
         serviceLocatorAdd(AppStateStorage, { isSingleton: true });
     }
 
-    initCompleteHook(): void {
-        super.initCompleteHook();
+    postInitHook(): void {
+        super.postInitHook();
 
         getInstance(AppStateStorage).initializeComplete();
     }

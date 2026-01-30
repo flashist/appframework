@@ -12,8 +12,8 @@ export class ECSRenderModule extends BaseAppModule {
         serviceLocatorAdd(RenderSystem, { isSingleton: true });
     }
 
-    activateCompleteHook(): void {
-        super.activateCompleteHook();
+    postCompleteHook(): void {
+        super.postCompleteHook();
 
         const system = getInstance(RenderSystem);
         getInstance(ECSManager).systems.add(system);
