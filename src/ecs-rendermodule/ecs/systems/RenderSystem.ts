@@ -1,4 +1,4 @@
-import { DisplayTools, FContainer, getInstance } from "@flashist/flibs";
+import { DisplayObjectContainer, DisplayTools, FContainer, getInstance } from "@flashist/flibs";
 import { ContainersManager } from "../../../containers/managers/ContainersManager";
 import { IEntity } from "../../../ecs/ecs/entities/IEntity";
 import { System } from "../../../ecs/ecs/systems/System";
@@ -29,7 +29,7 @@ export class RenderSystem<EntityType extends IEntity<RenderComponent>> extends S
     protected onEntityAdded(entity: EntityType): void {
         super.onEntityAdded(entity);
 
-        const tempCont: FContainer = this.getContainer(entity.components.render.containerId);
+        const tempCont: DisplayObjectContainer = this.getContainer(entity.components.render.containerId);
         tempCont.addChild(entity.components.render.view);
     }
 
@@ -40,8 +40,8 @@ export class RenderSystem<EntityType extends IEntity<RenderComponent>> extends S
         // this.rootContainer.removeChild(entity.components.render.view);
     }
 
-    protected getContainer(containerId: string): FContainer {
-        let result: FContainer;
+    protected getContainer(containerId: string): DisplayObjectContainer {
+        let result: DisplayObjectContainer;
         if (containerId) {
             result = this.containersManager.getContainer(containerId)
         }

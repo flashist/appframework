@@ -1,13 +1,13 @@
 import { NumberTools, ObjectTools } from "@flashist/fcore";
-import { Container, FContainer, getInstance } from "@flashist/flibs";
+import { Container, DisplayObjectContainer, getInstance } from "@flashist/flibs";
 
-import { gsap, Back, Sine } from "gsap";
+import { gsap } from "gsap";
 
 import { BaseAppCommand } from "../../base/commands/BaseAppCommand";
 import { ContainersManager } from "../../containers/managers/ContainersManager";
+import { DefaultHintConfig } from "../data/DefaultHintConfig";
 import { HintContainerId } from "../data/HintContainerId";
 import { IHintConfig } from "../data/IHintConfig";
-import { DefaultHintConfig } from "../data/DefaultHintConfig";
 
 export class AnimateHintCommand extends BaseAppCommand {
 
@@ -35,7 +35,7 @@ export class AnimateHintCommand extends BaseAppCommand {
     protected executeInternal(): void {
 
         const containersManager: ContainersManager = getInstance(ContainersManager);
-        const hintsCont: FContainer = containersManager.getContainer(HintContainerId);
+        const hintsCont: DisplayObjectContainer = containersManager.getContainer(HintContainerId);
         hintsCont.addChild(this.hint);
 
         const localPos = hintsCont.toLocal(this.config.startGlobalPos);

@@ -1,12 +1,12 @@
-import {FContainer} from "@flashist/flibs";
+import { DisplayObjectContainer } from "@flashist/flibs";
 
-import {BaseAppManager} from "../../base/managers/BaseAppManager";
+import { BaseAppManager } from "../../base/managers/BaseAppManager";
 
 export class ContainersManager extends BaseAppManager {
 
-    private containersMap: { [key: string]: FContainer } = {};
+    private containersMap: { [key: string]: DisplayObjectContainer } = {};
 
-    public addContainer(container: FContainer, id: string): void {
+    public addContainer(container: DisplayObjectContainer, id: string): void {
         this.containersMap[id] = container;
     }
 
@@ -14,8 +14,8 @@ export class ContainersManager extends BaseAppManager {
         delete this.containersMap[id];
     }
 
-    public getContainer(id: string): FContainer {
-        let result: FContainer;
+    public getContainer(id: string): DisplayObjectContainer {
+        let result: DisplayObjectContainer;
 
         if (this.containersMap[id]) {
             result = this.containersMap[id];
