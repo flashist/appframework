@@ -12,7 +12,7 @@ type Cleanup<T> =
     0 extends (1 & T) ? unknown :
     T extends readonly any[] ?
     (Exclude<keyof T, keyof any[]> extends never ?
-        { [k: `${number}`]: T[number] } : Omit<T, keyof any[]>) : T;
+        { [k: number]: T[number] } : Omit<T, keyof any[]>) : T;
 
 type PrefixKeys<V, K extends PropertyKey, O> =
     V extends O ? { [P in K]: V } : V extends object ?
