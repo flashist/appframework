@@ -6,32 +6,38 @@ import { AppStateStorage } from "./data/AppStateStorage";
 
 // Test state type resembling real-world usage (similar to user's StrelkiModuleState)
 interface TestArrowVO {
-    id: number;
-    frozenAdjacentRemovalCount: number;
+    id: number,
+    frozenAdjacentRemovalCount: number,
     frozenData: {
-        adjacentRemovalCount: number;
-    };
-}
+        adjacentRemovalCount: number
+    }
+};
 
-interface TestModuleState {
+const TestModuleStateInitialValue = {
     strelki: {
         static: {
-            level: { id: number };
-        };
+            level: { id: 0 as number }
+        },
         dynamic: {
-            curLives: number;
-            maxLives: number;
-            arrows: TestArrowVO[];
-            destroyables: { id: number }[];
-        };
-    };
+            curLives: 0 as number,
+            maxLives: 0 as number,
+            arrows: [] as TestArrowVO[],
+            destroyables: [] as { id: number }[]
+        }
+    }
 }
+type TestModuleState = typeof TestModuleStateInitialValue;
 
 /**
  * Type-level tests - these lines must compile without errors.
  * If any line has a TypeScript error, the types are broken.
  */
 export function verifyStatePathTypes(storage: AppStateStorage): void {
+    //
+    storage.initializeWith(TestModuleStateInitialValue);
+    storage.initializeComplete();
+
+    //
     const arrowIndex = 0;
     const newCount = 5;
 
