@@ -3,6 +3,7 @@ import { BaseAppModule } from "../base/modules/BaseAppModule"
 import { AppStateStorage } from "./data/AppStateStorage";
 import { Flatten } from "./data/DeepKeyTypings";
 import { AppStateEventChangeTools } from "./tools/AppStateEventChangeTools";
+import { verifyStatePathTypes } from "./AppStateModuleTest";
 
 export class AppStateModule extends BaseAppModule {
 
@@ -33,6 +34,10 @@ export const appStateStorageChangeEvent = <StateType extends object>() => {
 // TODO: make sure is not left in the prod-builds
 window["appStateStorage"] = appStateStorage;
 window["appStateStorageChangeEvent"] = appStateStorageChangeEvent;
+
+// TESTS
+const testStorage: AppStateStorage = new AppStateStorage();
+verifyStatePathTypes(testStorage);
 
 /**
 //
