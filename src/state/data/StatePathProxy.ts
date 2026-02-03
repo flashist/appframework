@@ -15,9 +15,23 @@ type PropertyProxy<Root, Current> = Current extends object
  * @typeParam Root - The root state type
  * @typeParam Current - The type at the current path position
  */
-export type StatePathProxy<Root, Current> = StatePath<Root, Current> & {
-    readonly [K in keyof Current & (string | number)]: PropertyProxy<Root, Current[K]>;
-};
+export type StatePathProxy<Root, Current> =
+    // Include all StatePath methods except at() and prop() which we override
+    Omit<StatePath<Root, Current>, 'at' | 'prop'> &
+    // Override at() to return StatePathProxy instead of StatePath
+    {
+        at<T = Current extends readonly (infer U)[] ? U : never>(
+            index: number
+        ): StatePathProxy<Root, T>;
+
+        prop<K extends keyof Current & (string | number)>(
+            key: K
+        ): StatePathProxy<Root, Current[K]>;
+    } &
+    // Property access via dot notation
+    {
+        readonly [K in keyof Current & (string | number)]: PropertyProxy<Root, Current[K]>;
+    };
 
 /**
  * Creates a proxy-wrapped StatePath that enables property access syntax.
@@ -69,5 +83,5 @@ export function createStatePathProxy<Root, Current = Root>(
                 [...pathParts, String(prop)]
             );
         }
-    }) as StatePathProxy<Root, Current>;
+    }) as unknown as StatePathProxy<Root, Current>;
 }
