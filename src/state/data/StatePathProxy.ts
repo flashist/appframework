@@ -38,8 +38,28 @@ export function createStatePathProxy<Root, Current = Root>(
 
     return new Proxy(statePath, {
         get(target: StatePath<Root, Current>, prop: string | symbol) {
-            // Return StatePath methods and properties directly
-            if (prop in target || typeof prop === "symbol") {
+            // Handle symbol properties
+            if (typeof prop === "symbol") {
+                return (target as any)[prop];
+            }
+
+            // Wrap at() and prop() methods to return proxies
+            if (prop === "at") {
+                return (index: number) => createStatePathProxy<Root, any>(
+                    storage,
+                    [...pathParts, String(index)]
+                );
+            }
+
+            if (prop === "prop") {
+                return (key: string | number) => createStatePathProxy<Root, any>(
+                    storage,
+                    [...pathParts, String(key)]
+                );
+            }
+
+            // Return other StatePath methods and properties directly
+            if (prop in target) {
                 return (target as any)[prop];
             }
 

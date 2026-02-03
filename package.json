@@ -3,6 +3,8 @@
   "version": "0.0.349",
   "scripts": {
     "build": "gulp",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "publish:patch": "npm version patch && npm run build && cd ./dist && npm publish",
     "publish:minor": "npm version minor && npm run build && cd ./dist && npm publish",
     "publish:major": "npm version major && npm run build && cd ./dist && npm publish"
@@ -22,6 +24,7 @@
     "@flashist/fbuildscripts": "^0.0.67",
     "gsap": "^3.12.7",
     "pixi.js": "^8.8.1",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "vitest": "^4.0.18"
   }
 }
