@@ -1,3 +1,5 @@
+import { DefaultFlattenDepth, Prev } from "./DeepTypeUtils";
+
 type Writable<T, O> = T extends O ? T : {
     [P in keyof T as IfEquals<{ [Q in P]: T[P] }, { -readonly [Q in P]: T[P] }, P>]: T[P]
 }
@@ -20,9 +22,26 @@ type PrefixKeys<V, K extends PropertyKey, O> =
 
 type ValueOf<T> = T[keyof T];
 
-export type Flatten<T, O = never> = Writable<Cleanup<T>, O> extends infer U ?
+/**
+ * Flattens a nested object type into a flat object with dot-notation keys.
+ *
+ * @typeParam T - The type to flatten
+ * @typeParam O - Types to exclude from flattening (treated as leaf values)
+ * @typeParam D - Maximum recursion depth (default: 5)
+ *
+ * @example
+ * ```typescript
+ * type Nested = { a: { b: { c: number } } };
+ * type Flat = Flatten<Nested>;
+ * // { a: { b: { c: number } }; "a.b": { c: number }; "a.b.c": number }
+ * ```
+ */
+export type Flatten<T, O = never, D extends number = DefaultFlattenDepth> =
+    [D] extends [never]
+    ? T  // At max depth, return T as-is (no more flattening)
+    : Writable<Cleanup<T>, O> extends infer U ?
     U extends O ? U : U extends object ?
-    ValueOf<{ [K in keyof U]-?: (x: PrefixKeys<Flatten<U[K], O>, K, O>) => void }>
+    ValueOf<{ [K in keyof U]-?: (x: PrefixKeys<Flatten<U[K], O, Prev[D]>, K, O>) => void }>
     | ((x: U) => void) extends (x: infer I) => void ?
     { [K in keyof I]: I[K] } : never : U : never;
 
@@ -34,7 +53,7 @@ export type Flatten<T, O = never> = Writable<Cleanup<T>, O> extends infer U ?
 
 
 /*
-// TRY #2: EXAMPLES OF USING 
+// TRY #2: EXAMPLES OF USING
 
 // function shortLookup<ObjectType, DeepKeyType extends keyof Flatten<ObjectType>, ValueType extends Flatten<ObjectType>[DeepKeyType]>(obj: ObjectType, key: DeepKeyType, value: ValueType): void {
 function shortLookup<ObjectType, DeepKeyType extends keyof Flatten<ObjectType>>(obj: ObjectType = {} as any, key: DeepKeyType, value: Flatten<ObjectType>[DeepKeyType]): void {
@@ -153,12 +172,12 @@ interface Tree {
 
 // type TreeLeaves = Leaves<Tree>; // sorry, compiler 💻⌛😫
 // type TreeLeaves = "data" | "left.data" | "right.data" | "left.left.data" |
-// "left.right.data" | "right.left.data" | "right.right.data" | "left.left.left.data" | 
-// "left.left.right.data" | "left.right.left.data" | ... 1012 more ... | 
+// "left.right.data" | "right.left.data" | "right.right.data" | "left.left.left.data" |
+// "left.left.right.data" | "left.right.left.data" | ... 1012 more ... |
 // "right.right.right.right.right.right.right.right.right.data"
 
 type TreeLeaves = Leaves<Tree, 100>;
-// type TreeLeaves =  "data" | "left.data" | "right.data" | "left.left.data" | 
+// type TreeLeaves =  "data" | "left.data" | "right.data" | "left.left.data" |
 // "left.right.data" | "right.left.data" | "right.right.data"
 
 // type NestedObjectPaths = Paths<NestedObjectType>;

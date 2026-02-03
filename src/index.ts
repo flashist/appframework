@@ -80,6 +80,7 @@ export * from './state/data/AppStateStorage';
 export * from './state/data/DeepKeyTypings';
 export * from './state/data/DeepPartialTypings';
 export * from './state/data/DeepReadableTypings';
+export * from './state/data/DeepTypeUtils';
 export * from './state/data/IAppStateChangeConfigVO';
 export * from './state/data/IChangeWrapper';
 export * from './state/data/IPreChangeHook';

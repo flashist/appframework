@@ -1,3 +1,5 @@
+import { DefaultDeepTypeDepth, Prev } from "./DeepTypeUtils";
+
 // import type {BuiltIns, HasMultipleCallSignatures} from './internal';
 export type HasMultipleCallSignatures<T extends (...arguments_: any[]) => unknown> =
     T extends { (...arguments_: infer A): unknown; (...arguments_: any[]): unknown }
@@ -23,6 +25,9 @@ Convert `object`s, `Map`s, `Set`s, and `Array`s and all of their keys/elements i
 This is useful when a deeply nested structure needs to be exposed as completely immutable, for example, an imported JSON module or when receiving an API response that is passed around.
 
 Please upvote [this issue](https://github.com/microsoft/TypeScript/issues/13923) if you want to have this type as a built-in in TypeScript.
+
+@typeParam T - The type to make deeply readonly
+@typeParam D - Maximum recursion depth (default: 10)
 
 @example
 ```
@@ -54,44 +59,47 @@ Note that types containing overloaded functions are not made deeply readonly due
 @category Map
 */
 // export type DeepReadonly<T> = T extends BuiltIns
-export type DeepReadonly<T> = T extends BuiltIns
+export type DeepReadonly<T, D extends number = DefaultDeepTypeDepth> =
+    [D] extends [never]
+    ? Readonly<T>  // At max depth, apply shallow readonly
+    : T extends BuiltIns
     ? T
     : T extends (...arguments_: any[]) => unknown
-    ? {} extends DeepReadonlyObject<T>
+    ? {} extends DeepReadonlyObject<T, D>
     ? T
     : HasMultipleCallSignatures<T> extends true
     ? T
-    : ((...arguments_: Parameters<T>) => ReturnType<T>) & DeepReadonlyObject<T>
+    : ((...arguments_: Parameters<T>) => ReturnType<T>) & DeepReadonlyObject<T, D>
     : T extends Readonly<ReadonlyMap<infer KeyType, infer ValueType>>
-    ? DeepReadonlyMap<KeyType, ValueType>
+    ? DeepReadonlyMap<KeyType, ValueType, D>
     : T extends Readonly<ReadonlySet<infer ItemType>>
-    ? DeepReadonlySet<ItemType>
+    ? DeepReadonlySet<ItemType, D>
     : // Identify tuples to avoid converting them to arrays inadvertently; special case `readonly [...never[]]`, as it emerges undesirably from recursive invocations of DeepReadonly below.
     T extends readonly [] | readonly [...never[]]
     ? readonly []
     : T extends readonly [infer U, ...infer V]
-    ? readonly [DeepReadonly<U>, ...DeepReadonly<V>]
+    ? readonly [DeepReadonly<U, Prev[D]>, ...DeepReadonly<V, Prev[D]>]
     : T extends readonly [...infer U, infer V]
-    ? readonly [...DeepReadonly<U>, DeepReadonly<V>]
+    ? readonly [...DeepReadonly<U, Prev[D]>, DeepReadonly<V, Prev[D]>]
     : T extends ReadonlyArray<infer ItemType>
-    ? ReadonlyArray<DeepReadonly<ItemType>>
+    ? ReadonlyArray<DeepReadonly<ItemType, Prev[D]>>
     : T extends object
-    ? DeepReadonlyObject<T>
+    ? DeepReadonlyObject<T, D>
     : unknown;
 
 /**
 Same as `DeepReadonly`, but accepts only `ReadonlyMap`s as inputs. Internal helper for `DeepReadonly`.
 */
-type DeepReadonlyMap<KeyType, ValueType> = {} & Readonly<ReadonlyMap<DeepReadonly<KeyType>, DeepReadonly<ValueType>>>;
+type DeepReadonlyMap<KeyType, ValueType, D extends number> = {} & Readonly<ReadonlyMap<DeepReadonly<KeyType, Prev[D]>, DeepReadonly<ValueType, Prev[D]>>>;
 
 /**
 Same as `DeepReadonly`, but accepts only `ReadonlySet`s as inputs. Internal helper for `DeepReadonly`.
 */
-type DeepReadonlySet<ItemType> = {} & Readonly<ReadonlySet<DeepReadonly<ItemType>>>;
+type DeepReadonlySet<ItemType, D extends number> = {} & Readonly<ReadonlySet<DeepReadonly<ItemType, Prev[D]>>>;
 
 /**
 Same as `DeepReadonly`, but accepts only `object`s as inputs. Internal helper for `DeepReadonly`.
 */
-type DeepReadonlyObject<ObjectType extends object> = {
-    readonly [KeyType in keyof ObjectType]: DeepReadonly<ObjectType[KeyType]>
+type DeepReadonlyObject<ObjectType extends object, D extends number> = {
+    readonly [KeyType in keyof ObjectType]: DeepReadonly<ObjectType[KeyType], Prev[D]>
 };
