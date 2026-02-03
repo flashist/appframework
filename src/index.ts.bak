@@ -84,6 +84,8 @@ export * from './state/data/DeepTypeUtils';
 export * from './state/data/IAppStateChangeConfigVO';
 export * from './state/data/IChangeWrapper';
 export * from './state/data/IPreChangeHook';
+export * from './state/data/StatePath';
+export * from './state/data/StatePathProxy';
 export * from './state/tools/AppStateDeepKeyTools';
 export * from './state/tools/AppStateEventChangeTools';
 export * from './state/tools/INestedPathHelperVO';
