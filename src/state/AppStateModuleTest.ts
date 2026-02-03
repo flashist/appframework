@@ -21,7 +21,15 @@ const TestModuleStateInitialValue = {
         dynamic: {
             curLives: 0 as number,
             maxLives: 0 as number,
-            arrows: [] as TestArrowVO[],
+            arrows: [
+                {
+                    id: 0,
+                    frozenAdjacentRemovalCount: 0,
+                    frozenData: {
+                        adjacentRemovalCount: 0
+                    }
+                }
+            ] as TestArrowVO[],
             destroyables: [] as { id: number }[]
         }
     }
