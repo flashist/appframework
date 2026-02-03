@@ -119,6 +119,18 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
         }
     }
 
+    /**
+     * Use with pre-computed Flatten types to avoid repeated type instantiation.
+     * @example
+     * type MyPaths = Flatten<MyState, 6>;
+     * appStateStorage().getValuePrecomputed<MyPaths>()("deep.path");
+     */
+    public getValuePrecomputed<FlatType extends object>() {
+        return <K extends keyof FlatType>(key: K): Partial<FlatType[K]> => {
+            return this.getValue<FlatType>()(key as any) as Partial<FlatType[K]>;
+        }
+    }
+
     protected innerGetValue<StateType, DeepKeyType extends keyof Flatten<StateType>, ValueType extends Flatten<StateType>[DeepKeyType]>(stateForTypings: StateType, deepKey: DeepKeyType): Partial<ValueType> {
 
         let result: Partial<ValueType>;
@@ -191,6 +203,18 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
         }
     }
 
+    /**
+     * Use with pre-computed Flatten types to avoid repeated type instantiation.
+     * @example
+     * type MyPaths = Flatten<MyState, 6>;
+     * appStateStorage().substitutePrecomputed<MyPaths>()("deep.path", value);
+     */
+    public substitutePrecomputed<FlatType extends object>() {
+        return <K extends keyof FlatType>(key: K, value: DeepPartial<FlatType[K]>): void => {
+            this.substitute<FlatType>()(key as any, value as any);
+        }
+    }
+
     protected innerSubstitute<StateType, DeepKeyType extends keyof Flatten<StateType>, ValueType extends Flatten<StateType>[DeepKeyType]>(stateForTypings: StateType, deepKey: DeepKeyType, value: DeepPartial<ValueType>): void {
         const config: IAppStateChangeConfigVO = {
             changeType: AppStateChangeType.SUBSTITUTE,
@@ -210,6 +234,18 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
     public change<StateType extends object, D extends number = DefaultFlattenDepth>() {
         return <DeepKeyType extends keyof Flatten<StateType, never, D>>(key: DeepKeyType, value: DeepPartial<Flatten<StateType, never, D>[DeepKeyType]>): void => {
             this.innerChange({} as StateType, key as any, value);
+        }
+    }
+
+    /**
+     * Use with pre-computed Flatten types to avoid repeated type instantiation.
+     * @example
+     * type MyPaths = Flatten<MyState, 6>;
+     * appStateStorage().changePrecomputed<MyPaths>()("deep.path", value);
+     */
+    public changePrecomputed<FlatType extends object>() {
+        return <K extends keyof FlatType>(key: K, value: DeepPartial<FlatType[K]>): void => {
+            this.change<FlatType>()(key as any, value as any);
         }
     }
 
@@ -234,6 +270,18 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
             ValueType extends Flatten<StateType, never, D>[DeepKeyType] & Array<any> = Flatten<StateType, never, D>[DeepKeyType] & Array<any>
         >(key: DeepKeyType) => {
             return this.innerDelete({} as StateType, key as any);
+        }
+    }
+
+    /**
+     * Use with pre-computed Flatten types to avoid repeated type instantiation.
+     * @example
+     * type MyPaths = Flatten<MyState, 6>;
+     * appStateStorage().deletePrecomputed<MyPaths>()("deep.path");
+     */
+    public deletePrecomputed<FlatType extends object>() {
+        return <K extends keyof FlatType>(key: K) => {
+            return this.delete<FlatType>()(key as any);
         }
     }
 
@@ -266,6 +314,21 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
         }
     }
 
+    /**
+     * Use with pre-computed Flatten types to avoid repeated type instantiation.
+     * @example
+     * type MyPaths = Flatten<MyState, 6>;
+     * appStateStorage().pushPrecomputed<MyPaths>()("deep.array.path", element1, element2);
+     */
+    public pushPrecomputed<FlatType extends object>() {
+        return <K extends keyof FlatType, ArrayType extends FlatType[K] & Array<any>>(
+            key: K,
+            ...elements: ArrayType
+        ) => {
+            return this.push<FlatType>()(key as any, ...elements);
+        }
+    }
+
     protected innerPush
         <
             StateType,
@@ -293,6 +356,18 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
             ArrayType extends Flatten<StateType, never, D>[DeepKeyType] & Array<any> = Flatten<StateType, never, D>[DeepKeyType] & Array<any>
         >(key: DeepKeyType, start: number, deleteCount?: number) => {
             return this.innerSplice({} as StateType, key as any, start, deleteCount);
+        }
+    }
+
+    /**
+     * Use with pre-computed Flatten types to avoid repeated type instantiation.
+     * @example
+     * type MyPaths = Flatten<MyState, 6>;
+     * appStateStorage().splicePrecomputed<MyPaths>()("deep.array.path", 0, 1);
+     */
+    public splicePrecomputed<FlatType extends object>() {
+        return <K extends keyof FlatType>(key: K, start: number, deleteCount?: number) => {
+            return this.splice<FlatType>()(key as any, start, deleteCount);
         }
     }
 
