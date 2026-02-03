@@ -1,6 +1,6 @@
 {
   "name": "@flashist/appframework",
-  "version": "0.0.350",
+  "version": "0.0.351",
   "scripts": {
     "build": "gulp",
     "test": "vitest run",
