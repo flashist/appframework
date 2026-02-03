@@ -10,8 +10,10 @@ import { IAppStateChangeConfigVO } from "./IAppStateChangeConfigVO";
 import { AppStateChangeType } from "./AppStateChangeType";
 import { DeepPartial } from "./DeepPartialTypings";
 import { DefaultFlattenDepth } from "./DeepTypeUtils";
+import { IStatePathStorage } from "./StatePath";
+import { createStatePathProxy, StatePathProxy } from "./StatePathProxy";
 
-export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
+export class AppStateStorage extends BaseObjectWithGlobalDispatcher implements IStatePathStorage {
 
     /**
      * The purpose of the method is to "prepare" a "wrapper" of a part of a state,
@@ -468,4 +470,126 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
 
     //     this.dispatchChangeEvents(pathsHelperData);
     // }
+
+    // =========================================================================
+    // PATH BUILDER API
+    // =========================================================================
+
+    /**
+     * Type-safe path builder for state access.
+     * Builds paths incrementally to avoid type explosion with arrays.
+     *
+     * @example
+     * // Access nested properties:
+     * storage.$<MyState>().user.profile.name.set("John");
+     *
+     * // Access array elements (no type explosion!):
+     * storage.$<MyState>().items.at(0).value.set(42);
+     *
+     * // Get values:
+     * const name = storage.$<MyState>().user.name.get();
+     *
+     * // Chain deeply:
+     * storage.$<MyState>().game.levels.at(currentLevel).enemies.at(enemyIndex).health.set(100);
+     *
+     * // Get the path string (for debugging or events):
+     * const path = storage.$<MyState>().user.profile.name.path; // "user.profile.name"
+     */
+    public $<StateType extends object>(): StatePathProxy<StateType, StateType> {
+        return createStatePathProxy<StateType>(this);
+    }
+
+    // === Path-based Internal Methods (for IStatePathStorage interface) ===
+
+    public getValueByPath(path: string): any {
+        const helperData = this.getPathsHelperData(path, null);
+        let current: any = this.state;
+        for (const part of helperData.splitDeepKeyParts) {
+            current = current[part];
+        }
+        return current;
+    }
+
+    public changeByPath(path: string, value: any): void {
+        const config: IAppStateChangeConfigVO = {
+            changeType: AppStateChangeType.CHANGE,
+            value: value
+        };
+        this.processStateActionByPath(path, config);
+    }
+
+    public substituteByPath(path: string, value: any): void {
+        const config: IAppStateChangeConfigVO = {
+            changeType: AppStateChangeType.SUBSTITUTE,
+            value: value
+        };
+        this.processStateActionByPath(path, config);
+    }
+
+    public deleteByPath(path: string): any {
+        const config: IAppStateChangeConfigVO = {
+            changeType: AppStateChangeType.DELETE
+        };
+        return this.processStateActionByPath(path, config);
+    }
+
+    public pushByPath(path: string, ...elements: any[]): void {
+        const config: IAppStateChangeConfigVO = {
+            changeType: AppStateChangeType.PUSH,
+            elements: elements
+        };
+        this.processStateActionByPath(path, config);
+    }
+
+    public spliceByPath(path: string, start: number, deleteCount?: number): any[] {
+        if (deleteCount === undefined) {
+            deleteCount = Number.MAX_SAFE_INTEGER;
+        }
+
+        const config: IAppStateChangeConfigVO = {
+            changeType: AppStateChangeType.SPLICE,
+            start: start,
+            deleteCount: deleteCount
+        };
+        return this.processStateActionByPath(path, config);
+    }
+
+    protected processStateActionByPath(path: string, config: IAppStateChangeConfigVO): any {
+        let result: any;
+
+        const pathsHelperData: IDeepKeyHelperVO = this.getPathsHelperData(path, config);
+
+        let tempObject: any = this.state;
+        let nestedPathsCount: number = pathsHelperData.splitDeepKeyParts.length;
+        for (let nestedPathIndex: number = 0; nestedPathIndex < nestedPathsCount; nestedPathIndex++) {
+            const singlePath: string | number = pathsHelperData.splitDeepKeyParts[nestedPathIndex];
+
+            if (nestedPathIndex === (nestedPathsCount - 1)) {
+                if (config.changeType === AppStateChangeType.SUBSTITUTE) {
+                    delete tempObject[singlePath];
+                    ObjectTools.copySinglePropFromValue(tempObject, singlePath as string, config.value);
+
+                } else if (config.changeType === AppStateChangeType.CHANGE) {
+                    ObjectTools.copySinglePropFromValue(tempObject, singlePath as string, config.value);
+
+                } else if (config.changeType === AppStateChangeType.DELETE) {
+                    result = tempObject[singlePath];
+                    delete tempObject[singlePath];
+
+                } else if (config.changeType === AppStateChangeType.PUSH) {
+                    tempObject[singlePath].push(...config.elements);
+
+                } else if (config.changeType === AppStateChangeType.SPLICE) {
+                    result = tempObject[singlePath].splice(config.start, config.deleteCount);
+                }
+
+            } else {
+                tempObject = tempObject[singlePath];
+            }
+        }
+
+        this.dispatchChangeEvents(pathsHelperData);
+
+        return result;
+    }
 }
