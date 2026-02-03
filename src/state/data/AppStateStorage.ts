@@ -9,6 +9,7 @@ import { IPreChangeHook } from "./IPreChangeHook";
 import { IAppStateChangeConfigVO } from "./IAppStateChangeConfigVO";
 import { AppStateChangeType } from "./AppStateChangeType";
 import { DeepPartial } from "./DeepPartialTypings";
+import { DefaultFlattenDepth } from "./DeepTypeUtils";
 
 export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
 
@@ -33,8 +34,8 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
 
      * @returns 
      */
-    public changePropertyWrapper<StateType extends object>() {
-        return <WrapperStateType extends Partial<Flatten<StateType>[DeepKeyType]>, DeepKeyType extends keyof Flatten<StateType>>(key: DeepKeyType) => {
+    public changePropertyWrapper<StateType extends object, D extends number = DefaultFlattenDepth>() {
+        return <WrapperStateType extends Partial<Flatten<StateType, never, D>[DeepKeyType]>, DeepKeyType extends keyof Flatten<StateType, never, D>>(key: DeepKeyType) => {
             return <WrapperDeepKeyType extends keyof Flatten<WrapperStateType>>(wrapperKey: WrapperDeepKeyType, value: DeepPartial<Flatten<WrapperStateType>[WrapperDeepKeyType]>): void => {
                 this.innerChange({} as StateType, (`${key as string}.${wrapperKey as string}`) as any, value);
             }
@@ -112,9 +113,9 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
         );
     }
 
-    public getValue<StateType extends object>() {
-        return <DeepKeyType extends keyof Flatten<StateType>>(key: DeepKeyType): Partial<Flatten<StateType>[DeepKeyType]> => {
-            return this.innerGetValue({} as StateType, key);
+    public getValue<StateType extends object, D extends number = DefaultFlattenDepth>() {
+        return <DeepKeyType extends keyof Flatten<StateType, never, D>>(key: DeepKeyType): Partial<Flatten<StateType, never, D>[DeepKeyType]> => {
+            return this.innerGetValue({} as StateType, key as any);
         }
     }
 
@@ -184,9 +185,9 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
     }
 
     // SUBSTITUTE: START
-    public substitute<StateType extends object>() {
-        return <DeepKeyType extends keyof Flatten<StateType>>(key: DeepKeyType, value: DeepPartial<Flatten<StateType>[DeepKeyType]>): void => {
-            this.innerSubstitute({} as StateType, key, value);
+    public substitute<StateType extends object, D extends number = DefaultFlattenDepth>() {
+        return <DeepKeyType extends keyof Flatten<StateType, never, D>>(key: DeepKeyType, value: DeepPartial<Flatten<StateType, never, D>[DeepKeyType]>): void => {
+            this.innerSubstitute({} as StateType, key as any, value);
         }
     }
 
@@ -206,9 +207,9 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
 
     // CHANGE: START
 
-    public change<StateType extends object>() {
-        return <DeepKeyType extends keyof Flatten<StateType>>(key: DeepKeyType, value: DeepPartial<Flatten<StateType>[DeepKeyType]>): void => {
-            this.innerChange({} as StateType, key, value);
+    public change<StateType extends object, D extends number = DefaultFlattenDepth>() {
+        return <DeepKeyType extends keyof Flatten<StateType, never, D>>(key: DeepKeyType, value: DeepPartial<Flatten<StateType, never, D>[DeepKeyType]>): void => {
+            this.innerChange({} as StateType, key as any, value);
         }
     }
 
@@ -227,12 +228,12 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
     // CHANGE: END
 
     // DELETE: START
-    public delete<StateType extends object>() {
+    public delete<StateType extends object, D extends number = DefaultFlattenDepth>() {
         return <
-            DeepKeyType extends keyof Flatten<StateType>,
-            ValueType extends Flatten<StateType>[DeepKeyType] & Array<any> = Flatten<StateType>[DeepKeyType] & Array<any>
+            DeepKeyType extends keyof Flatten<StateType, never, D>,
+            ValueType extends Flatten<StateType, never, D>[DeepKeyType] & Array<any> = Flatten<StateType, never, D>[DeepKeyType] & Array<any>
         >(key: DeepKeyType) => {
-            return this.innerDelete({} as StateType, key);
+            return this.innerDelete({} as StateType, key as any);
         }
     }
 
@@ -256,12 +257,12 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
 
 
     // PUSH: START
-    public push<StateType extends object>() {
+    public push<StateType extends object, D extends number = DefaultFlattenDepth>() {
         return <
-            DeepKeyType extends keyof Flatten<StateType>,
-            ArrayType extends Flatten<StateType>[DeepKeyType] & Array<any> = Flatten<StateType>[DeepKeyType] & Array<any>
+            DeepKeyType extends keyof Flatten<StateType, never, D>,
+            ArrayType extends Flatten<StateType, never, D>[DeepKeyType] & Array<any> = Flatten<StateType, never, D>[DeepKeyType] & Array<any>
         >(key: DeepKeyType, ...elements: ArrayType) => {
-            return this.innerPush({} as StateType, key, ...elements);
+            return this.innerPush({} as StateType, key as any, ...elements);
         }
     }
 
@@ -286,12 +287,12 @@ export class AppStateStorage extends BaseObjectWithGlobalDispatcher {
 
 
     // SPLICE: START
-    public splice<StateType extends object>() {
+    public splice<StateType extends object, D extends number = DefaultFlattenDepth>() {
         return <
-            DeepKeyType extends keyof Flatten<StateType>,
-            ArrayType extends Flatten<StateType>[DeepKeyType] & Array<any> = Flatten<StateType>[DeepKeyType] & Array<any>
+            DeepKeyType extends keyof Flatten<StateType, never, D>,
+            ArrayType extends Flatten<StateType, never, D>[DeepKeyType] & Array<any> = Flatten<StateType, never, D>[DeepKeyType] & Array<any>
         >(key: DeepKeyType, start: number, deleteCount?: number) => {
-            return this.innerSplice({} as StateType, key, start, deleteCount);
+            return this.innerSplice({} as StateType, key as any, start, deleteCount);
         }
     }
 

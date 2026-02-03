@@ -14,10 +14,13 @@ export type Prev = [
  * Default depth for Flatten type.
  *
  * Flatten generates exponential string unions for deep key paths.
- * A depth of 5 covers paths like `a.b.c.d.e` which is sufficient
- * for most state trees while avoiding excessive type computation.
+ * A depth of 3 covers paths like `a.b.c` which is sufficient
+ * for most state changes while avoiding excessive type computation.
+ *
+ * For deeper paths, pass a custom depth parameter to methods like
+ * `change<MyState, 7>()` to override the default.
  */
-export type DefaultFlattenDepth = 5;
+export type DefaultFlattenDepth = 3;
 
 /**
  * Default depth for DeepReadonly and DeepPartial types.
