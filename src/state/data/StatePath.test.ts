@@ -17,18 +17,20 @@ interface TestLevel {
     enemies: TestEnemy[];
 }
 
-interface TestState {
+const TestState = {
     user: {
         profile: {
-            name: string;
-            age: number;
-        };
-    };
-    items: TestItem[];
-    levels: TestLevel[];
-    tags: string[];
-    matrix: number[][];
-}
+            name: "" as string,
+            age: 0 as number
+        },
+    },
+    items: [] as TestItem[],
+    levels: [] as TestLevel[],
+    tags: [] as string[],
+    matrix: [] as number[][]
+};
+
+type TestStateType = typeof TestState;
 
 /**
  * Mock storage that tracks all operations for verification
@@ -157,18 +159,18 @@ describe('StatePath', () => {
 
     describe('Path Building', () => {
         it('should build empty path at root', () => {
-            const path = new StatePath<TestState, TestState>(storage);
+            const path = new StatePath<TestStateType, TestStateType>(storage);
             expect(path.path).toBe('');
         });
 
         it('should build path with single property', () => {
-            const path = new StatePath<TestState, TestState>(storage)
+            const path = new StatePath<TestStateType, TestStateType>(storage)
                 .prop('user');
             expect(path.path).toBe('user');
         });
 
         it('should build path with nested properties', () => {
-            const path = new StatePath<TestState, TestState>(storage)
+            const path = new StatePath<TestStateType, TestStateType>(storage)
                 .prop('user')
                 .prop('profile')
                 .prop('name');
@@ -176,14 +178,14 @@ describe('StatePath', () => {
         });
 
         it('should build path with array index using at()', () => {
-            const path = new StatePath<TestState, TestState>(storage)
+            const path = new StatePath<TestStateType, TestStateType>(storage)
                 .prop('items')
                 .at(0);
             expect(path.path).toBe('items.0');
         });
 
         it('should build path with chained at() calls', () => {
-            const path = new StatePath<TestState, TestState>(storage)
+            const path = new StatePath<TestStateType, TestStateType>(storage)
                 .prop('matrix')
                 .at(1)
                 .at(0);
@@ -191,7 +193,7 @@ describe('StatePath', () => {
         });
 
         it('should build path with mixed property and array access', () => {
-            const path = new StatePath<TestState, TestState>(storage)
+            const path = new StatePath<TestStateType, TestStateType>(storage)
                 .prop('levels')
                 .at(0)
                 .prop('enemies')
@@ -201,7 +203,7 @@ describe('StatePath', () => {
         });
 
         it('should build path with property after at()', () => {
-            const path = new StatePath<TestState, TestState>(storage)
+            const path = new StatePath<TestStateType, TestStateType>(storage)
                 .prop('items')
                 .at(0)
                 .prop('name');
@@ -212,7 +214,7 @@ describe('StatePath', () => {
     describe('Terminal Operations', () => {
         describe('get()', () => {
             it('should get value at simple path', () => {
-                const path = new StatePath<TestState, TestState>(storage)
+                const path = new StatePath<TestStateType, TestStateType>(storage)
                     .prop('user')
                     .prop('profile')
                     .prop('name');
@@ -220,7 +222,7 @@ describe('StatePath', () => {
             });
 
             it('should get value at array index', () => {
-                const path = new StatePath<TestState, TestState>(storage)
+                const path = new StatePath<TestStateType, TestStateType>(storage)
                     .prop('items')
                     .at(0)
                     .prop('name');
@@ -228,7 +230,7 @@ describe('StatePath', () => {
             });
 
             it('should get nested array element', () => {
-                const path = new StatePath<TestState, TestState>(storage)
+                const path = new StatePath<TestStateType, TestStateType>(storage)
                     .prop('levels')
                     .at(0)
                     .prop('enemies')
@@ -238,13 +240,13 @@ describe('StatePath', () => {
             });
 
             it('should get entire array', () => {
-                const path = new StatePath<TestState, TestState>(storage)
+                const path = new StatePath<TestStateType, TestStateType>(storage)
                     .prop('tags');
                 expect(path.get()).toEqual(['tag1', 'tag2', 'tag3']);
             });
 
             it('should get matrix element', () => {
-                const path = new StatePath<TestState, TestState>(storage)
+                const path = new StatePath<TestStateType, TestStateType>(storage)
                     .prop('matrix')
                     .at(2)
                     .at(1);
@@ -252,14 +254,14 @@ describe('StatePath', () => {
             });
 
             it('should return undefined for non-existent path', () => {
-                const path = new StatePath<TestState, any>(storage, ['nonexistent', 'path']);
+                const path = new StatePath<TestStateType, any>(storage, ['nonexistent', 'path']);
                 expect(path.get()).toBeUndefined();
             });
         });
 
         describe('set()', () => {
             it('should set value at simple path', () => {
-                const path = new StatePath<TestState, TestState>(storage)
+                const path = new StatePath<TestStateType, TestStateType>(storage)
                     .prop('user')
                     .prop('profile')
                     .prop('name');
@@ -274,7 +276,7 @@ describe('StatePath', () => {
             });
 
             it('should set value at array index', () => {
-                const path = new StatePath<TestState, TestState>(storage)
+                const path = new StatePath<TestStateType, TestStateType>(storage)
                     .prop('items')
                     .at(1)
                     .prop('name');
@@ -289,7 +291,7 @@ describe('StatePath', () => {
             });
 
             it('should set nested array element property', () => {
-                const path = new StatePath<TestState, TestState>(storage)
+                const path = new StatePath<TestStateType, TestStateType>(storage)
                     .prop('levels')
                     .at(0)
                     .prop('enemies')
@@ -308,7 +310,7 @@ describe('StatePath', () => {
 
         describe('replace()', () => {
             it('should replace value at path', () => {
-                const path = new StatePath<TestState, TestState>(storage)
+                const path = new StatePath<TestStateType, TestStateType>(storage)
                     .prop('user')
                     .prop('profile');
                 path.replace({ name: 'New', age: 25 } as any);
@@ -321,7 +323,7 @@ describe('StatePath', () => {
             });
 
             it('should replace entire array element', () => {
-                const path = new StatePath<TestState, TestState>(storage)
+                const path = new StatePath<TestStateType, TestStateType>(storage)
                     .prop('items')
                     .at(0);
                 path.replace({ id: 99, name: 'Replaced' } as any);
@@ -336,7 +338,7 @@ describe('StatePath', () => {
 
         describe('remove()', () => {
             it('should remove value at path', () => {
-                const path = new StatePath<TestState, TestState>(storage)
+                const path = new StatePath<TestStateType, TestStateType>(storage)
                     .prop('user')
                     .prop('profile')
                     .prop('age');
@@ -351,7 +353,7 @@ describe('StatePath', () => {
             });
 
             it('should remove array element', () => {
-                const path = new StatePath<TestState, TestState>(storage)
+                const path = new StatePath<TestStateType, TestStateType>(storage)
                     .prop('items')
                     .at(1);
                 const removed = path.remove();
@@ -368,7 +370,7 @@ describe('StatePath', () => {
     describe('Array Operations', () => {
         describe('push()', () => {
             it('should push single element to array', () => {
-                const path = new StatePath<TestState, TestState>(storage)
+                const path = new StatePath<TestStateType, TestStateType>(storage)
                     .prop('items');
                 path.push({ id: 4, name: 'Item 4' } as any);
 
@@ -382,7 +384,7 @@ describe('StatePath', () => {
             });
 
             it('should push multiple elements to array', () => {
-                const path = new StatePath<TestState, TestState>(storage)
+                const path = new StatePath<TestStateType, TestStateType>(storage)
                     .prop('tags');
                 path.push('tag4' as any, 'tag5' as any);
 
@@ -395,7 +397,7 @@ describe('StatePath', () => {
             });
 
             it('should push to nested array via at()', () => {
-                const path = new StatePath<TestState, TestState>(storage)
+                const path = new StatePath<TestStateType, TestStateType>(storage)
                     .prop('levels')
                     .at(0)
                     .prop('enemies');
@@ -410,7 +412,7 @@ describe('StatePath', () => {
             });
 
             it('should push to array of arrays', () => {
-                const path = new StatePath<TestState, TestState>(storage)
+                const path = new StatePath<TestStateType, TestStateType>(storage)
                     .prop('matrix');
                 path.push([7, 8] as any);
 
@@ -425,7 +427,7 @@ describe('StatePath', () => {
 
         describe('splice()', () => {
             it('should splice elements from array', () => {
-                const path = new StatePath<TestState, TestState>(storage)
+                const path = new StatePath<TestStateType, TestStateType>(storage)
                     .prop('items');
                 const removed = path.splice(1, 1);
 
@@ -439,7 +441,7 @@ describe('StatePath', () => {
             });
 
             it('should splice multiple elements', () => {
-                const path = new StatePath<TestState, TestState>(storage)
+                const path = new StatePath<TestStateType, TestStateType>(storage)
                     .prop('tags');
                 const removed = path.splice(0, 2);
 
@@ -448,7 +450,7 @@ describe('StatePath', () => {
             });
 
             it('should splice from nested array', () => {
-                const path = new StatePath<TestState, TestState>(storage)
+                const path = new StatePath<TestStateType, TestStateType>(storage)
                     .prop('levels')
                     .at(0)
                     .prop('enemies');
@@ -464,7 +466,7 @@ describe('StatePath', () => {
             });
 
             it('should splice without deleteCount', () => {
-                const path = new StatePath<TestState, TestState>(storage)
+                const path = new StatePath<TestStateType, TestStateType>(storage)
                     .prop('items');
                 const removed = path.splice(1);
 
@@ -479,7 +481,7 @@ describe('StatePath', () => {
 
     describe('Edge Cases', () => {
         it('should handle empty path (root access)', () => {
-            const path = new StatePath<TestState, TestState>(storage);
+            const path = new StatePath<TestStateType, TestStateType>(storage);
             const state = path.get();
 
             expect(state).toBe(storage.state);
@@ -490,7 +492,7 @@ describe('StatePath', () => {
         });
 
         it('should handle deep nesting (3+ levels)', () => {
-            const path = new StatePath<TestState, TestState>(storage)
+            const path = new StatePath<TestStateType, TestStateType>(storage)
                 .prop('levels')
                 .at(0)
                 .prop('enemies')
@@ -507,12 +509,12 @@ describe('StatePath', () => {
         });
 
         it('should handle array of arrays access', () => {
-            const path = new StatePath<TestState, TestState>(storage)
+            const path = new StatePath<TestStateType, TestStateType>(storage)
                 .prop('matrix')
                 .at(0);
             expect(path.get()).toEqual([1, 2]);
 
-            const deepPath = new StatePath<TestState, TestState>(storage)
+            const deepPath = new StatePath<TestStateType, TestStateType>(storage)
                 .prop('matrix')
                 .at(1)
                 .at(1);
@@ -520,7 +522,7 @@ describe('StatePath', () => {
         });
 
         it('should handle zero index correctly', () => {
-            const path = new StatePath<TestState, TestState>(storage)
+            const path = new StatePath<TestStateType, TestStateType>(storage)
                 .prop('items')
                 .at(0);
             expect(path.path).toBe('items.0');
@@ -529,7 +531,7 @@ describe('StatePath', () => {
 
         it('should handle negative-like edge cases', () => {
             // While TypeScript would prevent negative indices, test path building
-            const path = new StatePath<TestState, any>(storage)
+            const path = new StatePath<TestStateType, any>(storage)
                 .prop('items')
                 .at(-1);
             expect(path.path).toBe('items.-1');
@@ -538,7 +540,7 @@ describe('StatePath', () => {
 
     describe('Immutability', () => {
         it('should not mutate existing path when chaining', () => {
-            const basePath = new StatePath<TestState, TestState>(storage)
+            const basePath = new StatePath<TestStateType, TestStateType>(storage)
                 .prop('user');
             const profilePath = basePath.prop('profile');
             const namePath = profilePath.prop('name');
@@ -549,7 +551,7 @@ describe('StatePath', () => {
         });
 
         it('should create independent paths from same base', () => {
-            const basePath = new StatePath<TestState, TestState>(storage)
+            const basePath = new StatePath<TestStateType, TestStateType>(storage)
                 .prop('user')
                 .prop('profile');
 

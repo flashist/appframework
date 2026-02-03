@@ -128,6 +128,13 @@ class MockStateStorage implements IStatePathStorage {
     reset(): void {
         this.operations = [];
     }
+
+    /**
+     * Type-safe path builder API (mirrors AppStateStorage.$())
+     */
+    $<StateType extends object>(): StatePathProxy<StateType, StateType> {
+        return createStatePathProxy<StateType>(this);
+    }
 }
 
 describe('StatePathProxy', () => {
@@ -164,23 +171,23 @@ describe('StatePathProxy', () => {
 
     describe('Proxy Behavior', () => {
         it('should create proxy at root level', () => {
-            const proxy = createStatePathProxy<TestState>(storage);
+            const proxy = storage.$<TestState>();
             expect(proxy.path).toBe('');
         });
 
         it('should intercept property access and build path', () => {
-            const proxy = createStatePathProxy<TestState>(storage);
+            const proxy = storage.$<TestState>();
             const userProxy = proxy.user;
             expect(userProxy.path).toBe('user');
         });
 
         it('should build nested paths through chained property access', () => {
-            const proxy = createStatePathProxy<TestState>(storage);
+            const proxy = storage.$<TestState>();
             expect(proxy.user.profile.name.path).toBe('user.profile.name');
         });
 
         it('should expose StatePath methods through proxy', () => {
-            const proxy = createStatePathProxy<TestState>(storage);
+            const proxy = storage.$<TestState>();
             // Verify methods exist
             expect(typeof proxy.get).toBe('function');
             expect(typeof proxy.set).toBe('function');
@@ -193,7 +200,7 @@ describe('StatePathProxy', () => {
         });
 
         it('should handle symbol properties correctly', () => {
-            const proxy = createStatePathProxy<TestState>(storage);
+            const proxy = storage.$<TestState>();
             // Symbols should be passed through to the underlying StatePath
             // This primarily tests that we don't crash on symbol access
             const symbol = Symbol('test');
@@ -204,29 +211,29 @@ describe('StatePathProxy', () => {
     describe('Terminal Operations Through Proxy', () => {
         describe('get()', () => {
             it('should get primitive value', () => {
-                const proxy = createStatePathProxy<TestState>(storage);
+                const proxy = storage.$<TestState>();
                 expect(proxy.user.profile.name.get()).toBe('Alice');
             });
 
             it('should get object value', () => {
-                const proxy = createStatePathProxy<TestState>(storage);
+                const proxy = storage.$<TestState>();
                 expect(proxy.user.profile.get()).toEqual({ name: 'Alice', age: 28 });
             });
 
             it('should get array', () => {
-                const proxy = createStatePathProxy<TestState>(storage);
+                const proxy = storage.$<TestState>();
                 expect(proxy.tags.get()).toEqual(['adventure', 'rpg']);
             });
 
             it('should get number value', () => {
-                const proxy = createStatePathProxy<TestState>(storage);
+                const proxy = storage.$<TestState>();
                 expect(proxy.count.get()).toBe(42);
             });
         });
 
         describe('set()', () => {
             it('should set primitive value through proxy', () => {
-                const proxy = createStatePathProxy<TestState>(storage);
+                const proxy = storage.$<TestState>();
                 proxy.user.profile.name.set('Bob' as any);
 
                 expect(storage.operations).toContainEqual({
@@ -237,7 +244,7 @@ describe('StatePathProxy', () => {
             });
 
             it('should set object value through proxy', () => {
-                const proxy = createStatePathProxy<TestState>(storage);
+                const proxy = storage.$<TestState>();
                 proxy.user.settings.set({ theme: 'light' } as any);
 
                 expect(storage.operations).toContainEqual({
@@ -250,7 +257,7 @@ describe('StatePathProxy', () => {
 
         describe('replace()', () => {
             it('should replace value through proxy', () => {
-                const proxy = createStatePathProxy<TestState>(storage);
+                const proxy = storage.$<TestState>();
                 proxy.user.profile.replace({ name: 'Charlie', age: 35 } as any);
 
                 expect(storage.operations).toContainEqual({
@@ -263,7 +270,7 @@ describe('StatePathProxy', () => {
 
         describe('remove()', () => {
             it('should remove value through proxy', () => {
-                const proxy = createStatePathProxy<TestState>(storage);
+                const proxy = storage.$<TestState>();
                 const removed = proxy.user.profile.age.remove();
 
                 expect(storage.operations).toContainEqual({
@@ -278,25 +285,25 @@ describe('StatePathProxy', () => {
     describe('Array Operations Through Proxy', () => {
         describe('at()', () => {
             it('should access array element via at()', () => {
-                const proxy = createStatePathProxy<TestState>(storage);
+                const proxy = storage.$<TestState>();
                 const item = proxy.items.at(0);
                 expect(item.path).toBe('items.0');
             });
 
             it('should access array element property via at()', () => {
-                const proxy = createStatePathProxy<TestState>(storage);
+                const proxy = storage.$<TestState>();
                 expect(proxy.items.at(0).name.path).toBe('items.0.name');
                 expect(proxy.items.at(0).name.get()).toBe('Sword');
             });
 
             it('should access nested array via at()', () => {
-                const proxy = createStatePathProxy<TestState>(storage);
+                const proxy = storage.$<TestState>();
                 expect(proxy.levels.at(0).enemies.at(1).health.path).toBe('levels.0.enemies.1.health');
                 expect(proxy.levels.at(0).enemies.at(1).health.get()).toBe(100);
             });
 
             it('should set value on array element via at()', () => {
-                const proxy = createStatePathProxy<TestState>(storage);
+                const proxy = storage.$<TestState>();
                 proxy.items.at(0).active.set(false as any);
 
                 expect(storage.operations).toContainEqual({
@@ -307,7 +314,7 @@ describe('StatePathProxy', () => {
             });
 
             it('should replace array element via at()', () => {
-                const proxy = createStatePathProxy<TestState>(storage);
+                const proxy = storage.$<TestState>();
                 proxy.items.at(1).replace({ id: 99, name: 'Axe', active: true } as any);
 
                 expect(storage.operations).toContainEqual({
@@ -320,7 +327,7 @@ describe('StatePathProxy', () => {
 
         describe('push()', () => {
             it('should push to array through proxy', () => {
-                const proxy = createStatePathProxy<TestState>(storage);
+                const proxy = storage.$<TestState>();
                 proxy.items.push({ id: 3, name: 'Bow', active: true } as any);
 
                 expect(storage.operations).toContainEqual({
@@ -331,7 +338,7 @@ describe('StatePathProxy', () => {
             });
 
             it('should push to nested array through proxy', () => {
-                const proxy = createStatePathProxy<TestState>(storage);
+                const proxy = storage.$<TestState>();
                 proxy.levels.at(0).enemies.push({ health: 75, type: 'snake' } as any);
 
                 expect(storage.operations).toContainEqual({
@@ -342,7 +349,7 @@ describe('StatePathProxy', () => {
             });
 
             it('should push to string array', () => {
-                const proxy = createStatePathProxy<TestState>(storage);
+                const proxy = storage.$<TestState>();
                 proxy.tags.push('multiplayer' as any);
 
                 expect(storage.operations).toContainEqual({
@@ -355,7 +362,7 @@ describe('StatePathProxy', () => {
 
         describe('splice()', () => {
             it('should splice array through proxy', () => {
-                const proxy = createStatePathProxy<TestState>(storage);
+                const proxy = storage.$<TestState>();
                 const removed = proxy.items.splice(0, 1);
 
                 expect(storage.operations).toContainEqual({
@@ -367,7 +374,7 @@ describe('StatePathProxy', () => {
             });
 
             it('should splice nested array through proxy', () => {
-                const proxy = createStatePathProxy<TestState>(storage);
+                const proxy = storage.$<TestState>();
                 const removed = proxy.levels.at(0).enemies.splice(1, 1);
 
                 expect(storage.operations).toContainEqual({
@@ -382,7 +389,7 @@ describe('StatePathProxy', () => {
 
     describe('Integration with StatePath', () => {
         it('should work identically to StatePath for simple paths', () => {
-            const proxy = createStatePathProxy<TestState>(storage);
+            const proxy = storage.$<TestState>();
             const statePath = new StatePath<TestState, TestState>(storage)
                 .prop('user')
                 .prop('profile')
@@ -393,7 +400,7 @@ describe('StatePathProxy', () => {
         });
 
         it('should work identically to StatePath for array paths', () => {
-            const proxy = createStatePathProxy<TestState>(storage);
+            const proxy = storage.$<TestState>();
             const statePath = new StatePath<TestState, TestState>(storage)
                 .prop('items')
                 .at(0)
@@ -404,7 +411,7 @@ describe('StatePathProxy', () => {
         });
 
         it('should allow mixing proxy access with prop() method', () => {
-            const proxy = createStatePathProxy<TestState>(storage);
+            const proxy = storage.$<TestState>();
             // Can use both proxy syntax and prop() method
             expect(proxy.user.prop('profile').name.path).toBe('user.profile.name');
             expect(proxy.prop('user').profile.prop('name').path).toBe('user.profile.name');
@@ -426,7 +433,7 @@ describe('StatePathProxy', () => {
                 path: true
             });
 
-            const proxy = createStatePathProxy<MethodNameState>(methodStorage);
+            const proxy = methodStorage.$<MethodNameState>();
 
             // Methods should take precedence over properties
             expect(typeof proxy.get).toBe('function');
@@ -436,7 +443,7 @@ describe('StatePathProxy', () => {
         });
 
         it('should handle undefined values gracefully', () => {
-            const proxy = createStatePathProxy<TestState>(storage);
+            const proxy = storage.$<TestState>();
             expect(proxy.user.profile.name.get()).toBe('Alice');
 
             // Accessing non-existent path should return undefined when calling get()
@@ -446,7 +453,7 @@ describe('StatePathProxy', () => {
         });
 
         it('should handle multiple independent proxy chains', () => {
-            const proxy = createStatePathProxy<TestState>(storage);
+            const proxy = storage.$<TestState>();
 
             const chain1 = proxy.user.profile.name;
             const chain2 = proxy.user.settings.theme;
@@ -463,7 +470,7 @@ describe('StatePathProxy', () => {
         });
 
         it('should handle repeated access without side effects', () => {
-            const proxy = createStatePathProxy<TestState>(storage);
+            const proxy = storage.$<TestState>();
 
             // Access same path multiple times
             const path1 = proxy.user.profile.name.path;
@@ -477,7 +484,7 @@ describe('StatePathProxy', () => {
 
     describe('Complex Scenarios', () => {
         it('should handle modifying deeply nested array elements', () => {
-            const proxy = createStatePathProxy<TestState>(storage);
+            const proxy = storage.$<TestState>();
 
             // Modify enemy health in nested structure
             proxy.levels.at(0).enemies.at(0).health.set(25 as any);
@@ -490,7 +497,7 @@ describe('StatePathProxy', () => {
         });
 
         it('should handle multiple operations in sequence', () => {
-            const proxy = createStatePathProxy<TestState>(storage);
+            const proxy = storage.$<TestState>();
 
             // Perform multiple operations
             proxy.user.profile.name.set('Updated' as any);
@@ -504,7 +511,7 @@ describe('StatePathProxy', () => {
         });
 
         it('should work with prop() after at()', () => {
-            const proxy = createStatePathProxy<TestState>(storage);
+            const proxy = storage.$<TestState>();
 
             const enemyType = proxy.levels.at(0).enemies.at(1).prop('type');
             expect(enemyType.path).toBe('levels.0.enemies.1.type');
