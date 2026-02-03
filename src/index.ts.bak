@@ -22,6 +22,7 @@ export * from './renderer/RendererModule';
 export * from './sounds/SoundsModule';
 export * from './sounds/SoundsSettings';
 export * from './state/AppStateModule';
+export * from './state/AppStateModuleTest';
 export * from './time/TimeModule';
 export * from './app/commands/LoadAppConfigCommand';
 export * from './app/commands/ParseStaticItemsConfigCommand';
